@@ -1,0 +1,37 @@
+﻿@*----------------------------------------------------------
+DAVID SAUNTSON
+
+ENERGY MANAGER WEB APPLICATION
+HANDWRITTEN
+VIEW FILE (.cshtml)
+
+Reading/Edit
+----------------------------------------------------------*@
+
+@model EnergyManagerWebApp.Models.MeterReadingViewModel
+           
+<div style="background: #F1CCCC; padding:30px;">
+
+@using (Html.BeginForm())
+{
+        <div style="display: inline-block; vertical-align:middle;">
+            <input type="submit" value="Delete" style="background: #F9523B"/>  
+        </div>
+        <div style="display:inline-block; vertical-align: middle; padding-left: 25px;">
+            <span style="font-weight: bold">Are you sure you want to delete this reading?</span> <br />
+            Reading of @Model.MtrReading.Reading, taken on @Model.MtrReading.Date.ToShortDateString()
+        </div>
+
+
+    @Html.HiddenFor(model => model.BelongsToMeter)
+    @Html.HiddenFor(model => model.BelongsToProperty)
+    @Html.HiddenFor(model => model.Fuel)
+    @Html.HiddenFor(model => model.MtrReading.Id)
+
+
+}
+</div>
+
+<p style="padding-left: 30px;">
+    @Html.ActionLink("Cancel", "Index", "Reading", new { meterId = Model.BelongsToMeter, propertyId = Model.BelongsToProperty, fuel = Model.Fuel} , null)
+</p>

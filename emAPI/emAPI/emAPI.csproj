@@ -1,0 +1,130 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>8.0.50727</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{466DD1EE-B388-4D83-95A0-9D1A333DC40A}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>emAPI</RootNamespace>
+    <AssemblyName>emAPI</AssemblyName>
+    <ProjectTypeGuids>{3D9AD99F-2412-4246-B90B-4EAA41C64699};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
+    <StartArguments>/client:"WcfTestClient.exe"</StartArguments>
+    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
+    <TargetFrameworkProfile>
+    </TargetFrameworkProfile>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <DocumentationFile>bin\Debug\emAPI.XML</DocumentationFile>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <DocumentationFile>
+    </DocumentationFile>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="emAPI_ClassLibrary">
+      <HintPath>..\..\emAPI_ClassLibrary\emAPI_ClassLibrary\bin\Debug\emAPI_ClassLibrary.dll</HintPath>
+    </Reference>
+    <Reference Include="EntityFramework">
+      <HintPath>..\packages\EntityFramework.4.3.1\lib\net40\EntityFramework.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="Newtonsoft.Json">
+      <HintPath>.\Newtonsoft.Json.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.ComponentModel.DataAnnotations" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Data.Entity" />
+    <Reference Include="System.Runtime.Serialization" />
+    <Reference Include="System.ServiceModel" />
+    <Reference Include="System.Web.Extensions" />
+    <Reference Include="System.Xml" />
+    <Reference Include="System.Xml.Linq" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Controllers\AccountManager.cs" />
+    <Compile Include="Controllers\AnnotationManager.cs" />
+    <Compile Include="Controllers\ApportionmentManager.cs" />
+    <Compile Include="Controllers\EMDatabaseStats.cs" />
+    <Compile Include="Controllers\EMMediator.cs" />
+    <Compile Include="Controllers\ForecastingManager.cs" />
+    <Compile Include="Interfaces\IDataAccessObject.cs" />
+    <Compile Include="Interfaces\IApportionmentManager.cs" />
+    <Compile Include="Interfaces\IEMMediator.cs" />
+    <Compile Include="Interfaces\IForecastingManager.cs" />
+    <Compile Include="Interfaces\IInvoiceManager.cs" />
+    <Compile Include="Interfaces\IMeterManager.cs" />
+    <Compile Include="Interfaces\IPropertyManager.cs" />
+    <Compile Include="Interfaces\ITariffManager.cs" />
+    <Compile Include="Interfaces\IValidationManager.cs" />
+    <Compile Include="Interfaces\IAnnotationManager.cs" />
+    <Compile Include="Interfaces\IAccountManager.cs" />
+    <Compile Include="Controllers\InvoiceManager.cs" />
+    <Compile Include="Controllers\EMConverter.cs" />
+    <Compile Include="Controllers\MeterManager.cs" />
+    <Compile Include="Controllers\PropertyManager.cs" />
+    <Compile Include="Controllers\Validators\ConsumptionBandedValidator.cs" />
+    <Compile Include="Controllers\Validators\UnbandedValidator.cs" />
+    <Compile Include="Controllers\Validators\Validator.cs" />
+    <Compile Include="DAL\SampleData.cs" />
+    <Compile Include="Controllers\TariffManager.cs" />
+    <Compile Include="Controllers\ValidationManager.cs" />
+    <Compile Include="DAL\DataAccessObject.cs" />
+    <Compile Include="DAL\EMDatabase.cs" />
+    <Compile Include="DAL\EMDataManager.cs" />
+    <Compile Include="IemAPI.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="emAPI.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="API Controllers.cd" />
+    <None Include="API Facade.cd" />
+    <None Include="APIControllerIII.cd" />
+    <None Include="APIControllersIIcd.cd" />
+    <None Include="App.config">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="ClassDiagram1.cd" />
+    <None Include="ClassDiagram2.cd" />
+    <None Include="DAL.cd" />
+    <None Include="MediatorUtility.cd" />
+    <None Include="packages.config">
+      <SubType>Designer</SubType>
+    </None>
+  </ItemGroup>
+  <ItemGroup />
+  <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
+  <ProjectExtensions>
+    <VisualStudio>
+      <FlavorProperties GUID="{3D9AD99F-2412-4246-B90B-4EAA41C64699}">
+        <WcfProjectProperties>
+          <AutoStart>True</AutoStart>
+        </WcfProjectProperties>
+      </FlavorProperties>
+    </VisualStudio>
+  </ProjectExtensions>
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

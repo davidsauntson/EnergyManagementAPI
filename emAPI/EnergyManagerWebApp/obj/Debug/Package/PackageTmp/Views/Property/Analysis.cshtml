@@ -1,0 +1,72 @@
+﻿@model EnergyManagerWebApp.Models.PropertyViewModel
+
+<script type="text/javascript">
+    
+
+</script>
+
+
+<body>
+
+<h1>Analysis <span class="faded"> @Model.Property.Name </span></h1>
+
+<p>
+   See how your property compares to benchmarks and other users.<br />
+   Click on one of the sections below to see a detailed analysis of that topic.
+</p>
+
+<div>
+
+    <div>
+        <div class="analysisIcon">
+            e
+        </div>
+
+        <div class="analysisIcon">
+            C
+        </div>
+
+        <div class="analysisIcon">
+            %
+        </div>
+    </div>
+    <div  style="padding-top:40px;">
+        <div class="analysisTitle">
+            Energy
+        </div>
+        <div class="analysisTitle">
+            CO<sub>2</sub>
+        </div>
+        <div class="analysisTitle">
+            Money
+        </div>
+    </div>
+    <div style="padding-top:20px;">
+        <div class="analysisDesc">
+            View performance and benchmarking in an energy context - how many kWh this month?
+        </div>
+        <div class="analysisDesc">
+            How many kg of carbon dioxide is your property responsible for generating?
+            How does this compare with other users and standard benchmarks?
+        </div>
+        <div class="analysisDesc">
+            How much does energy at this property cost you?  How much have your energy bills changed over the last year?
+        </div>
+    </div>
+    <div style="padding-top: 20px;">
+        <div class="analysisLink">
+            @Html.ActionLink("see energy analysis", "Energy", "Analysis", new { propertyId = Model.Property.Id }, null)
+        </div>
+        <div class="analysisLink">
+            @Html.ActionLink("see CO2 analysis", "CO2", "Analysis", new { propertyId = Model.Property.Id }, null)
+        </div>
+        <div class="analysisLink">
+            @Html.ActionLink("see financial analysis", "Money", "Analysis", new { propertyId = Model.Property.Id }, null)
+        </div>
+    </div>
+</div>
+
+    <div class="back">
+        @Html.ActionLink("Back", "Home", "Property", new { id = Model.Property.Id }, null)
+    </div>
+</body>

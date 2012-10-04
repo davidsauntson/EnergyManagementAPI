@@ -1,0 +1,131 @@
+﻿@*----------------------------------------------------------
+DAVID SAUNTSON
+
+ENERGY MANAGER WEB APPLICATION
+HANDWRITTEN
+VIEW FILE (.cshtml)
+
+Analysis/CO2
+----------------------------------------------------------*@
+
+@model EnergyManagerWebApp.Models.AnalysisOptionsModel
+           
+           @helper annualCO2InTonnes(double figure)
+               {
+               if (figure == 0)
+               {
+                    @:<span class="faded">Not enough data - add some more meter readings!</span>
+               }
+               else
+               {
+                   @Math.Round((decimal)figure / 1000, 1); @:tonnes
+               }
+           }
+
+
+           @helper normalisedBenchmarkDescription(double building, double good, double typical)
+               {
+               if (building > typical)
+               {
+                    @: <span class="smiley-reg">:-/   </span>You've got a bigger than average carbon footprint.  Have a look at the help section to see how you could reduce it. 
+               }
+               else if (building < good && building != 0)
+               {
+                    @:<span class="smiley-reg">:-D   </span>Wow!  Your carbon footprint is lower than the best of the rest!  Maybe it's time to turn your attention to others?
+               }
+               else if (building != 0)
+               {
+                    @:<span class="smiley-reg">:-)   </span>Your carbon footprint is in the recommended range, so well done.  There is more to do though!
+               }
+               else
+               {
+                    @:<span class="faded">Add some meter readings to see how you're doing!</span>
+               }
+           }
+
+
+           @helper showPlanets(double annualCO2kg)
+               {
+               ///one planet living for home energy is 27% of 11.9 tonnes
+               ///http://calculator.bioregional.com/findoutmore.php
+
+                   const int tonnesTokg = 1000;
+                   const double typcialPersonsCO2EmissionsInTonnes = 11.9;
+                   const double percentTypcialPersonsEmissionsFromHomeEnergy = 0.27;
+                   
+                   double onePlanet = tonnesTokg * typcialPersonsCO2EmissionsInTonnes * percentTypcialPersonsEmissionsFromHomeEnergy;
+
+                   ///get number whole planets
+                   int wholePlanets = (int)Math.Ceiling((decimal)(annualCO2kg / onePlanet));
+
+                   string result = "";
+                   for (int i = 0; i < wholePlanets; i++)
+                   {
+                       result += "G "; ///G is a globe in Pictos font
+                   }
+                   
+                   @result;
+               }
+ 
+<body>
+
+@using (Html.BeginForm())
+{
+    <div style="display:inline-block">
+        <h1>CO<sub>2</sub> Analysis <span class="faded"> @Model.property.Property.Name</span></h1>
+    </div>
+    <div style="display:inline-block; float:right">
+        <input type="submit" value="Z" class="icon" />@Html.DropDownListFor(model => model.propertyId, new SelectList(Model.UsersProperties, "Id", "Name"))
+    </div>
+
+    <h2>Your Carbon Footprint</h2>
+    <p>
+        Carbon dioxide (CO<sub>2</sub>) is a greenhouse gas, which means it hangs about in the atmosphere and reflects heat back down to the Earth's surface.
+        By interrupting the normal cooling of the planet, the average temperature across the globe starts to get higher, causing climate change and more
+        extreme weather.
+    </p>
+    <p>
+        The figures below show part of your carbon footprint - how much CO<sub>2</sub> is released into the atmosphere in generating the energy you use to power your
+        home.  A tonne of CO<sub>2</sub> is pretty hard to imagine - but in fact it makes up a cube about four storeys high on each side!
+    </p>
+    <p style="margin-left:1.5em">
+            Your annual emissions:                  <span style="font-weight:bold; padding-left: 83px">@annualCO2InTonnes(Model.property.Property.AnnualCO2kg)</span><br />
+            Good practice figure:                   <span style="padding-left: 100px">@annualCO2InTonnes(Model.property.Benchmark.BenchmarkCO2Good)</span><br />
+            Normal practice figure:                 <span style="padding-left: 85px">@annualCO2InTonnes(Model.property.Benchmark.BenchmarkCO2Typical)</span><br />
+
+            <br />
+
+            @normalisedBenchmarkDescription(Model.property.Property.AnnualCO2kg, Model.property.Benchmark.BenchmarkCO2Good, Model.property.Benchmark.BenchmarkCO2Typical)
+    </p>
+    
+    <h2>One Planet Living</h2>
+    <p>
+        One planet living mean consuming only as much as is sustainable - that is, as much as can be replaced by using the space and resources we have on Earth.
+        If everyone in the world used resources at this ideal rate, we would acheive one planet living.  
+    </p>
+    <p>
+        Here in the UK, we consume energy, goods and services at a rate which would require 3 planets to sustain!  Almost a third of this consumption is attributed to
+        the energy we use to power our homes.  The number of planets below show how well you are doing in this area - one or less is best!
+    </p>
+    <div style="width=100%; text-align: center;">
+        @{
+            if (Model.property.Property.AnnualCO2kg != 0)
+            {
+                        @:<span class="icon-big">
+                        @:@showPlanets(Model.property.Property.AnnualCO2kg)
+                        @:</span>
+            }
+            else
+            {           @:<span class="faded">
+                        @:Not enough data - add some more meter readings!
+                        @:</span>
+            }
+        }
+    </div>
+
+}
+
+    <div class="back">
+        @Html.ActionLink("Back", "Analysis", "Property", new { propertyId = Model.property.Property.Id }, null)
+    </div>
+</body>

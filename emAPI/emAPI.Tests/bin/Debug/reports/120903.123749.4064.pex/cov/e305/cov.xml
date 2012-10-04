@@ -1,0 +1,3000 @@
+﻿<documents created="2012-09-03 11:39:32Z"><document src="C:\Users\David Sauntson\Documents\Project Codes\emAPI\emAPI\emAPI\Controllers\ApportionmentManager.cs" renderPrefix="s0"><chunk hits="-1" domain="unknown"><source><![CDATA[/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
+ * DAVID SAUNTSON 12993011                                               *
+ * MSc Software Engineering - Final Year Project                         *
+ *                                                                       *
+ * Energy Management API & Software                                      *
+ * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
+ * 
+ * ApportionmentManager.cs
+ * Code source: Handwritten
+ */
+		
+
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using emAPI.ClassLibrary;
+using emAPI.Interfaces;
+
+namespace emAPI.Controllers
+{
+    /// <summary>
+    /// Controller object responsible for apportioning data into regularly sized Chunk objects.
+    /// </summary>
+    public class ApportionmentManager : IApportionmentManager
+    {
+        ]]></source>
+</chunk>
+<method name=".ctor" namespace="emAPI.Controllers" type="emAPI.Controllers.ApportionmentManager" typeName="ApportionmentManager" token="60001f8" module="emAPI.dll"><hits/>
+<coverage domain="usercodeundertest" unit="block" covered="0" total="3" coveredRatio="0"/>
+</method>
+<chunk hits="0" offset="0000" domain="usercodeundertest"><source><![CDATA[private EMMediator mediator = new EMMediator();]]></source>
+</chunk>
+<chunk hits="-1" domain="unknown"><source><![CDATA[
+
+
+        /// <summary>
+        /// Calculates total amount between start and end date based on provided data
+        /// </summary>
+        /// <param name="dataIn">List[Chunk] of base data</param>
+        /// <param name="startDate"></param>
+        /// <param name="endDate"></param>
+        /// <returns>Double representing total amount between start and end date, apportioned between start and end dates</returns>
+        public double apportionToDates(List<Chunk>dataIn, string startDate, string endDate)
+        {
+            DateTime start = Convert.ToDateTime(startDate);
+            DateTime end = Convert.ToDateTime(endDate);
+
+            if(!canApportion(dataIn, start, end))
+            {
+                return 0;
+            }
+            else
+            {
+                List<Chunk> datedChunks = setupDatedChunksForApportionToDates(start, end);
+                List<Chunk> result = apportion(datedChunks, dataIn);
+
+                if (result == null | result.Count == 0)
+                {
+                    return 0;
+                }
+                else
+                {
+                    return result.ElementAt(0).Amount;
+                }
+            }
+
+        }
+
+
+        /// <summary>
+        /// Converts meter readings / invoice costs into consumption between regular intervals.
+        /// </summary>
+        /// <param name="dataIn">List of date/double pairs that represent raw meter readings or invoices</param>
+        /// <param name="startDate">start date of required apportioned consumption</param>
+        /// <param name="endDate">end date of required apportioned consumption</param>
+        /// <param name="interval">interval between required apportioned date/double pairs</param>
+        /// <returns>Returns null if apportionment cannot be undertaken (not enough readings/invoices / no readings/invoices in specified time period)</returns>
+        public List<Chunk> apportionToPeriod(List<Chunk> dataIn, DateTime startDate, DateTime endDate, AppotionmentPeriod interval)
+        {
+            if (!canApportion(dataIn, startDate, endDate))
+            {
+                return null;
+            }
+
+            else
+            {   
+                ///create list of dated chunks with no consumptions, used to create the final results list
+                List<Chunk> datedChunks = setupDatedChunksForApportionToPeriod(startDate, endDate, interval);
+
+                ///do the actual apportioning of data
+                return apportion(datedChunks, dataIn);
+            }
+        }
+
+
+        //SETUP METHODS
+
+
+        /// <summary>
+        /// Creates List[Chunk] with required start and end date.  List[Chunk].Count = 1.
+        /// </summary>
+        /// <param name="start"></param>
+        /// <param name="end"></param>
+        /// <returns>List[Chunk] where .Count = 1</returns>
+        private List<Chunk> setupDatedChunksForApportionToDates(DateTime start, DateTime end)
+        {
+            List<Chunk> datedChunks = new List<Chunk>
+            {
+                new Chunk { StartDate = start, EndDate = end }
+            };
+
+            return datedChunks;
+        }
+
+
+        /// <summary>
+        /// Creates List[Chunk], with regular start and end dates for required intervals.  Amount = 0 for all Chunks.
+        /// </summary>
+        /// <param name="startDate"></param>
+        /// <param name="endDate"></param>
+        /// <param name="interval"></param>
+        /// <returns>List[Chunk] for required duration, each Chunk covering one interval.</returns>
+        public List<Chunk> setupDatedChunksForApportionToPeriod(DateTime startDate, DateTime endDate, AppotionmentPeriod interval)
+        {
+            ///calendar object used for adding days/months/years to start date
+            System.Globalization.Calendar calendar = System.Globalization.CultureInfo.CurrentCulture.Calendar;
+
+            ///set up apportionment requirements
+            List<Chunk> datedChunks = new List<Chunk>();
+            int periodType = (int)interval;
+
+            ///i used to keep track of how many Chunks have already been created & adds appropriate no. of intervals to start date.
+            int i = 0;
+
+            ///create list of chunks with correct required start dates
+            do
+            {
+                Chunk chunk = new Chunk();
+                TimeSpan oneDay = new TimeSpan(1, 0, 0); ///one day timespan needed to calculate end dates
+
+                switch (periodType)
+                {
+
+                    case 1: ///interval is daily
+                        ///
+
+                        chunk.StartDate = calendar.AddDays(startDate, i);
+                        chunk.EndDate = calendar.AddDays(chunk.StartDate, 1);
+                        break;
+
+                    case 2: ///interval is weekly
+                        ///
+                        chunk.StartDate = calendar.AddWeeks(startDate, i);
+                        chunk.EndDate = calendar.AddWeeks(chunk.StartDate, 1);
+                        break;
+
+                    case 3: ///interval is monthly
+                        ///
+                        chunk.StartDate = calendar.AddMonths(startDate, i);
+                        chunk.EndDate = calendar.AddMonths(chunk.StartDate, 1);
+                        break;
+
+                    case 4: ///interval is quarterly
+                        ///
+                        chunk.StartDate = calendar.AddMonths(startDate, 3 * i);
+                        chunk.EndDate = calendar.AddMonths(chunk.StartDate, 3 * 1);
+
+                        break;
+
+                    case 5: ///interval is annually
+                        ///
+                        chunk.StartDate = calendar.AddYears(startDate, i);
+                        chunk.EndDate = calendar.AddYears(chunk.StartDate, 1);
+                        break;
+
+                }
+
+                ///take on day off each date date to avoid overlapping date ranges
+                chunk.EndDate = chunk.EndDate.Subtract(oneDay);
+                datedChunks.Add(chunk);
+                i++;
+
+            } while (datedChunks.ElementAt(i - 1).EndDate <= endDate);
+
+            return datedChunks;
+
+        }
+
+        //APPORTIONMENT METHODS
+
+        /// <summary>
+        /// Takes a list of Chunks with irregular (but consecutive) start and end dates and creates another List[Chunk] with regular start
+        /// and end dates, the consumption of each caclulated from available data.  
+        /// Backwards apportionment (where the requested interval is smaller than the interval between readings/invoices) will result in the
+        /// average over the whole period being applied to that chunk.
+        /// Interval, start and end dates for the whole period are determined from the list of Chunks provided.
+        /// </summary>
+        /// <param name="datedChunks">
+        /// List[Chunk] containing Chunks with regular start/end date for the duration of the period required.
+        /// Create using setupDatedChunksForApportionToPeriod(DateTime startDate, DateTime endDate, AppotionmentPeriod interval)
+        /// </param>
+        /// <param name="dataIn">
+        /// List[Chunk] containing source data.
+        /// Create using convertReadingsToChunks(List[MeterReading] readings) OR convertInvoicesToChunks(List[Invoices] invoices)
+        /// </param>
+        /// <returns>List[Chunk] of apportioned data.</returns>
+        public List<Chunk> apportion(List<Chunk> datedChunks, List<Chunk> dataIn)
+        ]]></source>
+</chunk>
+<method name="apportion" namespace="emAPI.Controllers" type="emAPI.Controllers.ApportionmentManager" typeName="ApportionmentManager" token="60001f1" module="emAPI.dll"><hits><hit index="0" value="1"/>
+<hit index="1" value="1"/>
+<hit index="3" value="1"/>
+<hit index="4" value="1"/>
+<hit index="5" value="1"/>
+<hit index="7" value="1"/>
+<hit index="8" value="1"/>
+<hit index="9" value="1"/>
+<hit index="10" value="1"/>
+<hit index="11" value="1"/>
+<hit index="12" value="1"/>
+<hit index="13" value="1"/>
+<hit index="14" value="1"/>
+<hit index="15" value="1"/>
+<hit index="16" value="1"/>
+<hit index="17" value="1"/>
+<hit index="18" value="1"/>
+<hit index="19" value="1"/>
+<hit index="20" value="1"/>
+<hit index="21" value="1"/>
+<hit index="22" value="1"/>
+<hit index="23" value="2"/>
+<hit index="24" value="5"/>
+<hit index="25" value="5"/>
+<hit index="26" value="5"/>
+<hit index="28" value="5"/>
+<hit index="29" value="5"/>
+<hit index="30" value="5"/>
+<hit index="31" value="5"/>
+<hit index="32" value="10"/>
+<hit index="33" value="25"/>
+<hit index="34" value="25"/>
+<hit index="35" value="25"/>
+<hit index="36" value="25"/>
+<hit index="37" value="25"/>
+<hit index="38" value="25"/>
+<hit index="39" value="25"/>
+<hit index="40" value="25"/>
+<hit index="41" value="25"/>
+<hit index="42" value="25"/>
+<hit index="43" value="25"/>
+<hit index="44" value="25"/>
+<hit index="45" value="25"/>
+<hit index="46" value="25"/>
+<hit index="47" value="25"/>
+<hit index="48" value="25"/>
+<hit index="49" value="25"/>
+<hit index="50" value="25"/>
+<hit index="51" value="25"/>
+<hit index="52" value="25"/>
+<hit index="53" value="19"/>
+<hit index="54" value="19"/>
+<hit index="55" value="19"/>
+<hit index="56" value="19"/>
+<hit index="57" value="19"/>
+<hit index="58" value="19"/>
+<hit index="59" value="19"/>
+<hit index="60" value="25"/>
+<hit index="61" value="25"/>
+<hit index="62" value="25"/>
+<hit index="63" value="25"/>
+<hit index="64" value="25"/>
+<hit index="65" value="25"/>
+<hit index="66" value="13"/>
+<hit index="67" value="13"/>
+<hit index="68" value="13"/>
+<hit index="69" value="13"/>
+<hit index="70" value="13"/>
+<hit index="71" value="13"/>
+<hit index="72" value="13"/>
+<hit index="73" value="10"/>
+<hit index="74" value="10"/>
+<hit index="75" value="10"/>
+<hit index="76" value="10"/>
+<hit index="77" value="20"/>
+<hit index="78" value="30"/>
+<hit index="79" value="30"/>
+<hit index="80" value="5"/>
+<hit index="81" value="6"/>
+<hit index="82" value="25"/>
+<hit index="83" value="25"/>
+<hit index="84" value="25"/>
+<hit index="90" value="5"/>
+<hit index="91" value="5"/>
+<hit index="92" value="5"/>
+<hit index="93" value="5"/>
+<hit index="96" value="5"/>
+<hit index="97" value="5"/>
+<hit index="98" value="5"/>
+<hit index="99" value="10"/>
+<hit index="100" value="10"/>
+<hit index="101" value="10"/>
+<hit index="102" value="10"/>
+<hit index="103" value="10"/>
+<hit index="104" value="15"/>
+<hit index="105" value="15"/>
+<hit index="106" value="5"/>
+<hit index="107" value="10"/>
+<hit index="110" value="5"/>
+<hit index="111" value="5"/>
+<hit index="112" value="5"/>
+<hit index="113" value="5"/>
+<hit index="116" value="5"/>
+<hit index="117" value="5"/>
+<hit index="118" value="5"/>
+<hit index="119" value="5"/>
+<hit index="120" value="5"/>
+<hit index="121" value="5"/>
+<hit index="122" value="5"/>
+<hit index="123" value="5"/>
+<hit index="124" value="5"/>
+<hit index="125" value="5"/>
+<hit index="126" value="5"/>
+<hit index="127" value="10"/>
+<hit index="128" value="2"/>
+<hit index="129" value="2"/>
+<hit index="130" value="2"/>
+<hit index="131" value="2"/>
+<hit index="132" value="4"/>
+<hit index="133" value="2"/>
+<hit index="134" value="2"/>
+<hit index="135" value="2"/>
+<hit index="136" value="2"/>
+<hit index="137" value="2"/>
+<hit index="138" value="2"/>
+<hit index="139" value="2"/>
+<hit index="140" value="2"/>
+<hit index="141" value="2"/>
+<hit index="142" value="2"/>
+<hit index="143" value="2"/>
+<hit index="144" value="2"/>
+<hit index="148" value="5"/>
+<hit index="149" value="5"/>
+<hit index="150" value="5"/>
+<hit index="151" value="5"/>
+<hit index="152" value="5"/>
+<hit index="153" value="5"/>
+<hit index="154" value="5"/>
+<hit index="155" value="5"/>
+<hit index="156" value="5"/>
+<hit index="157" value="5"/>
+<hit index="158" value="5"/>
+<hit index="159" value="5"/>
+<hit index="160" value="5"/>
+<hit index="161" value="5"/>
+<hit index="162" value="5"/>
+<hit index="163" value="5"/>
+<hit index="164" value="5"/>
+<hit index="165" value="5"/>
+<hit index="166" value="5"/>
+<hit index="167" value="5"/>
+<hit index="168" value="5"/>
+<hit index="169" value="5"/>
+<hit index="170" value="5"/>
+<hit index="171" value="5"/>
+<hit index="172" value="5"/>
+<hit index="173" value="5"/>
+<hit index="174" value="5"/>
+<hit index="175" value="5"/>
+<hit index="176" value="5"/>
+<hit index="177" value="5"/>
+<hit index="178" value="5"/>
+<hit index="179" value="5"/>
+<hit index="180" value="5"/>
+<hit index="181" value="10"/>
+<hit index="182" value="6"/>
+<hit index="183" value="6"/>
+<hit index="184" value="1"/>
+<hit index="185" value="5"/>
+<hit index="186" value="5"/>
+<hit index="188" value="5"/>
+<hit index="189" value="5"/>
+<hit index="190" value="5"/>
+<hit index="196" value="1"/>
+<hit index="197" value="1"/>
+<hit index="198" value="1"/>
+<hit index="199" value="1"/>
+<hit index="203" value="1"/>
+<hit index="204" value="1"/>
+</hits>
+<tags><tag offset="00f2">call to uninstrumented method __LimitationsHelper.floating_point_multiplication(), call to uninstrumented method __LimitationsHelper.floating_point_conversion()</tag>
+<tag offset="0271">call to uninstrumented method __TestabilityHelper.floating_point_equality()</tag>
+</tags>
+<coverage domain="usercodeundertest" unit="block" covered="89" total="91" coveredRatio="0.978021978021978"/>
+</method>
+<chunk hits="1" offset="0000" domain="usercodeundertest"><source><![CDATA[{]]></source>
+</chunk>
+<chunk hits="-1" domain="unknown"><source><![CDATA[
+            ///create list to store resulting chunks
+            ]]></source>
+</chunk>
+<chunk hits="1" offset="0001" domain="usercodeundertest"><source><![CDATA[List<Chunk> resultChunks = new List<Chunk>();]]></source>
+</chunk>
+<chunk hits="-1" domain="unknown"><source><![CDATA[
+            
+            ///ensure provided list is in ascending date order
+            ]]></source>
+</chunk>
+<chunk hits="1" offset="0007" domain="usercodeundertest" tag="true"><tooltip><![CDATA[call to uninstrumented method __LimitationsHelper.floating_point_multiplication(), call to uninstrumented method __LimitationsHelper.floating_point_conversion(), call to uninstrumented method __TestabilityHelper.floating_point_equality(), call to uninstrumented method __TestabilityHelper.floating_point_equality()]]></tooltip>
+<source><![CDATA[dataIn = dataIn.OrderBy(chunk => ]]></source>
+</chunk>
+<method name="&lt;apportion&gt;b__3" namespace="emAPI.Controllers" type="emAPI.Controllers.ApportionmentManager" typeName="ApportionmentManager" token="60001f9" module="emAPI.dll"><hits><hit index="0" value="5"/>
+<hit index="1" value="5"/>
+<hit index="2" value="5"/>
+</hits>
+<coverage domain="usercodeundertest" unit="block" covered="2" total="2" coveredRatio="1"/>
+</method>
+<chunk hits="5" offset="0000" domain="usercodeundertest"><source><![CDATA[chunk.StartDate]]></source>
+</chunk>
+<chunk hits="1" offset="0007" domain="usercodeundertest"><source><![CDATA[).ToList();]]></source>
+</chunk>
+<chunk hits="-1" domain="unknown"><source><![CDATA[
+
+            ///determine max start and end dates from dataIn
+            ]]></source>
+</chunk>
+<chunk hits="1" offset="0033" domain="usercodeundertest"><source><![CDATA[DateTime maxStart = dataIn.First().StartDate;]]></source>
+</chunk>
+<chunk hits="-1" domain="unknown"><source><![CDATA[
+            ]]></source>
+</chunk>
+<chunk hits="1" offset="0043" domain="usercodeundertest"><source><![CDATA[DateTime maxEnd = dataIn.Last().EndDate;]]></source>
+</chunk>
+<chunk hits="-1" domain="unknown"><source><![CDATA[
+
+            ///do the apportioning
+            ]]></source>
+</chunk>
+<chunk hits="1" offset="0053" domain="usercodeundertest"><source><![CDATA[foreach]]></source>
+</chunk>
+<chunk hits="-1" domain="unknown"><source><![CDATA[ (]]></source>
+</chunk>
+<chunk hits="5" offset="0061" domain="usercodeundertest"><source><![CDATA[Chunk datedChunk]]></source>
+</chunk>
+<chunk hits="-1" domain="unknown"><source><![CDATA[ ]]></source>
+</chunk>
+<chunk hits="23" offset="030e" domain="usercodeundertest"><source><![CDATA[in]]></source>
+</chunk>
+<chunk hits="-1" domain="unknown"><source><![CDATA[ ]]></source>
+</chunk>
+<chunk hits="1" offset="0054" domain="usercodeundertest"><source><![CDATA[datedChunks]]></source>
+</chunk>
+<chunk hits="-1" domain="unknown"><source><![CDATA[)
+            ]]></source>
+</chunk>
+<chunk hits="5" offset="0069" domain="usercodeundertest"><source><![CDATA[{]]></source>
+</chunk>
+<chunk hits="-1" domain="unknown"><source><![CDATA[
+                ///list for storing the chunks from dataIn that are relevant to this results chunk
+                ]]></source>
+</chunk>
+<chunk hits="5" offset="006a" domain="usercodeundertest"><source><![CDATA[List<Chunk> relevantChunks = new List<Chunk>();]]></source>
+</chunk>
+<chunk hits="-1" domain="unknown"><source><![CDATA[
+
+                ]]></source>
+</chunk>
+<chunk hits="5" offset="0071" domain="usercodeundertest"><source><![CDATA[double averageDailyRateOverPeriod = 0;]]></source>
+</chunk>
+<chunk hits="-1" domain="unknown"><source><![CDATA[
+                ]]></source>
+</chunk>
+<chunk hits="5" offset="007c" domain="usercodeundertest"><source><![CDATA[double totalAmountOverPeriod = 0;]]></source>
+</chunk>
+<chunk hits="-1" domain="unknown"><source><![CDATA[
+                ]]></source>
+</chunk>
+<chunk hits="5" offset="0087" domain="usercodeundertest"><source><![CDATA[double periodLength = 0;]]></source>
+</chunk>
+<chunk hits="-1" domain="unknown"><source><![CDATA[
+
+                ///get all relevant chunks in the dataIn list that lie within the date boundaries of this chunk of the results list
+                ]]></source>
+</chunk>
+<chunk hits="5" offset="0092" domain="usercodeundertest"><source><![CDATA[foreach]]></source>
+</chunk>
+<chunk hits="-1" domain="unknown"><source><![CDATA[ (]]></source>
+</chunk>
+<chunk hits="25" offset="00a0" domain="usercodeundertest"><source><![CDATA[Chunk chunk]]></source>
+</chunk>
+<chunk hits="-1" domain="unknown"><source><![CDATA[ ]]></source>
+</chunk>
+<chunk hits="70" offset="014c" domain="usercodeundertest"><source><![CDATA[in]]></source>
+</chunk>
+<chunk hits="-1" domain="unknown"><source><![CDATA[ ]]></source>
+</chunk>
+<chunk hits="5" offset="0093" domain="usercodeundertest"><source><![CDATA[dataIn]]></source>
+</chunk>
+<chunk hits="-1" domain="unknown"><source><![CDATA[)
+                ]]></source>
+</chunk>
+<chunk hits="25" offset="00a9" domain="usercodeundertest"><source><![CDATA[{]]></source>
+</chunk>
+<chunk hits="-1" domain="unknown"><source><![CDATA[
+
+                    ///track average daily amount to fill in gaps in 'backwards' apportionment (ie where interval < time between reads)
+                    ]]></source>
+</chunk>
+<chunk hits="25" offset="00aa" domain="usercodeundertest"><source><![CDATA[TimeSpan tsInChunk = chunk.EndDate - chunk.StartDate;]]></source>
+</chunk>
+<chunk hits="-1" domain="unknown"><source><![CDATA[
+                    ]]></source>
+</chunk>
+<chunk hits="25" offset="00bf" domain="usercodeundertest"><source><![CDATA[periodLength += tsInChunk.Days;]]></source>
+</chunk>
+<chunk hits="-1" domain="unknown"><source><![CDATA[
+                    ]]></source>
+</chunk>
+<chunk hits="25" offset="00cc" domain="usercodeundertest"><source><![CDATA[totalAmountOverPeriod += chunk.Amount;]]></source>
+</chunk>
+<chunk hits="-1" domain="unknown"><source><![CDATA[
+                    ]]></source>
+</chunk>
+<chunk hits="25" offset="00d8" domain="usercodeundertest"><source><![CDATA[averageDailyRateOverPeriod = totalAmountOverPeriod / periodLength;]]></source>
+</chunk>
+<chunk hits="-1" domain="unknown"><source><![CDATA[
+
+                    ///check whether this chunk falls in the chunk on datedChunks & is therefore relevant to calculating
+                    ///the total for this datedChunk
+                    ]]></source>
+</chunk>
+<chunk hits="50" offset="00df" domain="usercodeundertest"><source><![CDATA[if ((chunk.StartDate >= datedChunk.StartDate && chunk.StartDate <= datedChunk.EndDate) |
+                          (chunk.EndDate >= datedChunk.StartDate && chunk.EndDate <= datedChunk.EndDate))]]></source>
+</chunk>
+<chunk hits="-1" domain="unknown"><source><![CDATA[
+                    ]]></source>
+</chunk>
+<chunk hits="10" offset="013f" domain="usercodeundertest"><source><![CDATA[{]]></source>
+</chunk>
+<chunk hits="-1" domain="unknown"><source><![CDATA[
+                        ]]></source>
+</chunk>
+<chunk hits="10" offset="0140" domain="usercodeundertest"><source><![CDATA[relevantChunks.Add(chunk);]]></source>
+</chunk>
+<chunk hits="-1" domain="unknown"><source><![CDATA[
+                    ]]></source>
+</chunk>
+<chunk hits="30" offset="014a" domain="usercodeundertest"><source><![CDATA[}]]></source>
+</chunk>
+<chunk hits="-1" domain="unknown"><source><![CDATA[
+                ]]></source>
+</chunk>
+<chunk hits="55" offset="014b" domain="usercodeundertest"><source><![CDATA[}]]></source>
+</chunk>
+<chunk hits="-1" domain="unknown"><source><![CDATA[
+
+                ]]></source>
+</chunk>
+<chunk hits="5" offset="016e" domain="usercodeundertest"><source><![CDATA[double knownAmount = 0;]]></source>
+</chunk>
+<chunk hits="-1" domain="unknown"><source><![CDATA[
+                ]]></source>
+</chunk>
+<chunk hits="5" offset="0179" domain="usercodeundertest"><source><![CDATA[double estimatedAmount = 0;]]></source>
+</chunk>
+<chunk hits="-1" domain="unknown"><source><![CDATA[
+
+                ///calculate the known amount for this datedChunk using all the relevant chunks gathered in relevantChunks above
+                ]]></source>
+</chunk>
+<chunk hits="5" offset="0184" domain="usercodeundertest"><source><![CDATA[foreach]]></source>
+</chunk>
+<chunk hits="-1" domain="unknown"><source><![CDATA[ (]]></source>
+</chunk>
+<chunk hits="10" offset="0190" domain="usercodeundertest"><source><![CDATA[Chunk relevantChunk]]></source>
+</chunk>
+<chunk hits="-1" domain="unknown"><source><![CDATA[ ]]></source>
+</chunk>
+<chunk hits="25" offset="01a7" domain="usercodeundertest"><source><![CDATA[in]]></source>
+</chunk>
+<chunk hits="-1" domain="unknown"><source><![CDATA[ ]]></source>
+</chunk>
+<chunk hits="5" offset="0185" domain="usercodeundertest"><source><![CDATA[relevantChunks]]></source>
+</chunk>
+<chunk hits="-1" domain="unknown"><source><![CDATA[)
+                ]]></source>
+</chunk>
+<chunk hits="10" offset="0199" domain="usercodeundertest"><source><![CDATA[{]]></source>
+</chunk>
+<chunk hits="-1" domain="unknown"><source><![CDATA[
+                    ]]></source>
+</chunk>
+<chunk hits="10" offset="019a" domain="usercodeundertest"><source><![CDATA[knownAmount += relevantChunk.Amount;]]></source>
+</chunk>
+<chunk hits="-1" domain="unknown"><source><![CDATA[
+                ]]></source>
+</chunk>
+<chunk hits="10" offset="01a6" domain="usercodeundertest"><source><![CDATA[}]]></source>
+</chunk>
+<chunk hits="-1" domain="unknown"><source><![CDATA[
+
+
+                ///determine number of days required by this results chunk
+                ]]></source>
+</chunk>
+<chunk hits="5" offset="01c6" domain="usercodeundertest"><source><![CDATA[TimeSpan ts = datedChunk.EndDate - datedChunk.StartDate;]]></source>
+</chunk>
+<chunk hits="-1" domain="unknown"><source><![CDATA[
+                ]]></source>
+</chunk>
+<chunk hits="5" offset="01db" domain="usercodeundertest"><source><![CDATA[double numbDaysRequired = ts.TotalDays;]]></source>
+</chunk>
+<chunk hits="-1" domain="unknown"><source><![CDATA[
+
+
+                ]]></source>
+</chunk>
+<chunk hits="5" offset="01e4" domain="usercodeundertest"><source><![CDATA[double dailyRate = 0;]]></source>
+</chunk>
+<chunk hits="-1" domain="unknown"><source><![CDATA[
+
+                ///determine number of days covered by the chunks in this result chunk
+                ]]></source>
+</chunk>
+<chunk hits="5" offset="01ef" domain="usercodeundertest"><source><![CDATA[double numbDaysCovered = new double();]]></source>
+</chunk>
+<chunk hits="-1" domain="unknown"><source><![CDATA[
+                ]]></source>
+</chunk>
+<chunk hits="5" offset="01fa" domain="usercodeundertest"><source><![CDATA[if (relevantChunks.Count != 0)]]></source>
+</chunk>
+<chunk hits="-1" domain="unknown"><source><![CDATA[
+                ]]></source>
+</chunk>
+<chunk hits="2" offset="020a" domain="usercodeundertest"><source><![CDATA[{]]></source>
+</chunk>
+<chunk hits="-1" domain="unknown"><source><![CDATA[
+                    ]]></source>
+</chunk>
+<chunk hits="2" offset="020b" domain="usercodeundertest"><source><![CDATA[ts = relevantChunks.ElementAt(relevantChunks.Count - 1).EndDate - relevantChunks.ElementAt(0).StartDate;]]></source>
+</chunk>
+<chunk hits="-1" domain="unknown"><source><![CDATA[
+                    ]]></source>
+</chunk>
+<chunk hits="2" offset="023c" domain="usercodeundertest"><source><![CDATA[numbDaysCovered = ts.TotalDays;]]></source>
+</chunk>
+<chunk hits="-1" domain="unknown"><source><![CDATA[
+                ]]></source>
+</chunk>
+<chunk hits="2" offset="0245" domain="usercodeundertest"><source><![CDATA[}]]></source>
+</chunk>
+<chunk hits="-1" domain="unknown"><source><![CDATA[
+                else
+                ]]></source>
+</chunk>
+<chunk hits="5" offset="0248" domain="usercodeundertest"><source><![CDATA[{]]></source>
+</chunk>
+<chunk hits="-1" domain="unknown"><source><![CDATA[
+                    ///in this case we have to use the average of the whole period calculated above
+                    ]]></source>
+</chunk>
+<chunk hits="5" offset="0249" domain="usercodeundertest"><source><![CDATA[numbDaysCovered = 0;]]></source>
+</chunk>
+<chunk hits="-1" domain="unknown"><source><![CDATA[
+                    ]]></source>
+</chunk>
+<chunk hits="5" offset="0254" domain="usercodeundertest"><source><![CDATA[dailyRate = averageDailyRateOverPeriod;]]></source>
+</chunk>
+<chunk hits="-1" domain="unknown"><source><![CDATA[
+                ]]></source>
+</chunk>
+<chunk hits="5" offset="0258" domain="usercodeundertest"><source><![CDATA[}]]></source>
+</chunk>
+<chunk hits="-1" domain="unknown"><source><![CDATA[
+
+
+                ///determine number of missing days that require estimation
+                ]]></source>
+</chunk>
+<chunk hits="7" offset="0259" domain="usercodeundertest"><source><![CDATA[double missingDays = numbDaysRequired - numbDaysCovered;]]></source>
+</chunk>
+<chunk hits="-1" domain="unknown"><source><![CDATA[
+
+                ///determine average daily amount from known amount
+                ]]></source>
+</chunk>
+<chunk hits="7" offset="0260" domain="usercodeundertest"><source><![CDATA[if (numbDaysCovered != 0)]]></source>
+</chunk>
+<chunk hits="-1" domain="unknown"><source><![CDATA[
+                ]]></source>
+</chunk>
+<chunk hits="0" offset="0273" domain="usercodeundertest"><source><![CDATA[{]]></source>
+</chunk>
+<chunk hits="-1" domain="unknown"><source><![CDATA[
+                    ]]></source>
+</chunk>
+<chunk hits="0" offset="0274" domain="usercodeundertest"><source><![CDATA[dailyRate = knownAmount / numbDaysCovered;]]></source>
+</chunk>
+<chunk hits="-1" domain="unknown"><source><![CDATA[
+                ]]></source>
+</chunk>
+<chunk hits="0" offset="027b" domain="usercodeundertest"><source><![CDATA[}]]></source>
+</chunk>
+<chunk hits="-1" domain="unknown"><source><![CDATA[
+
+                ///calculate estimated amount
+                ]]></source>
+</chunk>
+<chunk hits="5" offset="027c" domain="usercodeundertest"><source><![CDATA[estimatedAmount = missingDays * dailyRate;]]></source>
+</chunk>
+<chunk hits="-1" domain="unknown"><source><![CDATA[
+
+                ///create new, final result chunk and add to list
+                ]]></source>
+</chunk>
+<chunk hits="5" offset="0283" domain="usercodeundertest"><source><![CDATA[Chunk resultChunk = new Chunk
+                {
+                    StartDate = datedChunk.StartDate,
+                    EndDate = datedChunk.EndDate,
+                    Amount = knownAmount + estimatedAmount
+                    ///NB if the length of the chunk is greater than required, missingDays will be negative and the total amount
+                    ///adjusted downward as necessary
+                };]]></source>
+</chunk>
+<chunk hits="-1" domain="unknown"><source><![CDATA[
+
+                ///check if chunk lies inside the maxStart and maxEnd range (ie not outide all data available)
+                ]]></source>
+</chunk>
+<chunk hits="5" offset="02ba" domain="usercodeundertest"><source><![CDATA[if ((resultChunk.StartDate >= maxStart && resultChunk.StartDate <= maxEnd) |
+                      (resultChunk.EndDate >= maxStart && resultChunk.EndDate <= maxEnd))]]></source>
+</chunk>
+<chunk hits="-1" domain="unknown"><source><![CDATA[
+                ]]></source>
+</chunk>
+<chunk hits="5" offset="0302" domain="usercodeundertest"><source><![CDATA[{]]></source>
+</chunk>
+<chunk hits="-1" domain="unknown"><source><![CDATA[
+                    ]]></source>
+</chunk>
+<chunk hits="5" offset="0303" domain="usercodeundertest"><source><![CDATA[resultChunks.Add(resultChunk);]]></source>
+</chunk>
+<chunk hits="-1" domain="unknown"><source><![CDATA[
+                ]]></source>
+</chunk>
+<chunk hits="15" offset="030c" domain="usercodeundertest"><source><![CDATA[}]]></source>
+</chunk>
+<chunk hits="-1" domain="unknown"><source><![CDATA[
+            ]]></source>
+</chunk>
+<chunk hits="20" offset="030d" domain="usercodeundertest"><source><![CDATA[}]]></source>
+</chunk>
+<chunk hits="-1" domain="unknown"><source><![CDATA[
+
+            ]]></source>
+</chunk>
+<chunk hits="1" offset="0330" domain="usercodeundertest"><source><![CDATA[return resultChunks;]]></source>
+</chunk>
+<chunk hits="-1" domain="unknown"><source><![CDATA[
+        ]]></source>
+</chunk>
+<chunk hits="1" offset="0335" domain="usercodeundertest"><source><![CDATA[}]]></source>
+</chunk>
+<chunk hits="-1" domain="unknown"><source><![CDATA[
+
+        
+        //CHECKING METHODS
+        
+        private enum DateCoverage
+        {
+            bothDatesInRange = 1,
+            startDateInRange = 2,
+            endDateInRange = 3,
+            neitherDateInRange = 4,
+            invalidRange = 5,
+            invalidDates = 6
+        }
+
+
+        /// <summary>
+        /// Check the date coverage of two provided start and end dates compared to a range's start and end date
+        /// </summary>
+        /// <param name="startDate"></param>
+        /// <param name="endDate"></param>
+        /// <param name="rangeStart"></param>
+        /// <param name="rangeEnd"></param>
+        /// <returns>DateCoverage enum representing the date coverage</returns>
+        private DateCoverage getDateCoverage(DateTime startDate, DateTime endDate, DateTime rangeStart, DateTime rangeEnd)
+        {
+            if (startDate > endDate)
+            {
+                return DateCoverage.invalidDates;
+            }
+
+            if (rangeStart > rangeEnd)
+            {
+                return DateCoverage.invalidRange;
+            }
+
+            if ((startDate >= rangeStart) && (endDate <= rangeEnd))
+            {
+                return DateCoverage.bothDatesInRange;
+            }
+
+            if ((endDate >= rangeStart) | (endDate <= rangeEnd))
+            {
+                return DateCoverage.endDateInRange;
+            }
+
+            if ((startDate >= rangeStart) | (startDate <= rangeEnd))
+            {
+                return DateCoverage.startDateInRange;
+            }
+
+            return DateCoverage.neitherDateInRange;
+        }
+
+
+        /// <summary>
+        /// Determines whether the date coverage of a range of dates is suitable to allow apportionment from that range to between two provided dates
+        /// </summary>
+        /// <param name="coverage"></param>
+        /// <returns>true if date coverage is suitable</returns>
+        private bool checkDateCoverage(DateCoverage coverage)
+        {
+            return (int)coverage < (int)DateCoverage.neitherDateInRange;
+        }
+
+        /// <summary>
+        /// Determines whether or not apportionment between provided dates can be accomplished using provided List[Chunk]
+        /// </summary>
+        /// <param name="dataIn"></param>
+        /// <param name="startDate"></param>
+        /// <param name="endDate"></param>
+        /// <returns>true if apportionement can be accomplished</returns>
+        private bool canApportion(List<Chunk> dataIn, DateTime startDate, DateTime endDate)
+        {
+            ///check if there are appropriate number of chunks to complete apportionment
+            ///
+            if (dataIn.Count < 2)
+            {
+                ///need at least two chunks to do any apportionment
+                ///
+                return false;
+            }
+
+            ///get dateCoverate enum that tells us where the start and end dates of the requested data range fall in relation to the data in the dataIn list
+            DateCoverage dateCoverage = getDateCoverage(startDate, endDate, dataIn.ElementAt(0).StartDate, dataIn.ElementAt(dataIn.Count - 1).EndDate);
+
+            return checkDateCoverage(dateCoverage);
+        }
+
+        //CONVERSION METHODS
+
+        //CONVERTING READINGS & INVOICES INTO CHUNKS
+
+      
+        /// <summary>
+        /// Converts a list of meter readings into a list of chunks suitable for apportionment
+        /// </summary>
+        /// <param name="readings">meter readings to convert</param>
+        /// <returns>List[Chunk] from meter readings</returns>
+        public List<Chunk> convertReadingsToChunks(List<MeterReading> readings)
+        {
+            List<Chunk> result = new List<Chunk>();
+            TimeSpan oneDay = new TimeSpan(1, 0, 0, 0);
+
+            readings = readings.OrderBy(rdg => rdg.Date).ToList();
+
+            foreach (MeterReading rdg in readings)
+            {
+                Chunk chunk = new Chunk();
+                try
+                {
+                    ///start date calculated from date of reading + one day
+                    chunk.StartDate = readings.First(r => r.Date == rdg.Date).Date + oneDay;
+
+                    ///end date calulated from date of next reading
+                    chunk.EndDate = readings.First(r => r.Date > rdg.Date).Date;
+
+                    ///consumption calculated from consumption of next reading
+                    chunk.Amount = readings.First(r => r.Date > rdg.Date).Consumption;
+                }
+                catch
+                {
+                    ///no chunk added if there is an error (ie are outside boundaries of list)
+                    break;
+                }
+
+                result.Add(chunk);
+            }
+
+            return result;
+        }
+
+
+        /// <summary>
+        /// Converts a list of invoices into a list of Chunks suitable for apportionment
+        /// </summary>
+        /// <param name="invoices"></param>
+        /// <returns></returns>
+        public List<Chunk> convertInvoicesToChunks(List<Invoice> invoices)
+        {
+            List<Chunk> result = new List<Chunk>();
+            TimeSpan oneDay = new TimeSpan(1, 0, 0, 0);
+
+            invoices = invoices.OrderBy(inv => inv.StartDate).ToList();
+
+            foreach (Invoice inv in invoices)
+            {
+                Chunk chunk = new Chunk();
+
+                chunk.StartDate = inv.StartDate;
+                chunk.EndDate = inv.EndDate;
+                chunk.Amount = inv.ConsumptionCharge + inv.StandingCharge + inv.OtherCharge;
+
+                result.Add(chunk);
+            }
+
+            return result;
+        }
+
+
+        /// <summary>
+        /// Determines the best type of apportionment interval for two dates.  This is acheived by calculating the modulus of the
+        /// number of periods between two dates for each period type in the database.  The answer with the lowest modulus
+        /// (ie the lowest number of remainder days) is the best match.
+        /// </summary>
+        /// <param name="startDate"></param>
+        /// <param name="endDate"></param>
+        /// <returns>Apportionment period that best matches the two dates.</returns>
+        public AppotionmentPeriod getBestApportionmentPeriod(DateTime startDate, DateTime endDate)
+        {
+            TimeSpan timespan = endDate - startDate;
+            int lengthInDays = (int)timespan.TotalDays;
+
+            ///Create a list of dictionary objects that hold a string for the duration and an int for the modulo of that duration in days
+            Dictionary<string, int> remainders = new Dictionary<string, int>();
+
+            ///populate the dictionary with each of the Period types and their length in days
+            List<Period> periods = mediator.DataManager.getPeriods();
+            foreach (Period p in periods)
+            {
+                remainders.Add(p.Length, (lengthInDays % p.NumbDays));
+            }
+
+            ///order the dictionary so the lowest remainder is at the top
+            remainders.OrderBy(d => d.Value);
+
+            ///extract the entry at the top of the dictionary - this is the best match
+            string matchingPeriod = remainders.ElementAt(0).Key;
+
+            ///convert string to enum and return
+            return (AppotionmentPeriod)Enum.Parse(typeof(AppotionmentPeriod), matchingPeriod);
+        }
+    }
+}
+]]></source>
+</chunk>
+</document>
+<document src="C:\Users\David Sauntson\Documents\Project Codes\emAPI\emAPI\emAPI\Controllers\EMMediator.cs" renderPrefix="s1"><chunk hits="-1" domain="unknown"><source><![CDATA[
+/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
+ * DAVID SAUNTSON 12993011                                               *
+ * MSc Software Engineering - Final Year Project                         *
+ *                                                                       *
+ * Energy Management API & Software                                      *
+ * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
+ * 
+ * EMMediator.cs
+ * Code source: Handwritten
+ */
+		
+
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using emAPI.DAL;
+using emAPI.ClassLibrary;
+using emAPI.Interfaces;
+
+namespace emAPI.Controllers
+{
+    /// <summary>
+    /// Mediator to all controller objects.
+    /// </summary>
+    internal class EMMediator : IEMMediator
+    {
+        internal EMDataManager DataManager { get; set; }
+
+        private AccountManager accountMgr;
+        private AnnotationManager annotationMgr;
+        private ApportionmentManager apportionmentMgr;
+        private ForecastingManager forecastingMgr;
+        private InvoiceManager invoiceMgr;
+        private MeterManager meterMgr;
+        private PropertyManager propertyMgr;
+        private TariffManager tariffMgr;
+        private ValidationManager validationMgr;
+
+        ]]></source>
+</chunk>
+<method name=".ctor" namespace="emAPI.Controllers" type="emAPI.Controllers.EMMediator" typeName="EMMediator" token="6000249" module="emAPI.dll"><hits/>
+<coverage domain="usercodeundertest" unit="block" covered="0" total="4" coveredRatio="0"/>
+</method>
+<chunk hits="0" offset="0000" domain="usercodeundertest"><source><![CDATA[internal EMMediator()]]></source>
+</chunk>
+<chunk hits="-1" domain="unknown"><source><![CDATA[
+        ]]></source>
+</chunk>
+<chunk hits="0" offset="0007" domain="usercodeundertest"><source><![CDATA[{]]></source>
+</chunk>
+<chunk hits="-1" domain="unknown"><source><![CDATA[
+            ]]></source>
+</chunk>
+<chunk hits="0" offset="0008" domain="usercodeundertest"><source><![CDATA[DataManager = new EMDataManager();]]></source>
+</chunk>
+<chunk hits="-1" domain="unknown"><source><![CDATA[
+        ]]></source>
+</chunk>
+<chunk hits="0" offset="0014" domain="usercodeundertest"><source><![CDATA[}]]></source>
+</chunk>
+<chunk hits="-1" domain="unknown"><source><![CDATA[
+
+        public void addPropertyToUser(int propertyId, int userId)
+        {
+            DataManager.addPropertyToUser(propertyId, userId);
+        }
+
+        //--> PROPERTY MANAGER
+        public void updatePropertyAnnualTotalkWh(int propertyId)
+        {
+            propertyMgr = new PropertyManager();
+            propertyMgr.updateAnnualTotalkWh(propertyId);
+        }
+
+        public void updatePropertyAnnualTotalCost(int propertyId)
+        {
+            propertyMgr = new PropertyManager();
+            propertyMgr.updateAnnualTotalCost(propertyId);
+        }
+
+        public void updateAnnualCO2(int propertyId)
+        {
+            propertyMgr = new PropertyManager();
+            propertyMgr.updateAnnualCO2(propertyId);
+        }
+
+        //--> METER MANAGER
+
+        public Meter getMeter(int meterId)
+        {
+            meterMgr = new MeterManager();
+            return meterMgr.getMeter(meterId);
+        }
+
+        public double getDataFromMeter(int meterId, string startDate, string endDate, int dataTypeId)
+        {
+            meterMgr = new MeterManager();
+            return meterMgr.getDataFromMeter(meterId, startDate, endDate, dataTypeId);
+        }
+
+        public List<Chunk> getDataFromMeterByInterval(int meterId, string startDate, string endDate, int intervalId, int dataTypeId)
+        {
+            meterMgr = new MeterManager();
+            return meterMgr.getDataFromMeterByInterval(meterId, startDate, endDate, intervalId, dataTypeId);
+        }
+
+        //public double getCostFromMeter(int meterId, string startDate, string endDate)
+        //{
+        //    meterMgr = new MeterManager();
+        //    return meterMgr.getCostFromMeter(meterId, startDate, endDate);
+        //}
+
+        //public List<Chunk> getCostFromMeterByInterval(int meterId, string startDate, string endDate, int intervalId)
+        //{
+        //    meterMgr = new MeterManager();
+        //    return meterMgr.getCostFromMeterByInterval(meterId, startDate, endDate, intervalId);
+        //}
+
+        public double getCO2FromMeter(int meterId, string startDate, string endDate)
+        {
+            meterMgr = new MeterManager();
+            return meterMgr.getCO2FromMeter(meterId, startDate, endDate);
+        }
+
+
+
+        //--> APPORTIONMENT MANAGER
+
+        public List<Chunk> convertReadingsToChunks(List<MeterReading> readings)
+        {
+            apportionmentMgr = new ApportionmentManager();
+            return apportionmentMgr.convertReadingsToChunks(readings);
+        }
+
+        public List<Chunk> convertInvoicesToChunks(List<Invoice> invoices)
+        {
+            apportionmentMgr = new ApportionmentManager();
+            return apportionmentMgr.convertInvoicesToChunks(invoices);
+        }
+
+        public List<Chunk> apportionToPeriod(List<Chunk> dataIn, DateTime startDate, DateTime endDate,  AppotionmentPeriod interval)
+        {
+            apportionmentMgr = new ApportionmentManager();
+            return apportionmentMgr.apportionToPeriod(dataIn, startDate, endDate, interval);
+        }
+
+        public double apportionToDates(List<Chunk> dataIn, string startDate, string endDate)
+        {
+            apportionmentMgr = new ApportionmentManager();
+            return apportionmentMgr.apportionToDates(dataIn, startDate, endDate);
+        }
+
+        public List<Chunk> setupDatedChunksForApportionToPeriod(DateTime startDate, DateTime endDate, AppotionmentPeriod interval)
+        {
+            apportionmentMgr = new ApportionmentManager();
+            return apportionmentMgr.setupDatedChunksForApportionToPeriod(startDate, endDate, interval);
+        }
+
+
+
+        //-->INVOICE MAAGER
+
+        public Invoice getLastInvoice(int meterId)
+        {
+            invoiceMgr = new InvoiceManager();
+            return invoiceMgr.getLastInvoice(meterId);
+        }
+
+        //-->VALIDATION MANAGER
+
+
+
+        public string validateInvoice(int invoiceId, bool saveAfterValidation)
+        {
+            validationMgr = new ValidationManager();
+            return validationMgr.validateInvoice(invoiceId, saveAfterValidation);
+        }
+
+        public Invoice validateInvoice(Invoice invoice, bool safeAfterValidation)
+        {
+            validationMgr = new ValidationManager();
+            return validationMgr.validateInvoice(invoice, safeAfterValidation);
+        }
+    }
+}
+]]></source>
+</chunk>
+</document>
+<document src="C:\Users\David Sauntson\Documents\Project Codes\emAPI\emAPI\emAPI\DAL\EMDataManager.cs" renderPrefix="s2"><chunk hits="-1" domain="unknown"><source><![CDATA[/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
+ * DAVID SAUNTSON 12993011                                               *
+ * MSc Software Engineering - Final Year Project                         *
+ *                                                                       *
+ * Energy Management API & Software                                      *
+ * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
+ * 
+ * EMDataManager.cs
+ * Code source: Handwritten
+ */
+	
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using emAPI.ClassLibrary;
+using System.Data.Entity;
+
+namespace emAPI.DAL
+{
+    /// <summary>
+    /// Entity Framework implementation of data storage.  Sub-class of DataAcccessObject.
+    /// </summary>
+    internal class EMDataManager : DataAccessObject
+    {
+        /// <summary>
+        /// instance of the EMDatabase EF4.3 DbContext class
+        /// </summary>
+        internal EMDatabase emdb { get; set; }
+
+        /// <summary>
+        /// Ctor, initialises emdb to hold ref to the database
+        /// </summary>
+        ]]></source>
+</chunk>
+<method name=".ctor" namespace="emAPI.DAL" type="emAPI.DAL.EMDataManager" typeName="EMDataManager" token="6000190" module="emAPI.dll"><hits/>
+<coverage domain="usercodeundertest" unit="block" covered="0" total="4" coveredRatio="0"/>
+</method>
+<chunk hits="0" offset="0000" domain="usercodeundertest"><source><![CDATA[public EMDataManager()]]></source>
+</chunk>
+<chunk hits="-1" domain="unknown"><source><![CDATA[
+        ]]></source>
+</chunk>
+<chunk hits="0" offset="0007" domain="usercodeundertest"><source><![CDATA[{]]></source>
+</chunk>
+<chunk hits="-1" domain="unknown"><source><![CDATA[
+            ]]></source>
+</chunk>
+<chunk hits="0" offset="0008" domain="usercodeundertest"><source><![CDATA[emdb = new EMDatabase();]]></source>
+</chunk>
+<chunk hits="-1" domain="unknown"><source><![CDATA[
+        ]]></source>
+</chunk>
+<chunk hits="0" offset="0014" domain="usercodeundertest"><source><![CDATA[}]]></source>
+</chunk>
+<chunk hits="-1" domain="unknown"><source><![CDATA[
+
+//* * * METHODS
+//* * * GET METHODS BY ID
+        
+        
+        /// single objects from object id
+        
+        /// <summary>
+        /// Retreive invoice with specified id with associated tariff & meter
+        /// </summary>
+        /// <param name="invoiceId"></param>
+        /// <returns></returns>
+        public override Invoice getInvoice(int invoiceId)
+        {
+            return emdb.Invoices.Include(inv => inv.Meter)
+                                .Include(inv => inv.Meter.Tariffs)              
+                                .Single(inv => inv.Id == invoiceId);
+        }
+
+
+        /// <summary>
+        /// Retreives the meter with specified id and associated meter readings
+        /// </summary>
+        /// <param name="meterId"></param>
+        /// <returns></returns>
+        public override Meter getMeter(int meterId)
+        {
+            return emdb.Meters.Include("Register").Single(m => m.Id == meterId);
+        }
+
+
+        /// <summary>
+        /// Retreives the property with the specified property id and associated meters
+        /// </summary>
+        /// <param name="PropertyId"></param>
+        /// <returns></returns>
+        public override Property getProperty(int propertyId)
+        {
+            return emdb.Properties.Include("Meters").Include("PropertyType").Single(p => p.Id == propertyId);
+        }
+
+        /// <summary>
+        /// Retreives the property type with the specified id
+        /// </summary>
+        /// <param name="typeId"></param>
+        /// <returns></returns>
+        public PropertyType getPropertyType(int typeId)
+        {
+            return emdb.PropertyTypes.Include("Walls").Include("Heating").Include("Building").Single(type => type.Id == typeId);
+        }
+
+        /// <summary>
+        /// Retreive meter reading with specified id
+        /// </summary>
+        /// <param name="meterReadingId"></param>
+        /// <returns></returns>
+        public override MeterReading getReading(int meterReadingId)
+        {
+            return emdb.MeterReadings.Single(mr => mr.Id == meterReadingId);
+        }
+
+        /// <summary>
+        /// Retreives the tariff with the specified id, along with associated tariff bands & standing charge period
+        /// </summary>
+        /// <param name="tariffId"></param>
+        /// <returns></returns>
+        public override Tariff getTariff(int tariffId)
+        {
+            Tariff tariff = emdb.Tariffs.Include("Bands")
+                                        .Include("SCPeriod")
+                                        .Include("BandPeriod")
+                                        .Single(t => t.Id == tariffId);
+
+            ///total disconnection from the EF4.1 proxy object is required
+            Tariff trf = new Tariff();
+            trf.Id = tariff.Id;
+            trf.SCPeriod = tariff.SCPeriod;
+            trf.SCValue = tariff.SCValue;
+            trf.BandPeriod = tariff.BandPeriod;
+            trf.StartDate = tariff.StartDate;
+            trf.Bands = tariff.Bands.ToList();
+            
+            return trf;
+        }
+
+
+        public override TariffBand getBand(int bandId)
+        {
+            return emdb.TariffBands.Find(bandId);
+        }
+
+        /// <summary>
+        /// Retreives the standing charge period with the specified id
+        /// </summary>
+        /// <param name="periodId"></param>
+        /// <returns></returns>
+        public override Period getPeriod(int periodId)
+        {
+            return emdb.Periods.Find(periodId);
+        }
+
+        /// <summary>
+        /// Retrieves user with specified id
+        /// </summary>
+        /// <param name="userId"></param>
+        /// <returns></returns>
+        public override User getUser(int userId)
+        {
+            return emdb.Users.Find(userId);
+        }
+
+
+        /// <summary>
+        /// Retrieves note with specified id
+        /// </summary>
+        /// <param name="noteId"></param>
+        /// <returns></returns>
+        public override Annotation getNote(int noteId)
+        {
+            return emdb.Annotations.Find(noteId);
+        }
+        
+
+//* * * GET METHODS BY OTHER PARAMETER
+
+        public override User getUserByUsername(string username)
+        {
+            return emdb.Users.Single(u => u.Username == username);
+        }
+
+        public override User getUserByEmail(string email)
+        {
+            return emdb.Users.Single(u => u.Email == email);
+        }
+
+        public override BenchmarkProperty getBenchmarkProperty(int benchmarkId)
+        {
+            return emdb.Benchmarks.Find(benchmarkId);
+        }
+
+        public override int getPropertyTypeId(int heatingId, int buildingId, int wallId)
+        {
+            PropertyType type = emdb.PropertyTypes.Single(pt => (pt.Heating.Id == heatingId && pt.Building.Id == buildingId && pt.Walls.Id == wallId));
+            return type.Id;
+        }
+
+        public override List<AnonymousProperty> getAnonymousProperties(List<int> propertyIds)
+        {
+            List<AnonymousProperty> result = new List<AnonymousProperty>();
+            
+            ///include property type & all children
+            foreach (Property property in emdb.Properties.Include(p => p.PropertyType).Include(p => p.PropertyType.Walls)
+                                                                                      .Include(p => p.PropertyType.Heating)
+                                                                                      .Include(p => p.PropertyType.Building))
+                                                  
+            {
+                AnonymousProperty anonProperty = new AnonymousProperty
+                {
+                    Id = property.Id,
+                    Postcode = property.Postcode,
+                    AnnualCost = property.AnnualCost,
+                    AnnualkWh = property.AnnualkWh,
+                    AreaNormalisedAnnualkWh = property.AreaNormalisedAnnualkWh,
+                    FloorArea = property.FloorArea,
+                    NumbBedrooms = property.NumbBedrooms
+                };
+
+                anonProperty.isUsers = propertyIds.Contains(property.Id);
+                anonProperty.Walls = property.PropertyType.Walls.Description;
+                anonProperty.Buiding = property.PropertyType.Building.Description;
+                anonProperty.Heating = property.PropertyType.Heating.Description;
+
+                result.Add(anonProperty);
+            }
+
+            return result;
+        }
+
+
+
+//* * * GET METHODS BY PARENT ID
+
+        ///nested objects from parent object id
+
+        /// <summary>
+        /// Retreive list of properties for user with specified id
+        /// </summary>
+        /// <param name="userId"></param>
+        /// <returns></returns>
+        public override List<Property> getProperties(int userId)
+        {
+            return emdb.Users.Include("Properties").Single(u => u.Id == userId).Properties.ToList<Property>();
+        }
+
+
+        /// <summary>
+        /// Retrieve list of meters at property with specified id
+        /// </summary>
+        /// <param name="propertyId"></param>
+        /// <returns></returns>
+        public override List<Meter> getMeters(int propertyId)
+        {
+            return emdb.Properties.Include("Meters").Single(p => p.Id == propertyId).Meters.ToList<Meter>();
+        }
+
+
+        /// <summary>
+        /// Retrieve list of meter readings for the meter with specified id
+        /// </summary>
+        /// <param name="meterId"></param>
+        /// <returns></returns>
+        public override List<MeterReading> getMeterReadings(int meterId)
+        {
+            return emdb.Meters.Include("Register").Single(m => m.Id == meterId).Register.ToList<MeterReading>();
+        }
+
+
+        /// <summary>
+        /// Retireve list of invoices assigned to meter with specified id
+        /// </summary>
+        /// <param name="meterId"></param>
+        /// <returns></returns>
+        public override List<Invoice> getInvoicesForMeter(int meterId)
+        {
+            return emdb.Meters.Include("Invoices").Single(m => m.Id == meterId).Invoices.ToList<Invoice>();
+        }
+
+
+        /// <summary>
+        /// Retreives list of notes on the meter with the specified id
+        /// </summary>
+        /// <param name="meterId"></param>
+        /// <returns></returns>
+        public override List<Annotation> getNotes(int meterId)
+        {
+            return emdb.Meters.Include("Annotations").Single(m => m.Id == meterId).Notes.ToList<Annotation>();
+        }
+
+
+        /// <summary>
+        /// Return the meter associated with the specified invoice
+        /// </summary>
+        /// <param name="invoiceId"></param>
+        /// <returns></returns>
+        public override Meter getMeterForInvoice(int invoiceId)
+        {
+            Invoice invoice = emdb.Invoices.Find(invoiceId);
+            return getMeter(invoice.Meter.Id);
+        }
+
+        public override BenchmarkProperty getBenchmarkForProperty(int propertyId)
+        {
+            Property property = getProperty(propertyId);
+            return emdb.Benchmarks.Single(bmk => bmk.PropertyType.Id == property.PropertyType.Id);
+        }
+
+        public override BuildingType getBuildingType(int propertyTypeId)
+        {
+            PropertyType type = getPropertyType(propertyTypeId);
+            return emdb.BuildingTypes.Find(type.Building.Id);
+        }
+
+        public override HeatingType getHeatingType(int propertyTypeId)
+        {
+            PropertyType type = getPropertyType(propertyTypeId);
+            return emdb.HeatingTypes.Find(type.Heating.Id);
+        }
+
+        public override WallType getWallType(int propertyTypeId)
+        {
+            PropertyType type = getPropertyType(propertyTypeId);
+            return emdb.WallTypes.Find(type.Walls.Id);
+        }
+
+
+        ///single attributes
+
+        public string getUserPassword(int userId)
+        {
+            User user = emdb.Users.Find(userId);
+            return user.Password;
+        }
+
+
+        ///whole tables
+
+        public override List<PropertyType> getPropertyTypes()
+        {
+            return emdb.PropertyTypes.ToList<PropertyType>();
+        }
+
+        public override List<HeatingType> getHeatingTypes()
+        {
+            return emdb.HeatingTypes.ToList<HeatingType>();
+        }
+
+        public override List<BuildingType> getBuildingTypes()
+        {
+            return emdb.BuildingTypes.ToList<BuildingType>();
+        }
+
+        public override List<WallType> getWallTypes()
+        {
+            return emdb.WallTypes.ToList<WallType>();
+        }
+
+        public override List<Period> getPeriods()
+        {
+            List<Period> periods = new List<Period>();
+            foreach (Period p in emdb.Periods)
+            {
+                Period period = new Period
+                {
+                    Id = p.Id,
+                    NumbDays = p.NumbDays,
+                    Length = p.Length
+                };
+
+                periods.Add(period);
+            }
+
+            return periods;
+        }
+
+        public override List<BenchmarkProperty> getBenchmarkProperties()
+        {
+            return emdb.Benchmarks.ToList<BenchmarkProperty>();
+        }
+
+        public override List<Property> getAllProperties()
+        {
+            return emdb.Properties.ToList<Property>();
+        }
+
+
+        ///other
+        public override Meter getDetailsForMeter(int meterId)
+        {
+            return emdb.Meters.Find(meterId);
+        }
+
+//* * * STATS METHODS - for extracting statistics from the database
+
+        public override double getTypeAverageAnnualkWh(int benchmarkId)
+        {
+            double averageAnnualkWh;
+            BenchmarkProperty benchmark = emdb.Benchmarks.Find(benchmarkId);
+
+            var annualTotals = from p in emdb.Properties
+                             where p.PropertyType.Id == benchmark.PropertyType.Id && p.AnnualkWh != 0
+                             select p.AnnualkWh;
+            double totalKwh = 0;
+            foreach (var kWh in annualTotals)
+            {
+                totalKwh += kWh;
+            }
+
+            averageAnnualkWh = totalKwh / annualTotals.Count();
+            if (annualTotals.Count() == 0)
+            {
+                averageAnnualkWh = 0;
+            }
+
+            return averageAnnualkWh;
+        }
+
+
+        public override double getTypeBestAnnualkWh(int benchmarkId)
+        {
+            BenchmarkProperty benchmark = emdb.Benchmarks.Find(benchmarkId);
+
+            var annualTotals = from p in emdb.Properties
+                               where p.PropertyType.Id == benchmark.PropertyType.Id  && p.AnnualkWh != 0
+                               select p.AnnualkWh;
+
+            double lowestkWh = 0;
+            foreach (var kWh in annualTotals)
+            {
+                ///prevent return of 0
+                if (lowestkWh == 0)
+                {
+                    lowestkWh = kWh;
+                }
+                    
+                if (kWh < lowestkWh)
+                {
+                        lowestkWh = kWh;
+                }
+            }
+
+            return lowestkWh;
+        }
+
+//* * * EDIT METHODS - for amending existing data
+
+        /// <summary>
+        /// Updates meter with specified id.  Child objects ARE NOT affected.
+        /// </summary>
+        /// <param name="meterId">id of meter to update</param>
+        /// <param name="newMeter">meter object with replacement data</param>
+        public override Meter editMeter(int meterId, Meter newMeter)
+        {
+            Meter oldMeter = emdb.Meters.Single(m => m.Id == meterId);
+
+            oldMeter.KWhtoCO2ConversionFactor = newMeter.KWhtoCO2ConversionFactor;
+            oldMeter.SerialNo = newMeter.SerialNo;
+            oldMeter.NumbDigits = newMeter.NumbDigits;
+
+            emdb.SaveChanges();
+            return oldMeter;
+        }
+
+        /// <summary>
+        /// Updates invoice with specified id.  Child objects ARE NOT updated (except meter).
+        /// </summary>
+        /// <param name="invoiceId">id of invoice to update</param>
+        /// <param name="newInvoice">invoice object with replacement data</param>
+        public override Invoice editInvoice(int invoiceId, Invoice newInvoice)
+        {
+            Invoice oldInvoice = emdb.Invoices.Include("Meter").Single(inv => inv.Id == invoiceId);
+
+            oldInvoice.Meter = emdb.Meters.Find(newInvoice.Meter.Id);
+
+            oldInvoice.PresentRead = newInvoice.PresentRead;
+            oldInvoice.PreviousRead = newInvoice.PreviousRead;
+            oldInvoice.KWh = newInvoice.KWh;
+
+            oldInvoice.ConsumptionCharge = newInvoice.ConsumptionCharge;
+            oldInvoice.StandingCharge = newInvoice.StandingCharge;
+            oldInvoice.OtherCharge = newInvoice.OtherCharge;
+
+            oldInvoice.BillDate = newInvoice.BillDate;
+            oldInvoice.StartDate = newInvoice.StartDate;
+            oldInvoice.EndDate = newInvoice.EndDate;
+
+            oldInvoice.Checked = newInvoice.Checked;
+            oldInvoice.ConsumptionIsValid = newInvoice.ConsumptionIsValid;
+            oldInvoice.CostIsValid = newInvoice.CostIsValid;
+
+            emdb.SaveChanges();
+            return oldInvoice;
+        }
+
+        /// <summary>
+        /// Updates tariff with specified id.  Child TariffBand objects ARE updated, and their ids are required in the new tariff object
+        /// </summary>
+        /// <param name="tariffId">id of tariff to update</param>
+        /// <param name="newTariff">tariff object with replacement data NLCUDING updated TariffBand objects with their ids as they exist in the database before change</param>
+        public override Tariff editTariff(int tariffId, Tariff newTariff)
+        {
+            Tariff oldTariff = emdb.Tariffs.Find(tariffId);
+
+            ///update each band item seperately
+            foreach (TariffBand newBand in newTariff.Bands)
+            {
+                editTariffBand(newBand.Id, newBand);
+            }
+
+
+            oldTariff.SCPeriod = emdb.Periods.Find(newTariff.SCPeriod.Id);
+            oldTariff.BandPeriod = emdb.Periods.Find(newTariff.BandPeriod.Id);
+
+            oldTariff.SCValue = newTariff.SCValue;
+            oldTariff.StartDate = newTariff.StartDate;
+
+            emdb.SaveChanges();            
+            return oldTariff;
+
+
+        }
+
+        /// <summary>
+        /// Update tariffBand with specified id.
+        /// </summary>
+        /// <param name="tariffBandId">id of tariff band to update</param>
+        /// <param name="tariffBand">replacement tariff band object</param>
+        public override TariffBand editTariffBand(int tariffBandId, TariffBand newBand)
+        {
+            TariffBand oldBand = emdb.TariffBands.Find(tariffBandId);
+
+            oldBand.UnitRate = newBand.UnitRate;
+            oldBand.LowerkWhLimit = newBand.LowerkWhLimit;
+            oldBand.UpperkWhLimit = newBand.UpperkWhLimit;
+
+            return oldBand;
+        }
+
+        /// <summary>
+        /// Update with specified id.  Child objects ARE NOT updated.
+        /// </summary>
+        /// <param name="userId">id of user to update</param>
+        /// <param name="newUser">user object with replacement data</param>
+        public override User editUser(int userId, User newUser)
+        {
+            User oldUser = emdb.Users.Find(userId);
+
+            oldUser.Email = newUser.Email;
+            oldUser.Forename = newUser.Forename;
+            oldUser.Password = newUser.Password;
+            oldUser.Surname = newUser.Surname;
+            oldUser.Username = newUser.Username;
+
+            emdb.SaveChanges();
+            return oldUser;
+        }
+
+        /// <summary>
+        /// Update property with specified id.  Child objects ARE NOT updated.
+        /// </summary>
+        /// <param name="propertyId">id of proeprty to update</param>
+        /// <param name="newProperty">property object with replacement data</param>
+        public override Property editProperty(int propertyId, Property newProperty)
+        {
+            Property oldProperty = emdb.Properties.Find(propertyId);
+
+            oldProperty.FloorArea = newProperty.FloorArea;
+            oldProperty.Name = newProperty.Name;
+            oldProperty.NumbBedrooms = newProperty.NumbBedrooms;
+            oldProperty.Postcode = newProperty.Postcode;
+            oldProperty.PropertyType = emdb.PropertyTypes.Find(newProperty.PropertyType.Id);
+
+            emdb.SaveChanges();
+            return oldProperty;
+        }
+
+        /// <summary>
+        /// Update note with specified id.  Child objects ARE NOT updated.
+        /// </summary>
+        /// <param name="noteId"></param>
+        /// <param name="newNote"></param>
+        /// <returns></returns>
+        public override Annotation editNote(int noteId, Annotation newNote)
+        {
+            Annotation oldNote = emdb.Annotations.Find(noteId);
+
+            oldNote.Date = newNote.Date;
+            oldNote.Note = newNote.Note;
+
+            emdb.SaveChanges();
+            return oldNote;
+        }
+
+        public override MeterReading editMeterReading(int meterReadingId, MeterReading newReading)
+        {
+            MeterReading oldReading = emdb.MeterReadings.Find(meterReadingId);
+
+            oldReading.Consumption = newReading.Consumption;
+            oldReading.Date = newReading.Date;
+            oldReading.Reading = newReading.Reading;
+
+            emdb.SaveChanges();
+            return oldReading;
+        }
+
+        public override BenchmarkProperty editBenchmark(int benchmarkId, BenchmarkProperty newBenchmark)
+        {
+            BenchmarkProperty oldBenchmark = emdb.Benchmarks.Find(benchmarkId);
+
+            oldBenchmark.BenchmarkCO2Good = newBenchmark.BenchmarkCO2Good;
+            oldBenchmark.BenchmarkCO2Typical = newBenchmark.BenchmarkCO2Typical;
+            oldBenchmark.BenchmarkkWhGood = newBenchmark.BenchmarkkWhGood;
+            oldBenchmark.BenchmarkkWhTypical = newBenchmark.BenchmarkkWhTypical;
+            oldBenchmark.FloorArea = newBenchmark.FloorArea;
+            oldBenchmark.typeAveragekWh = newBenchmark.typeAveragekWh;
+            oldBenchmark.typeBestkWh = newBenchmark.typeBestkWh;
+
+            emdb.SaveChanges();
+            return oldBenchmark;
+        }
+        
+
+//* * * SET METHODS - all data storage methods
+
+        /// <summary>
+        /// Store the user object in the database
+        /// </summary>
+        /// <param name="user"></param>
+        /// <returns>id of created user</returns>
+        public override int saveUser(User user)
+        {
+            emdb.Users.Add(user);
+            emdb.SaveChanges();
+            return user.Id;
+        }
+
+
+        /// <summary>
+        /// Store the property object in the database
+        /// </summary>
+        /// <param name="property"></param>
+        /// <returns>id of the created property</returns>
+        public override int saveProperty(Property property)
+        {
+            emdb.Properties.Add(property);
+            emdb.SaveChanges();
+            return property.Id;
+        }
+
+
+        /// <summary>
+        /// Store the meter object in the database
+        /// </summary>
+        /// <param name="meter"></param>
+        public override int saveMeter(Meter meter)
+        {
+            emdb.Meters.Add(meter);
+            emdb.SaveChanges();
+            return meter.Id;
+        }
+
+        /// <summary>
+        /// Saves the meter reading object to the database
+        /// </summary>
+        /// <param name="meterReading"></param>
+        public override int saveMeterReading(MeterReading meterReading)
+        {
+            emdb.MeterReadings.Add(meterReading);
+            emdb.SaveChanges();
+            return meterReading.Id;
+        }
+
+
+        /// <summary>
+        /// Saves the invoice object to the databse
+        /// </summary>
+        /// <param name="invoice"></param>
+        public override int saveInvoice(Invoice invoice)
+        {
+            emdb.Invoices.Add(invoice);
+            emdb.SaveChanges();
+            return invoice.Id;
+        }
+
+        /// <summary>
+        /// Saves the tariff object to the databse
+        /// </summary>
+        /// <param name="tariff"></param>
+        public override int saveTariff(Tariff tariff)
+        {
+            tariff.Bands = new List<TariffBand>();
+            emdb.Tariffs.Add(tariff);
+            emdb.SaveChanges();
+            return tariff.Id;
+        }
+
+
+        /// <summary>
+        /// Saves a tariff band object to the database
+        /// </summary>
+        /// <param name="tariffBand"></param>
+        public override int saveTariffBand(TariffBand tariffBand)
+        {
+            emdb.TariffBands.Add(tariffBand);
+            emdb.SaveChanges();
+            return tariffBand.Id;
+        }
+
+        /// <summary>
+        /// Saves the annotation object to the database
+        /// </summary>
+        /// <param name="note"></param>
+        public override int saveNote(Annotation note)
+        {
+            emdb.Annotations.Add(note);
+            emdb.SaveChanges();
+            return note.Id;
+        }
+
+
+
+//* * * DELETE METHODS - for removing objects from the database
+        
+        public override void deleteInvoice(int invoiceId)
+        {
+            emdb.Invoices.Remove(emdb.Invoices.Find(invoiceId));
+            emdb.SaveChanges();
+        }
+
+        public override void deleteMeter(int meterId)
+        {
+            Meter meter = emdb.Meters.Find(meterId);
+
+            ///remove child objects
+            meter.Invoices.ToList().ForEach(inv => deleteInvoice(inv.Id));
+            meter.Register.ToList().ForEach(rdg => deleteReading(rdg.Id));
+            meter.Tariffs.ToList().ForEach(tariff => deleteTariff(tariff.Id));
+            meter.Notes.ToList().ForEach(note => deleteNote(note.Id));
+
+            emdb.Meters.Remove(emdb.Meters.Find(meterId));
+            emdb.SaveChanges();
+        }
+
+        public override void deleteNote(int noteId)
+        {
+            emdb.Annotations.Remove(emdb.Annotations.Find(noteId));
+            emdb.SaveChanges();
+        }
+
+        public override void deleteProperty(int propertyId)
+        {
+            Property property = emdb.Properties.Find(propertyId);
+            property.Meters.ToList().ForEach(meter => deleteMeter(meter.Id));
+            emdb.Properties.Remove(emdb.Properties.Find(propertyId));
+            emdb.SaveChanges();
+        }
+
+        public override void deleteReading(int readingId)
+        {
+            emdb.MeterReadings.Remove(emdb.MeterReadings.Find(readingId));
+            emdb.SaveChanges();
+        }
+
+        public override void deleteTariff(int tariffId)
+        {
+            Tariff tariff = emdb.Tariffs.Find(tariffId);
+            tariff.Bands.ToList().ForEach(tb => deleteTariffBand(tb.Id));
+            emdb.Tariffs.Remove(emdb.Tariffs.Find(tariffId));
+            emdb.SaveChanges();
+        }
+
+        public override void deleteTariffBand(int bandId)
+        {
+            emdb.TariffBands.Remove(emdb.TariffBands.Find(bandId));
+            emdb.SaveChanges();
+        }
+
+//* * * LINKING METHODS
+
+        public override void addPropertyToUser(int propertyId, int userId)
+        {
+            User user = emdb.Users.Find(userId);
+            Property property = emdb.Properties.Find(propertyId);
+
+            user.Properties.Add(property);
+            emdb.SaveChanges();
+        }
+
+        public override void addMeterToProperty(int meterId, int propertyId)
+        {
+            Meter meter = emdb.Meters.Find(meterId);
+            Property property = emdb.Properties.Find(propertyId);
+
+            property.Meters.Add(meter);
+            emdb.SaveChanges();
+        }
+
+        public override void addInvoiceToMeter(int invoiceId, int meterId)
+        {
+            Invoice invoice = emdb.Invoices.Find(invoiceId);
+            Meter meter = emdb.Meters.Find(meterId);
+
+            meter.Invoices.Add(invoice);
+            addMeterToInvoice(meterId, invoiceId);
+            emdb.SaveChanges();
+        }
+
+        public override void addMeterToInvoice(int meterId, int invoiceId)
+        {
+            Invoice invoice = emdb.Invoices.Find(invoiceId);
+            Meter meter = emdb.Meters.Find(meterId);
+
+            invoice.Meter = meter;
+            emdb.SaveChanges();
+        }
+
+        public override void addTariffToMeter(int tariffId, int meterId)
+        {
+            Tariff tariff = emdb.Tariffs.Find(tariffId);
+            Meter meter = emdb.Meters.Find(meterId);
+
+            meter.Tariffs.Add(tariff);
+            emdb.SaveChanges();
+        }
+
+        public override void addBandToTariff(int bandId, int tariffId)
+        {
+            Tariff tariff = emdb.Tariffs.Find(tariffId);
+            TariffBand band = emdb.TariffBands.Find(bandId);
+
+            tariff.Bands.Add(band);
+            emdb.SaveChanges();
+        }
+
+        public override void addNoteToMeter(int noteId, int meterId)
+        {
+            Annotation note = emdb.Annotations.Find(noteId);
+            Meter meter = emdb.Meters.Find(meterId);
+
+            meter.Notes.Add(note);
+            emdb.SaveChanges();
+        }
+
+        public void addReadingToMeter(int readingId, int meterId)
+        {
+            MeterReading reading = emdb.MeterReadings.Find(readingId);
+            Meter meter = emdb.Meters.Find(meterId);
+
+            meter.Register.Add(reading);
+            emdb.SaveChanges();
+        }
+    }
+}
+]]></source>
+</chunk>
+</document>
+<document src="C:\Users\David Sauntson\Documents\Project Codes\emAPI\emAPI\emAPI\DAL\EMDatabase.cs" renderPrefix="s3"><chunk hits="-1" domain="unknown"><source><![CDATA[/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
+ * DAVID SAUNTSON 12993011                                               *
+ * MSc Software Engineering - Final Year Project                         *
+ *                                                                       *
+ * Energy Management API & Software                                      *
+ * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
+ * 
+ * EMDatabase.cs 
+ * Code source: Handwritten
+ */
+		
+
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Data.Entity;
+using emAPI.ClassLibrary;
+using emAPI.DAL;
+
+namespace emAPI.DAL
+{
+    /// <summary>
+    /// An entity framework 4.1 implementation of the databse
+    /// </summary>
+    class EMDatabase : DbContext
+    {
+        ]]></source>
+</chunk>
+<method name=".ctor" namespace="emAPI.DAL" type="emAPI.DAL.EMDatabase" typeName="EMDatabase" token="600025e" module="emAPI.dll"><hits/>
+<coverage domain="usercodeundertest" unit="block" covered="0" total="4" coveredRatio="0"/>
+</method>
+<chunk hits="0" offset="0000" domain="usercodeundertest"><source><![CDATA[internal EMDatabase()]]></source>
+</chunk>
+<chunk hits="-1" domain="unknown"><source><![CDATA[
+        ]]></source>
+</chunk>
+<chunk hits="0" offset="0007" domain="usercodeundertest"><source><![CDATA[{]]></source>
+</chunk>
+<chunk hits="-1" domain="unknown"><source><![CDATA[
+            //Seed method to populate the database with sample data
+            ]]></source>
+</chunk>
+<chunk hits="0" offset="0008" domain="usercodeundertest"><source><![CDATA[System.Data.Entity.Database.SetInitializer(new SampleData());]]></source>
+</chunk>
+<chunk hits="-1" domain="unknown"><source><![CDATA[
+        ]]></source>
+</chunk>
+<chunk hits="0" offset="0013" domain="usercodeundertest"><source><![CDATA[}]]></source>
+</chunk>
+<chunk hits="-1" domain="unknown"><source><![CDATA[
+
+        //database tables
+        public DbSet<User> Users { get; set; }
+        public DbSet<Property> Properties { get; set; }
+        public DbSet<Meter> Meters { get; set; }
+        public DbSet<Invoice> Invoices { get; set; }
+        public DbSet<MeterReading> MeterReadings { get; set; }
+        public DbSet<Tariff> Tariffs { get; set; }
+        public DbSet<TariffBand> TariffBands { get; set; }
+        public DbSet<Annotation> Annotations { get; set; }
+        public DbSet<BenchmarkProperty> Benchmarks { get; set; }
+        public DbSet<PropertyType> PropertyTypes { get; set; }
+        public DbSet<HeatingType> HeatingTypes { get; set; }
+        public DbSet<WallType> WallTypes { get; set; }
+        public DbSet<BuildingType> BuildingTypes { get; set; }
+        public DbSet<Period> Periods { get; set; }
+    }
+}
+]]></source>
+</chunk>
+</document>
+<document src="C:\Users\David Sauntson\Documents\Project Codes\emAPI\emAPI\emAPI.Tests\ApportionmentManagerTest.cs" renderPrefix="s4"><chunk hits="-1" domain="unknown"><source><![CDATA[// <copyright file="ApportionmentManagerTest.cs">Copyright �  2012</copyright>
+
+using System;
+using emAPI.Controllers;
+using Microsoft.Pex.Framework;
+using Microsoft.Pex.Framework.Validation;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
+using emAPI.ClassLibrary;
+using System.Collections.Generic;
+
+namespace emAPI.Controllers
+{
+    [TestClass]
+    [PexClass(typeof(ApportionmentManager))]
+    [PexAllowedExceptionFromTypeUnderTest(typeof(ArgumentException), AcceptExceptionSubtypes = true)]
+    [PexAllowedExceptionFromTypeUnderTest(typeof(InvalidOperationException))]
+    public partial class ApportionmentManagerTest
+    {
+        [PexMethod(MaxBranches = 20000)]
+        public List<Chunk> setupDatedChunksForApportionToPeriod(
+            [PexAssumeUnderTest]ApportionmentManager target,
+            DateTime startDate,
+            DateTime endDate,
+            AppotionmentPeriod interval
+        )
+        {
+            List<Chunk> result = target.setupDatedChunksForApportionToPeriod(startDate, endDate, interval);
+            return result;
+            // TODO: add assertions to method ApportionmentManagerTest.setupDatedChunksForApportionToPeriod(ApportionmentManager, DateTime, DateTime, AppotionmentPeriod)
+        }
+        [PexMethod(MaxBranches = 20000, MaxConstraintSolverTime = 4)]
+        public List<Chunk> apportion(
+            [PexAssumeUnderTest]ApportionmentManager target,
+            List<Chunk> datedChunks,
+            List<Chunk> dataIn
+        )
+        ]]></source>
+</chunk>
+<method name="apportion" namespace="emAPI.Controllers" type="emAPI.Controllers.ApportionmentManagerTest" typeName="ApportionmentManagerTest" token="6000002" module="emAPI.Tests.dll"><hits><hit index="0" value="1"/>
+<hit index="1" value="1"/>
+<hit index="2" value="1"/>
+<hit index="3" value="1"/>
+<hit index="4" value="2"/>
+<hit index="5" value="1"/>
+<hit index="6" value="1"/>
+</hits>
+<coverage domain="userortestcode" unit="block" covered="2" total="2" coveredRatio="1"/>
+</method>
+<chunk hits="1" offset="0000" domain="userortestcode"><source><![CDATA[{]]></source>
+</chunk>
+<chunk hits="-1" domain="unknown"><source><![CDATA[
+            ]]></source>
+</chunk>
+<chunk hits="1" offset="0001" domain="userortestcode"><source><![CDATA[List<Chunk> result = target.apportion(datedChunks, dataIn);]]></source>
+</chunk>
+<chunk hits="-1" domain="unknown"><source><![CDATA[
+            ]]></source>
+</chunk>
+<chunk hits="3" offset="000a" domain="userortestcode"><source><![CDATA[return result;]]></source>
+</chunk>
+<chunk hits="-1" domain="unknown"><source><![CDATA[
+            // TODO: add assertions to method ApportionmentManagerTest.apportion(ApportionmentManager, List`1<Chunk>, List`1<Chunk>)
+        ]]></source>
+</chunk>
+<chunk hits="3" offset="000e" domain="userortestcode"><source><![CDATA[}]]></source>
+</chunk>
+<chunk hits="-1" domain="unknown"><source><![CDATA[
+    }
+}
+]]></source>
+</chunk>
+</document>
+<document src="(no sources available for some parts of System.Core, emAPI.Explorables, emAPI, EntityFramework, emAPI_ClassLibrary)" missing="true"><method name=".ctor" type="System.Linq.OrderedEnumerable`1" token="6000526" module="System.Core.dll"><hits/>
+<coverage domain="userortestcode" unit="block" covered="2" total="2" coveredRatio="1"/>
+</method>
+<method name="Create" type="emAPI.Controllers.ApportionmentManagerFactory" token="6000002" module="&lt;In Memory Module&gt;"><hits/>
+<coverage domain="userortestcode" unit="block" covered="0" total="2" coveredRatio="0"/>
+</method>
+<method name=".ctor" type="emAPI.DAL.DataAccessObject" token="6000083" module="emAPI.dll"><hits/>
+<coverage domain="usercodeundertest" unit="block" covered="0" total="2" coveredRatio="0"/>
+</method>
+<method name=".ctor" type="System.Data.Entity.DbContext" token="60000fd" module="EntityFramework.dll"><hits/>
+<coverage domain="userortestcode" unit="block" covered="0" total="6" coveredRatio="0"/>
+</method>
+<method name="GetType" type="System.Data.Entity.DbContext" token="600011b" module="EntityFramework.dll"><hits/>
+<coverage domain="userortestcode" unit="block" covered="0" total="2" coveredRatio="0"/>
+</method>
+<method name="DatabaseName" type="System.Data.Entity.Internal.DbHelpers" token="6000a34" module="EntityFramework.dll"><hits/>
+<coverage domain="userortestcode" unit="block" covered="0" total="2" coveredRatio="0"/>
+</method>
+<method name=".ctor" type="System.Data.Entity.Internal.LazyInternalConnection" token="600089c" module="EntityFramework.dll"><hits/>
+<coverage domain="userortestcode" unit="block" covered="0" total="4" coveredRatio="0"/>
+</method>
+<method name=".ctor" type="System.Data.Entity.Internal.InternalConnection" token="600089b" module="EntityFramework.dll"><hits/>
+<coverage domain="userortestcode" unit="block" covered="0" total="2" coveredRatio="0"/>
+</method>
+<method name="get_DefaultInstance" type="System.Data.Entity.Internal.AppConfig" token="60011a4" module="EntityFramework.dll"><hits/>
+<coverage domain="userortestcode" unit="block" covered="0" total="1" coveredRatio="0"/>
+</method>
+<method name="set_AppConfig" type="System.Data.Entity.Internal.InternalConnection" token="600088f" module="EntityFramework.dll"><hits/>
+<coverage domain="userortestcode" unit="block" covered="0" total="1" coveredRatio="0"/>
+</method>
+<method name="InitializeLazyInternalContext" type="System.Data.Entity.DbContext" token="6000104" module="EntityFramework.dll"><hits/>
+<coverage domain="userortestcode" unit="block" covered="0" total="3" coveredRatio="0"/>
+</method>
+<method name=".ctor" type="System.Data.Entity.Internal.LazyInternalContext" token="6000efe" module="EntityFramework.dll"><hits/>
+<coverage domain="userortestcode" unit="block" covered="0" total="2" coveredRatio="0"/>
+</method>
+<method name=".ctor" type="System.Data.Entity.Internal.InternalContext" token="6000d63" module="EntityFramework.dll"><hits/>
+<coverage domain="userortestcode" unit="block" covered="0" total="8" coveredRatio="0"/>
+</method>
+<method name=".ctor" type="System.Data.Entity.Internal.Validation.ValidationProvider" token="60010f6" module="EntityFramework.dll"><hits/>
+<coverage domain="userortestcode" unit="block" covered="0" total="6" coveredRatio="0"/>
+</method>
+<method name=".ctor" type="System.Data.Entity.ModelConfiguration.Utilities.AttributeProvider" token="600029d" module="EntityFramework.dll"><hits/>
+<coverage domain="userortestcode" unit="block" covered="0" total="2" coveredRatio="0"/>
+</method>
+<method name=".ctor" type="System.Data.Entity.Internal.Validation.EntityValidatorBuilder" token="6000182" module="EntityFramework.dll"><hits/>
+<coverage domain="userortestcode" unit="block" covered="0" total="2" coveredRatio="0"/>
+</method>
+<method name="set_AutoDetectChangesEnabled" type="System.Data.Entity.Internal.InternalContext" token="6000d81" module="EntityFramework.dll"><hits/>
+<coverage domain="userortestcode" unit="block" covered="0" total="1" coveredRatio="0"/>
+</method>
+<method name="set_ValidateOnSaveEnabled" type="System.Data.Entity.Internal.InternalContext" token="6000d83" module="EntityFramework.dll"><hits/>
+<coverage domain="userortestcode" unit="block" covered="0" total="1" coveredRatio="0"/>
+</method>
+<method name="DiscoverAndInitializeSets" type="System.Data.Entity.DbContext" token="6000105" module="EntityFramework.dll"><hits/>
+<coverage domain="userortestcode" unit="block" covered="0" total="3" coveredRatio="0"/>
+</method>
+<method name=".ctor" type="System.Data.Entity.Internal.DbSetDiscoveryService" token="6000c70" module="EntityFramework.dll"><hits/>
+<coverage domain="userortestcode" unit="block" covered="0" total="2" coveredRatio="0"/>
+</method>
+<method name="InitializeSets" type="System.Data.Entity.Internal.DbSetDiscoveryService" token="6000c72" module="EntityFramework.dll"><hits/>
+<coverage domain="userortestcode" unit="block" covered="0" total="6" coveredRatio="0"/>
+</method>
+<method name="GetSets" type="System.Data.Entity.Internal.DbSetDiscoveryService" token="6000c71" module="EntityFramework.dll"><hits/>
+<coverage domain="userortestcode" unit="block" covered="0" total="55" coveredRatio="0"/>
+</method>
+<method name=".ctor" type="System.Data.Entity.Internal.DbSetDiscoveryService+&lt;&gt;c__DisplayClass3" token="60015f2" module="EntityFramework.dll"><hits/>
+<coverage domain="userortestcode" unit="block" covered="0" total="2" coveredRatio="0"/>
+</method>
+<method name="Parameter" type="System.Linq.Expressions.Expression" token="600101e" module="System.Core.dll"><hits/>
+<coverage domain="userortestcode" unit="block" covered="0" total="12" coveredRatio="0"/>
+</method>
+<method name="RequiresNotNull" type="System.Dynamic.Utils.ContractUtils" token="6001613" module="System.Core.dll"><hits/>
+<coverage domain="userortestcode" unit="block" covered="0" total="4" coveredRatio="0"/>
+</method>
+<method name="Make" type="System.Linq.Expressions.ParameterExpression" token="6001379" module="System.Core.dll"><hits/>
+<coverage domain="userortestcode" unit="block" covered="0" total="57" coveredRatio="0"/>
+</method>
+<method name=".ctor" type="System.Linq.Expressions.TypedParameterExpression" token="6001380" module="System.Core.dll"><hits/>
+<coverage domain="userortestcode" unit="block" covered="0" total="2" coveredRatio="0"/>
+</method>
+<method name=".ctor" type="System.Linq.Expressions.ParameterExpression" token="6001378" module="System.Core.dll"><hits/>
+<coverage domain="userortestcode" unit="block" covered="0" total="2" coveredRatio="0"/>
+</method>
+<method name=".ctor" type="System.Linq.Expressions.Expression" token="6000f7e" module="System.Core.dll"><hits/>
+<coverage domain="userortestcode" unit="block" covered="0" total="2" coveredRatio="0"/>
+</method>
+<method name="Where" type="System.Linq.Enumerable" token="60003f7" module="System.Core.dll"><hits/>
+<coverage domain="userortestcode" unit="block" covered="0" total="17" coveredRatio="0"/>
+</method>
+<method name=".ctor" type="System.Linq.Enumerable+WhereArrayIterator`1" token="60004d3" module="System.Core.dll"><hits/>
+<coverage domain="userortestcode" unit="block" covered="0" total="2" coveredRatio="0"/>
+</method>
+<method name=".ctor" type="System.Linq.Enumerable+Iterator`1" token="60004c2" module="System.Core.dll"><hits/>
+<coverage domain="userortestcode" unit="block" covered="0" total="4" coveredRatio="0"/>
+</method>
+<method name="GetEnumerator" type="System.Linq.Enumerable+Iterator`1" token="60004c6" module="System.Core.dll"><hits/>
+<coverage domain="userortestcode" unit="block" covered="0" total="7" coveredRatio="0"/>
+</method>
+<method name="MoveNext" type="System.Linq.Enumerable+WhereArrayIterator`1" token="60004d5" module="System.Core.dll"><hits/>
+<coverage domain="userortestcode" unit="block" covered="0" total="8" coveredRatio="0"/>
+</method>
+<method name="&lt;GetSets&gt;b__0" type="System.Data.Entity.Internal.DbSetDiscoveryService" token="6000c77" module="EntityFramework.dll"><hits/>
+<coverage domain="userortestcode" unit="block" covered="0" total="7" coveredRatio="0"/>
+</method>
+<method name="get_Current" type="System.Linq.Enumerable+Iterator`1" token="60004c3" module="System.Core.dll"><hits/>
+<coverage domain="userortestcode" unit="block" covered="0" total="1" coveredRatio="0"/>
+</method>
+<method name="GetSetType" type="System.Data.Entity.Internal.DbSetDiscoveryService" token="6000c75" module="EntityFramework.dll"><hits/>
+<coverage domain="userortestcode" unit="block" covered="0" total="11" coveredRatio="0"/>
+</method>
+<method name="GetSetElementType" type="System.Data.Entity.Internal.DbSetDiscoveryService" token="6000c76" module="EntityFramework.dll"><hits/>
+<coverage domain="userortestcode" unit="block" covered="0" total="18" coveredRatio="0"/>
+</method>
+<method name="IsValidStructuralType" type="System.Data.Entity.ModelConfiguration.Utilities.TypeExtensions" token="600094b" module="EntityFramework.dll"><hits/>
+<coverage domain="userortestcode" unit="block" covered="0" total="16" coveredRatio="0"/>
+</method>
+<method name="IsValidStructuralPropertyType" type="System.Data.Entity.ModelConfiguration.Utilities.TypeExtensions" token="600094c" module="EntityFramework.dll"><hits/>
+<coverage domain="userortestcode" unit="block" covered="0" total="27" coveredRatio="0"/>
+</method>
+<method name="DbSetPropertyShouldBeInitialized" type="System.Data.Entity.Internal.DbSetDiscoveryService" token="6000c74" module="EntityFramework.dll"><hits/>
+<coverage domain="userortestcode" unit="block" covered="0" total="8" coveredRatio="0"/>
+</method>
+<method name="Call" type="System.Linq.Expressions.Expression" token="6000ffc" module="System.Core.dll"><hits/>
+<coverage domain="userortestcode" unit="block" covered="0" total="2" coveredRatio="0"/>
+</method>
+<method name="Call" type="System.Linq.Expressions.Expression" token="6001002" module="System.Core.dll"><hits/>
+<coverage domain="userortestcode" unit="block" covered="0" total="10" coveredRatio="0"/>
+</method>
+<method name="ToReadOnly" type="System.Dynamic.Utils.CollectionExtensions" token="6001600" module="System.Core.dll"><hits/>
+<coverage domain="userortestcode" unit="block" covered="0" total="18" coveredRatio="0"/>
+</method>
+<method name="ValidateMethodInfo" type="System.Linq.Expressions.Expression" token="6000ee4" module="System.Core.dll"><hits/>
+<coverage domain="userortestcode" unit="block" covered="0" total="9" coveredRatio="0"/>
+</method>
+<method name="ValidateStaticOrInstanceMethod" type="System.Linq.Expressions.Expression" token="6001004" module="System.Core.dll"><hits/>
+<coverage domain="userortestcode" unit="block" covered="0" total="14" coveredRatio="0"/>
+</method>
+<method name="RequiresCanRead" type="System.Linq.Expressions.Expression" token="6000f8c" module="System.Core.dll"><hits/>
+<coverage domain="userortestcode" unit="block" covered="0" total="25" coveredRatio="0"/>
+</method>
+<method name="get_NodeType" type="System.Linq.Expressions.ParameterExpression" token="600137b" module="System.Core.dll"><hits/>
+<coverage domain="userortestcode" unit="block" covered="0" total="1" coveredRatio="0"/>
+</method>
+<method name="get_Type" type="System.Linq.Expressions.TypedParameterExpression" token="6001381" module="System.Core.dll"><hits/>
+<coverage domain="userortestcode" unit="block" covered="0" total="1" coveredRatio="0"/>
+</method>
+<method name="ValidateCallInstanceType" type="System.Linq.Expressions.Expression" token="6001005" module="System.Core.dll"><hits/>
+<coverage domain="userortestcode" unit="block" covered="0" total="6" coveredRatio="0"/>
+</method>
+<method name="IsValidInstanceType" type="System.Dynamic.Utils.TypeUtils" token="60013c4" module="System.Core.dll"><hits/>
+<coverage domain="userortestcode" unit="block" covered="0" total="29" coveredRatio="0"/>
+</method>
+<method name="AreReferenceAssignable" type="System.Dynamic.Utils.TypeUtils" token="60013c3" module="System.Core.dll"><hits/>
+<coverage domain="userortestcode" unit="block" covered="0" total="11" coveredRatio="0"/>
+</method>
+<method name="AreEquivalent" type="System.Dynamic.Utils.TypeUtils" token="60013c2" module="System.Core.dll"><hits/>
+<coverage domain="userortestcode" unit="block" covered="0" total="5" coveredRatio="0"/>
+</method>
+<method name="ValidateArgumentTypes" type="System.Linq.Expressions.Expression" token="6001006" module="System.Core.dll"><hits/>
+<coverage domain="userortestcode" unit="block" covered="0" total="20" coveredRatio="0"/>
+</method>
+<method name="GetParametersForValidation" type="System.Linq.Expressions.Expression" token="6001007" module="System.Core.dll"><hits/>
+<coverage domain="userortestcode" unit="block" covered="0" total="5" coveredRatio="0"/>
+</method>
+<method name="GetParametersCached" type="System.Dynamic.Utils.TypeExtensions" token="6001693" module="System.Core.dll"><hits/>
+<coverage domain="userortestcode" unit="block" covered="0" total="13" coveredRatio="0"/>
+</method>
+<method name="TryGetValue" type="System.Dynamic.Utils.CacheDict`2" token="60015fb" module="System.Core.dll"><hits/>
+<coverage domain="userortestcode" unit="block" covered="0" total="8" coveredRatio="0"/>
+</method>
+<method name="CanCache" type="System.Dynamic.Utils.TypeUtils" token="60013dd" module="System.Core.dll"><hits/>
+<coverage domain="userortestcode" unit="block" covered="0" total="15" coveredRatio="0"/>
+</method>
+<method name="ValidateArgumentCount" type="System.Linq.Expressions.Expression" token="6001008" module="System.Core.dll"><hits/>
+<coverage domain="userortestcode" unit="block" covered="0" total="16" coveredRatio="0"/>
+</method>
+<method name=".ctor" type="System.Linq.Expressions.InstanceMethodCallExpressionN" token="6001337" module="System.Core.dll"><hits/>
+<coverage domain="userortestcode" unit="block" covered="0" total="2" coveredRatio="0"/>
+</method>
+<method name=".ctor" type="System.Linq.Expressions.MethodCallExpression" token="6001325" module="System.Core.dll"><hits/>
+<coverage domain="userortestcode" unit="block" covered="0" total="2" coveredRatio="0"/>
+</method>
+<method name="Convert" type="System.Linq.Expressions.Expression" token="600104f" module="System.Core.dll"><hits/>
+<coverage domain="userortestcode" unit="block" covered="0" total="2" coveredRatio="0"/>
+</method>
+<method name="Convert" type="System.Linq.Expressions.Expression" token="6001050" module="System.Core.dll"><hits/>
+<coverage domain="userortestcode" unit="block" covered="0" total="17" coveredRatio="0"/>
+</method>
+<method name="ValidateType" type="System.Dynamic.Utils.TypeUtils" token="60013d7" module="System.Core.dll"><hits/>
+<coverage domain="userortestcode" unit="block" covered="0" total="9" coveredRatio="0"/>
+</method>
+<method name="HasIdentityPrimitiveOrNullableConversion" type="System.Dynamic.Utils.TypeUtils" token="60013c5" module="System.Core.dll"><hits/>
+<coverage domain="userortestcode" unit="block" covered="0" total="25" coveredRatio="0"/>
+</method>
+<method name="IsNullableType" type="System.Dynamic.Utils.TypeUtils" token="60013bb" module="System.Core.dll"><hits/>
+<coverage domain="userortestcode" unit="block" covered="0" total="7" coveredRatio="0"/>
+</method>
+<method name="IsConvertible" type="System.Dynamic.Utils.TypeUtils" token="60013cc" module="System.Core.dll"><hits/>
+<coverage domain="userortestcode" unit="block" covered="0" total="8" coveredRatio="0"/>
+</method>
+<method name="GetNonNullableType" type="System.Dynamic.Utils.TypeUtils" token="60013b9" module="System.Core.dll"><hits/>
+<coverage domain="userortestcode" unit="block" covered="0" total="5" coveredRatio="0"/>
+</method>
+<method name="HasReferenceConversion" type="System.Dynamic.Utils.TypeUtils" token="60013c6" module="System.Core.dll"><hits/>
+<coverage domain="userortestcode" unit="block" covered="0" total="31" coveredRatio="0"/>
+</method>
+<method name=".ctor" type="System.Linq.Expressions.UnaryExpression" token="60013df" module="System.Core.dll"><hits/>
+<coverage domain="userortestcode" unit="block" covered="0" total="2" coveredRatio="0"/>
+</method>
+<method name="Call" type="System.Linq.Expressions.Expression" token="6000ffd" module="System.Core.dll"><hits/>
+<coverage domain="userortestcode" unit="block" covered="0" total="2" coveredRatio="0"/>
+</method>
+<method name=".ctor" type="System.Runtime.CompilerServices.TrueReadOnlyCollection`1" token="600168f" module="System.Core.dll"><hits/>
+<coverage domain="userortestcode" unit="block" covered="0" total="2" coveredRatio="0"/>
+</method>
+<method name="get_NodeType" type="System.Linq.Expressions.UnaryExpression" token="60013e1" module="System.Core.dll"><hits/>
+<coverage domain="userortestcode" unit="block" covered="0" total="1" coveredRatio="0"/>
+</method>
+<method name="get_Type" type="System.Linq.Expressions.UnaryExpression" token="60013e0" module="System.Core.dll"><hits/>
+<coverage domain="userortestcode" unit="block" covered="0" total="1" coveredRatio="0"/>
+</method>
+<method name="ValidateOneArgument" type="System.Linq.Expressions.Expression" token="6001009" module="System.Core.dll"><hits/>
+<coverage domain="userortestcode" unit="block" covered="0" total="36" coveredRatio="0"/>
+</method>
+<method name="get_NodeType" type="System.Linq.Expressions.MethodCallExpression" token="6001327" module="System.Core.dll"><hits/>
+<coverage domain="userortestcode" unit="block" covered="0" total="1" coveredRatio="0"/>
+</method>
+<method name="get_Type" type="System.Linq.Expressions.MethodCallExpression" token="6001328" module="System.Core.dll"><hits/>
+<coverage domain="userortestcode" unit="block" covered="0" total="2" coveredRatio="0"/>
+</method>
+<method name="Lambda" type="System.Linq.Expressions.Expression" token="6000fb8" module="System.Core.dll"><hits/>
+<coverage domain="userortestcode" unit="block" covered="0" total="2" coveredRatio="0"/>
+</method>
+<method name="Lambda" type="System.Linq.Expressions.Expression" token="6000fbb" module="System.Core.dll"><hits/>
+<coverage domain="userortestcode" unit="block" covered="0" total="2" coveredRatio="0"/>
+</method>
+<method name="Lambda" type="System.Linq.Expressions.Expression" token="6000fbd" module="System.Core.dll"><hits/>
+<coverage domain="userortestcode" unit="block" covered="0" total="5" coveredRatio="0"/>
+</method>
+<method name="ValidateLambdaArgs" type="System.Linq.Expressions.Expression" token="6000fca" module="System.Core.dll"><hits/>
+<coverage domain="userortestcode" unit="block" covered="0" total="80" coveredRatio="0"/>
+</method>
+<method name=".ctor" type="System.Linq.Expressions.Set`1" token="600156d" module="System.Core.dll"><hits/>
+<coverage domain="userortestcode" unit="block" covered="0" total="3" coveredRatio="0"/>
+</method>
+<method name="get_IsByRef" type="System.Linq.Expressions.ParameterExpression" token="600137d" module="System.Core.dll"><hits/>
+<coverage domain="userortestcode" unit="block" covered="0" total="2" coveredRatio="0"/>
+</method>
+<method name="GetIsByRef" type="System.Linq.Expressions.ParameterExpression" token="600137e" module="System.Core.dll"><hits/>
+<coverage domain="userortestcode" unit="block" covered="0" total="1" coveredRatio="0"/>
+</method>
+<method name="Contains" type="System.Linq.Expressions.Set`1" token="6001570" module="System.Core.dll"><hits/>
+<coverage domain="userortestcode" unit="block" covered="0" total="2" coveredRatio="0"/>
+</method>
+<method name="Add" type="System.Linq.Expressions.Set`1" token="600156e" module="System.Core.dll"><hits/>
+<coverage domain="userortestcode" unit="block" covered="0" total="2" coveredRatio="0"/>
+</method>
+<method name=".ctor" type="System.Linq.Expressions.Expression`1" token="60012d7" module="System.Core.dll"><hits/>
+<coverage domain="userortestcode" unit="block" covered="0" total="3" coveredRatio="0"/>
+</method>
+<method name=".ctor" type="System.Linq.Expressions.LambdaExpression" token="60012c9" module="System.Core.dll"><hits/>
+<coverage domain="userortestcode" unit="block" covered="0" total="2" coveredRatio="0"/>
+</method>
+<method name="Compile" type="System.Linq.Expressions.Expression`1" token="60012d8" module="System.Core.dll"><hits/>
+<coverage domain="userortestcode" unit="block" covered="0" total="2" coveredRatio="0"/>
+</method>
+<method name="Compile" type="System.Linq.Expressions.Compiler.LambdaCompiler" token="60014d0" module="System.Core.dll"><hits/>
+<coverage domain="userortestcode" unit="block" covered="0" total="6" coveredRatio="0"/>
+</method>
+<method name="AnalyzeLambda" type="System.Linq.Expressions.Compiler.LambdaCompiler" token="60014d2" module="System.Core.dll"><hits/>
+<coverage domain="userortestcode" unit="block" covered="0" total="3" coveredRatio="0"/>
+</method>
+<method name="AnalyzeLambda" type="System.Linq.Expressions.Compiler.StackSpiller" token="6001577" module="System.Core.dll"><hits/>
+<coverage domain="userortestcode" unit="block" covered="0" total="3" coveredRatio="0"/>
+</method>
+<method name=".ctor" type="System.Linq.Expressions.Compiler.StackSpiller" token="6001578" module="System.Core.dll"><hits/>
+<coverage domain="userortestcode" unit="block" covered="0" total="3" coveredRatio="0"/>
+</method>
+<method name=".ctor" type="System.Linq.Expressions.Compiler.StackSpiller+TempMaker" token="60015bb" module="System.Core.dll"><hits/>
+<coverage domain="userortestcode" unit="block" covered="0" total="3" coveredRatio="0"/>
+</method>
+<method name="Accept" type="System.Linq.Expressions.Expression`1" token="60012dc" module="System.Core.dll"><hits/>
+<coverage domain="userortestcode" unit="block" covered="0" total="2" coveredRatio="0"/>
+</method>
+<method name="Rewrite" type="System.Linq.Expressions.Compiler.StackSpiller" token="6001579" module="System.Core.dll"><hits/>
+<coverage domain="userortestcode" unit="block" covered="0" total="15" coveredRatio="0"/>
+</method>
+<method name="get_Body" type="System.Linq.Expressions.LambdaExpression" token="60012ce" module="System.Core.dll"><hits/>
+<coverage domain="userortestcode" unit="block" covered="0" total="1" coveredRatio="0"/>
+</method>
+<method name="RewriteExpressionFreeTemps" type="System.Linq.Expressions.Compiler.StackSpiller" token="600157b" module="System.Core.dll"><hits/>
+<coverage domain="userortestcode" unit="block" covered="0" total="4" coveredRatio="0"/>
+</method>
+<method name="Mark" type="System.Linq.Expressions.Compiler.StackSpiller" token="600159e" module="System.Core.dll"><hits/>
+<coverage domain="userortestcode" unit="block" covered="0" total="2" coveredRatio="0"/>
+</method>
+<method name="Mark" type="System.Linq.Expressions.Compiler.StackSpiller+TempMaker" token="60015b8" module="System.Core.dll"><hits/>
+<coverage domain="userortestcode" unit="block" covered="0" total="4" coveredRatio="0"/>
+</method>
+<method name="RewriteExpression" type="System.Linq.Expressions.Compiler.StackSpiller" token="600159c" module="System.Core.dll"><hits/>
+<coverage domain="userortestcode" unit="block" covered="0" total="133" coveredRatio="0"/>
+</method>
+<method name="RewriteMethodCallExpression" type="System.Linq.Expressions.Compiler.StackSpiller" token="6001589" module="System.Core.dll"><hits/>
+<coverage domain="userortestcode" unit="block" covered="0" total="20" coveredRatio="0"/>
+</method>
+<method name="get_Arguments" type="System.Linq.Expressions.MethodCallExpression" token="600132b" module="System.Core.dll"><hits/>
+<coverage domain="userortestcode" unit="block" covered="0" total="2" coveredRatio="0"/>
+</method>
+<method name="GetOrMakeArguments" type="System.Linq.Expressions.InstanceMethodCallExpressionN" token="600133b" module="System.Core.dll"><hits/>
+<coverage domain="userortestcode" unit="block" covered="0" total="2" coveredRatio="0"/>
+</method>
+<method name="ReturnReadOnly" type="System.Linq.Expressions.Expression" token="6000f89" module="System.Core.dll"><hits/>
+<coverage domain="userortestcode" unit="block" covered="0" total="4" coveredRatio="0"/>
+</method>
+<method name=".ctor" type="System.Linq.Expressions.Compiler.StackSpiller+ChildRewriter" token="60015bc" module="System.Core.dll"><hits/>
+<coverage domain="userortestcode" unit="block" covered="0" total="2" coveredRatio="0"/>
+</method>
+<method name="get_Object" type="System.Linq.Expressions.MethodCallExpression" token="600132a" module="System.Core.dll"><hits/>
+<coverage domain="userortestcode" unit="block" covered="0" total="2" coveredRatio="0"/>
+</method>
+<method name="GetInstance" type="System.Linq.Expressions.InstanceMethodCallExpressionN" token="600133a" module="System.Core.dll"><hits/>
+<coverage domain="userortestcode" unit="block" covered="0" total="1" coveredRatio="0"/>
+</method>
+<method name="Add" type="System.Linq.Expressions.Compiler.StackSpiller+ChildRewriter" token="60015bd" module="System.Core.dll"><hits/>
+<coverage domain="userortestcode" unit="block" covered="0" total="4" coveredRatio="0"/>
+</method>
+<method name="RewriteUnaryExpression" type="System.Linq.Expressions.Compiler.StackSpiller" token="600158f" module="System.Core.dll"><hits/>
+<coverage domain="userortestcode" unit="block" covered="0" total="13" coveredRatio="0"/>
+</method>
+<method name="get_Operand" type="System.Linq.Expressions.UnaryExpression" token="60013e2" module="System.Core.dll"><hits/>
+<coverage domain="userortestcode" unit="block" covered="0" total="1" coveredRatio="0"/>
+</method>
+<method name=".ctor" type="System.Linq.Expressions.Compiler.StackSpiller+Result" token="60015b3" module="System.Core.dll"><hits/>
+<coverage domain="userortestcode" unit="block" covered="0" total="1" coveredRatio="0"/>
+</method>
+<method name="AddArguments" type="System.Linq.Expressions.Compiler.StackSpiller+ChildRewriter" token="60015bf" module="System.Core.dll"><hits/>
+<coverage domain="userortestcode" unit="block" covered="0" total="6" coveredRatio="0"/>
+</method>
+<method name="System.Linq.Expressions.IArgumentProvider.get_ArgumentCount" type="System.Linq.Expressions.InstanceMethodCallExpressionN" token="6001339" module="System.Core.dll"><hits/>
+<coverage domain="userortestcode" unit="block" covered="0" total="2" coveredRatio="0"/>
+</method>
+<method name="System.Linq.Expressions.IArgumentProvider.GetArgument" type="System.Linq.Expressions.InstanceMethodCallExpressionN" token="6001338" module="System.Core.dll"><hits/>
+<coverage domain="userortestcode" unit="block" covered="0" total="2" coveredRatio="0"/>
+</method>
+<method name="get_Action" type="System.Linq.Expressions.Compiler.StackSpiller+ChildRewriter" token="60015c2" module="System.Core.dll"><hits/>
+<coverage domain="userortestcode" unit="block" covered="0" total="1" coveredRatio="0"/>
+</method>
+<method name="get_Rewrite" type="System.Linq.Expressions.Compiler.StackSpiller+ChildRewriter" token="60015c1" module="System.Core.dll"><hits/>
+<coverage domain="userortestcode" unit="block" covered="0" total="1" coveredRatio="0"/>
+</method>
+<method name="Finish" type="System.Linq.Expressions.Compiler.StackSpiller+ChildRewriter" token="60015c3" module="System.Core.dll"><hits/>
+<coverage domain="userortestcode" unit="block" covered="0" total="7" coveredRatio="0"/>
+</method>
+<method name="EnsureDone" type="System.Linq.Expressions.Compiler.StackSpiller+ChildRewriter" token="60015c0" module="System.Core.dll"><hits/>
+<coverage domain="userortestcode" unit="block" covered="0" total="12" coveredRatio="0"/>
+</method>
+<method name="Free" type="System.Linq.Expressions.Compiler.StackSpiller" token="600159f" module="System.Core.dll"><hits/>
+<coverage domain="userortestcode" unit="block" covered="0" total="2" coveredRatio="0"/>
+</method>
+<method name="Free" type="System.Linq.Expressions.Compiler.StackSpiller+TempMaker" token="60015b9" module="System.Core.dll"><hits/>
+<coverage domain="userortestcode" unit="block" covered="0" total="7" coveredRatio="0"/>
+</method>
+<method name="Bind" type="System.Linq.Expressions.Compiler.VariableBinder" token="60015cd" module="System.Core.dll"><hits/>
+<coverage domain="userortestcode" unit="block" covered="0" total="3" coveredRatio="0"/>
+</method>
+<method name=".ctor" type="System.Linq.Expressions.Compiler.VariableBinder" token="60015ce" module="System.Core.dll"><hits/>
+<coverage domain="userortestcode" unit="block" covered="0" total="5" coveredRatio="0"/>
+</method>
+<method name=".ctor" type="System.Linq.Expressions.Compiler.AnalyzedTree" token="60013f1" module="System.Core.dll"><hits/>
+<coverage domain="userortestcode" unit="block" covered="0" total="4" coveredRatio="0"/>
+</method>
+<method name=".ctor" type="System.Linq.Expressions.ExpressionVisitor" token="6000e31" module="System.Core.dll"><hits/>
+<coverage domain="userortestcode" unit="block" covered="0" total="2" coveredRatio="0"/>
+</method>
+<method name="Visit" type="System.Linq.Expressions.ExpressionVisitor" token="6000e32" module="System.Core.dll"><hits/>
+<coverage domain="userortestcode" unit="block" covered="0" total="4" coveredRatio="0"/>
+</method>
+<method name="Accept" type="System.Linq.Expressions.Expression`1" token="60012db" module="System.Core.dll"><hits/>
+<coverage domain="userortestcode" unit="block" covered="0" total="2" coveredRatio="0"/>
+</method>
+<method name="VisitLambda" type="System.Linq.Expressions.Compiler.VariableBinder" token="60015d1" module="System.Core.dll"><hits/>
+<coverage domain="userortestcode" unit="block" covered="0" total="11" coveredRatio="0"/>
+</method>
+<method name=".ctor" type="System.Linq.Expressions.Compiler.CompilerScope" token="6001405" module="System.Core.dll"><hits/>
+<coverage domain="userortestcode" unit="block" covered="0" total="15" coveredRatio="0"/>
+</method>
+<method name="GetVariables" type="System.Linq.Expressions.Compiler.CompilerScope" token="600141a" module="System.Core.dll"><hits/>
+<coverage domain="userortestcode" unit="block" covered="0" total="8" coveredRatio="0"/>
+</method>
+<method name="get_Parameters" type="System.Linq.Expressions.LambdaExpression" token="60012cc" module="System.Core.dll"><hits/>
+<coverage domain="userortestcode" unit="block" covered="0" total="1" coveredRatio="0"/>
+</method>
+<method name=".ctor" type="System.Linq.Expressions.Compiler.BoundConstants" token="60013ff" module="System.Core.dll"><hits/>
+<coverage domain="userortestcode" unit="block" covered="0" total="6" coveredRatio="0"/>
+</method>
+<method name="MergeScopes" type="System.Linq.Expressions.Compiler.VariableBinder" token="60015d5" module="System.Core.dll"><hits/>
+<coverage domain="userortestcode" unit="block" covered="0" total="43" coveredRatio="0"/>
+</method>
+<method name="Visit" type="System.Linq.Expressions.ExpressionVisitor" token="6000e33" module="System.Core.dll"><hits/>
+<coverage domain="userortestcode" unit="block" covered="0" total="17" coveredRatio="0"/>
+</method>
+<method name="Accept" type="System.Linq.Expressions.MethodCallExpression" token="600132e" module="System.Core.dll"><hits/>
+<coverage domain="userortestcode" unit="block" covered="0" total="2" coveredRatio="0"/>
+</method>
+<method name="VisitMethodCall" type="System.Linq.Expressions.ExpressionVisitor" token="6000e48" module="System.Core.dll"><hits/>
+<coverage domain="userortestcode" unit="block" covered="0" total="9" coveredRatio="0"/>
+</method>
+<method name="Accept" type="System.Linq.Expressions.UnaryExpression" token="60013e6" module="System.Core.dll"><hits/>
+<coverage domain="userortestcode" unit="block" covered="0" total="2" coveredRatio="0"/>
+</method>
+<method name="VisitUnary" type="System.Linq.Expressions.Compiler.VariableBinder" token="60015d0" module="System.Core.dll"><hits/>
+<coverage domain="userortestcode" unit="block" covered="0" total="8" coveredRatio="0"/>
+</method>
+<method name="Accept" type="System.Linq.Expressions.ParameterExpression" token="600137f" module="System.Core.dll"><hits/>
+<coverage domain="userortestcode" unit="block" covered="0" total="2" coveredRatio="0"/>
+</method>
+<method name="VisitParameter" type="System.Linq.Expressions.Compiler.VariableBinder" token="60015d6" module="System.Core.dll"><hits/>
+<coverage domain="userortestcode" unit="block" covered="0" total="16" coveredRatio="0"/>
+</method>
+<method name="Reference" type="System.Linq.Expressions.Compiler.VariableBinder" token="60015d8" module="System.Core.dll"><hits/>
+<coverage domain="userortestcode" unit="block" covered="0" total="26" coveredRatio="0"/>
+</method>
+<method name="IncrementCount" type="System.Dynamic.Utils.Helpers" token="6001639" module="System.Core.dll"><hits/>
+<coverage domain="userortestcode" unit="block" covered="0" total="3" coveredRatio="0"/>
+</method>
+<method name="VisitArguments" type="System.Linq.Expressions.ExpressionVisitor" token="6000e34" module="System.Core.dll"><hits/>
+<coverage domain="userortestcode" unit="block" covered="0" total="13" coveredRatio="0"/>
+</method>
+<method name="set_DebugInfoGenerator" type="System.Linq.Expressions.Compiler.AnalyzedTree" token="60013f0" module="System.Core.dll"><hits/>
+<coverage domain="userortestcode" unit="block" covered="0" total="1" coveredRatio="0"/>
+</method>
+<method name=".ctor" type="System.Linq.Expressions.Compiler.LambdaCompiler" token="60014c8" module="System.Core.dll"><hits/>
+<coverage domain="userortestcode" unit="block" covered="0" total="17" coveredRatio="0"/>
+</method>
+<method name=".ctor" type="System.Linq.Expressions.Compiler.LabelScopeInfo" token="600149d" module="System.Core.dll"><hits/>
+<coverage domain="userortestcode" unit="block" covered="0" total="2" coveredRatio="0"/>
+</method>
+<method name=".ctor" type="System.Linq.Expressions.Compiler.KeyedQueue`2" token="6001488" module="System.Core.dll"><hits/>
+<coverage domain="userortestcode" unit="block" covered="0" total="3" coveredRatio="0"/>
+</method>
+<method name="GetParameterTypes" type="System.Linq.Expressions.Compiler.LambdaCompiler" token="600151c" module="System.Core.dll"><hits/>
+<coverage domain="userortestcode" unit="block" covered="0" total="6" coveredRatio="0"/>
+</method>
+<method name="Map" type="System.Dynamic.Utils.CollectionExtensions" token="6001604" module="System.Core.dll"><hits/>
+<coverage domain="userortestcode" unit="block" covered="0" total="10" coveredRatio="0"/>
+</method>
+<method name="&lt;GetParameterTypes&gt;b__e" type="System.Linq.Expressions.Compiler.LambdaCompiler" token="600155f" module="System.Core.dll"><hits/>
+<coverage domain="userortestcode" unit="block" covered="0" total="7" coveredRatio="0"/>
+</method>
+<method name="AddFirst" type="System.Dynamic.Utils.CollectionExtensions" token="600160a" module="System.Core.dll"><hits/>
+<coverage domain="userortestcode" unit="block" covered="0" total="3" coveredRatio="0"/>
+</method>
+<method name="get_Name" type="System.Linq.Expressions.LambdaExpression" token="60012cd" module="System.Core.dll"><hits/>
+<coverage domain="userortestcode" unit="block" covered="0" total="1" coveredRatio="0"/>
+</method>
+<method name="get_ReturnType" type="System.Linq.Expressions.LambdaExpression" token="60012cf" module="System.Core.dll"><hits/>
+<coverage domain="userortestcode" unit="block" covered="0" total="4" coveredRatio="0"/>
+</method>
+<method name="get_Type" type="System.Linq.Expressions.LambdaExpression" token="60012ca" module="System.Core.dll"><hits/>
+<coverage domain="userortestcode" unit="block" covered="0" total="1" coveredRatio="0"/>
+</method>
+<method name="InitializeMethod" type="System.Linq.Expressions.Compiler.LambdaCompiler" token="60014cb" module="System.Core.dll"><hits/>
+<coverage domain="userortestcode" unit="block" covered="0" total="3" coveredRatio="0"/>
+</method>
+<method name="AddReturnLabel" type="System.Linq.Expressions.Compiler.LambdaCompiler" token="60014c6" module="System.Core.dll"><hits/>
+<coverage domain="userortestcode" unit="block" covered="0" total="20" coveredRatio="0"/>
+</method>
+<method name="EmitCacheConstants" type="System.Linq.Expressions.Compiler.BoundConstants" token="60013fb" module="System.Core.dll"><hits/>
+<coverage domain="userortestcode" unit="block" covered="0" total="42" coveredRatio="0"/>
+</method>
+<method name="EmitLambdaBody" type="System.Linq.Expressions.Compiler.LambdaCompiler" token="600151e" module="System.Core.dll"><hits/>
+<coverage domain="userortestcode" unit="block" covered="0" total="5" coveredRatio="0"/>
+</method>
+<method name="get_TailCall" type="System.Linq.Expressions.LambdaExpression" token="60012d0" module="System.Core.dll"><hits/>
+<coverage domain="userortestcode" unit="block" covered="0" total="1" coveredRatio="0"/>
+</method>
+<method name="EmitLambdaBody" type="System.Linq.Expressions.Compiler.LambdaCompiler" token="600151f" module="System.Core.dll"><hits/>
+<coverage domain="userortestcode" unit="block" covered="0" total="31" coveredRatio="0"/>
+</method>
+<method name="Enter" type="System.Linq.Expressions.Compiler.CompilerScope" token="6001407" module="System.Core.dll"><hits/>
+<coverage domain="userortestcode" unit="block" covered="0" total="9" coveredRatio="0"/>
+</method>
+<method name="SetParent" type="System.Linq.Expressions.Compiler.CompilerScope" token="6001410" module="System.Core.dll"><hits/>
+<coverage domain="userortestcode" unit="block" covered="0" total="13" coveredRatio="0"/>
+</method>
+<method name="GetVariables" type="System.Linq.Expressions.Compiler.CompilerScope" token="6001419" module="System.Core.dll"><hits/>
+<coverage domain="userortestcode" unit="block" covered="0" total="14" coveredRatio="0"/>
+</method>
+<method name=".ctor" type="System.Linq.Enumerable+WhereEnumerableIterator`1" token="60004cd" module="System.Core.dll"><hits/>
+<coverage domain="userortestcode" unit="block" covered="0" total="2" coveredRatio="0"/>
+</method>
+<method name="MoveNext" type="System.Linq.Enumerable+WhereEnumerableIterator`1" token="60004d0" module="System.Core.dll"><hits/>
+<coverage domain="userortestcode" unit="block" covered="0" total="12" coveredRatio="0"/>
+</method>
+<method name="&lt;SetParent&gt;b__0" type="System.Linq.Expressions.Compiler.CompilerScope" token="600141c" module="System.Core.dll"><hits/>
+<coverage domain="userortestcode" unit="block" covered="0" total="2" coveredRatio="0"/>
+</method>
+<method name="Dispose" type="System.Linq.Enumerable+WhereEnumerableIterator`1" token="60004cf" module="System.Core.dll"><hits/>
+<coverage domain="userortestcode" unit="block" covered="0" total="4" coveredRatio="0"/>
+</method>
+<method name="Dispose" type="System.Linq.Enumerable+Iterator`1" token="60004c5" module="System.Core.dll"><hits/>
+<coverage domain="userortestcode" unit="block" covered="0" total="1" coveredRatio="0"/>
+</method>
+<method name="AllocateLocals" type="System.Linq.Expressions.Compiler.CompilerScope" token="6001418" module="System.Core.dll"><hits/>
+<coverage domain="userortestcode" unit="block" covered="0" total="19" coveredRatio="0"/>
+</method>
+<method name="get_Parameters" type="System.Linq.Expressions.Compiler.LambdaCompiler" token="60014ce" module="System.Core.dll"><hits/>
+<coverage domain="userortestcode" unit="block" covered="0" total="2" coveredRatio="0"/>
+</method>
+<method name=".ctor" type="System.Linq.Expressions.Compiler.CompilerScope+ArgumentStorage" token="6001427" module="System.Core.dll"><hits/>
+<coverage domain="userortestcode" unit="block" covered="0" total="5" coveredRatio="0"/>
+</method>
+<method name=".ctor" type="System.Linq.Expressions.Compiler.CompilerScope+Storage" token="600141d" module="System.Core.dll"><hits/>
+<coverage domain="userortestcode" unit="block" covered="0" total="2" coveredRatio="0"/>
+</method>
+<method name="GetLambdaArgument" type="System.Linq.Expressions.Compiler.LambdaCompiler" token="60014d6" module="System.Core.dll"><hits/>
+<coverage domain="userortestcode" unit="block" covered="0" total="6" coveredRatio="0"/>
+</method>
+<method name="EmitNewHoistedLocals" type="System.Linq.Expressions.Compiler.CompilerScope" token="6001411" module="System.Core.dll"><hits/>
+<coverage domain="userortestcode" unit="block" covered="0" total="55" coveredRatio="0"/>
+</method>
+<method name="EmitCachedVariables" type="System.Linq.Expressions.Compiler.CompilerScope" token="6001412" module="System.Core.dll"><hits/>
+<coverage domain="userortestcode" unit="block" covered="0" total="19" coveredRatio="0"/>
+</method>
+<method name="ShouldCache" type="System.Linq.Expressions.Compiler.CompilerScope" token="6001413" module="System.Core.dll"><hits/>
+<coverage domain="userortestcode" unit="block" covered="0" total="4" coveredRatio="0"/>
+</method>
+<method name="UpdateEmitExpressionStartFlag" type="System.Linq.Expressions.Compiler.LambdaCompiler" token="60014dd" module="System.Core.dll"><hits/>
+<coverage domain="userortestcode" unit="block" covered="0" total="1" coveredRatio="0"/>
+</method>
+<method name="EmitExpressionAsVoid" type="System.Linq.Expressions.Compiler.LambdaCompiler" token="60014e1" module="System.Core.dll"><hits/>
+<coverage domain="userortestcode" unit="block" covered="0" total="31" coveredRatio="0"/>
+</method>
+<method name="EmitExpressionStart" type="System.Linq.Expressions.Compiler.LambdaCompiler" token="60014e3" module="System.Core.dll"><hits/>
+<coverage domain="userortestcode" unit="block" covered="0" total="4" coveredRatio="0"/>
+</method>
+<method name="TryPushLabelBlock" type="System.Linq.Expressions.Compiler.LambdaCompiler" token="60014c4" module="System.Core.dll"><hits/>
+<coverage domain="userortestcode" unit="block" covered="0" total="46" coveredRatio="0"/>
+</method>
+<method name="PushLabelBlock" type="System.Linq.Expressions.Compiler.LambdaCompiler" token="60014bf" module="System.Core.dll"><hits/>
+<coverage domain="userortestcode" unit="block" covered="0" total="2" coveredRatio="0"/>
+</method>
+<method name="EmitExpression" type="System.Linq.Expressions.Compiler.LambdaCompiler" token="6001516" module="System.Core.dll"><hits/>
+<coverage domain="userortestcode" unit="block" covered="0" total="144" coveredRatio="0"/>
+</method>
+<method name="EmitMethodCallExpression" type="System.Linq.Expressions.Compiler.LambdaCompiler" token="60014eb" module="System.Core.dll"><hits/>
+<coverage domain="userortestcode" unit="block" covered="0" total="4" coveredRatio="0"/>
+</method>
+<method name="get_Method" type="System.Linq.Expressions.MethodCallExpression" token="6001329" module="System.Core.dll"><hits/>
+<coverage domain="userortestcode" unit="block" covered="0" total="1" coveredRatio="0"/>
+</method>
+<method name="EmitMethodCall" type="System.Linq.Expressions.Compiler.LambdaCompiler" token="60014ee" module="System.Core.dll"><hits/>
+<coverage domain="userortestcode" unit="block" covered="0" total="12" coveredRatio="0"/>
+</method>
+<method name="EmitInstance" type="System.Linq.Expressions.Compiler.LambdaCompiler" token="6001505" module="System.Core.dll"><hits/>
+<coverage domain="userortestcode" unit="block" covered="0" total="7" coveredRatio="0"/>
+</method>
+<method name="EmitExpression" type="System.Linq.Expressions.Compiler.LambdaCompiler" token="60014df" module="System.Core.dll"><hits/>
+<coverage domain="userortestcode" unit="block" covered="0" total="2" coveredRatio="0"/>
+</method>
+<method name="EmitConvertUnaryExpression" type="System.Linq.Expressions.Compiler.LambdaCompiler" token="600155a" module="System.Core.dll"><hits/>
+<coverage domain="userortestcode" unit="block" covered="0" total="2" coveredRatio="0"/>
+</method>
+<method name="EmitConvert" type="System.Linq.Expressions.Compiler.LambdaCompiler" token="600155b" module="System.Core.dll"><hits/>
+<coverage domain="userortestcode" unit="block" covered="0" total="53" coveredRatio="0"/>
+</method>
+<method name="get_Method" type="System.Linq.Expressions.UnaryExpression" token="60013e3" module="System.Core.dll"><hits/>
+<coverage domain="userortestcode" unit="block" covered="0" total="1" coveredRatio="0"/>
+</method>
+<method name="EmitParameterExpression" type="System.Linq.Expressions.Compiler.LambdaCompiler" token="60014ff" module="System.Core.dll"><hits/>
+<coverage domain="userortestcode" unit="block" covered="0" total="6" coveredRatio="0"/>
+</method>
+<method name="EmitGet" type="System.Linq.Expressions.Compiler.CompilerScope" token="600140b" module="System.Core.dll"><hits/>
+<coverage domain="userortestcode" unit="block" covered="0" total="3" coveredRatio="0"/>
+</method>
+<method name="ResolveVariable" type="System.Linq.Expressions.Compiler.CompilerScope" token="600140e" module="System.Core.dll"><hits/>
+<coverage domain="userortestcode" unit="block" covered="0" total="3" coveredRatio="0"/>
+</method>
+<method name="get_NearestHoistedLocals" type="System.Linq.Expressions.Compiler.CompilerScope" token="6001406" module="System.Core.dll"><hits/>
+<coverage domain="userortestcode" unit="block" covered="0" total="3" coveredRatio="0"/>
+</method>
+<method name="ResolveVariable" type="System.Linq.Expressions.Compiler.CompilerScope" token="600140f" module="System.Core.dll"><hits/>
+<coverage domain="userortestcode" unit="block" covered="0" total="18" coveredRatio="0"/>
+</method>
+<method name="EmitLoad" type="System.Linq.Expressions.Compiler.CompilerScope+ArgumentStorage" token="6001428" module="System.Core.dll"><hits/>
+<coverage domain="userortestcode" unit="block" covered="0" total="3" coveredRatio="0"/>
+</method>
+<method name="get_IL" type="System.Linq.Expressions.Compiler.LambdaCompiler" token="60014cd" module="System.Core.dll"><hits/>
+<coverage domain="userortestcode" unit="block" covered="0" total="1" coveredRatio="0"/>
+</method>
+<method name="EmitLoadArg" type="System.Linq.Expressions.Compiler.ILGen" token="6001454" module="System.Core.dll"><hits/>
+<coverage domain="userortestcode" unit="block" covered="0" total="14" coveredRatio="0"/>
+</method>
+<method name="EmitExpressionEnd" type="System.Linq.Expressions.Compiler.LambdaCompiler" token="60014e4" module="System.Core.dll"><hits/>
+<coverage domain="userortestcode" unit="block" covered="0" total="3" coveredRatio="0"/>
+</method>
+<method name="EmitConvertToType" type="System.Linq.Expressions.Compiler.ILGen" token="6001476" module="System.Core.dll"><hits/>
+<coverage domain="userortestcode" unit="block" covered="0" total="51" coveredRatio="0"/>
+</method>
+<method name="IsLegalExplicitVariantDelegateConversion" type="System.Dynamic.Utils.TypeUtils" token="60013cb" module="System.Core.dll"><hits/>
+<coverage domain="userortestcode" unit="block" covered="0" total="37" coveredRatio="0"/>
+</method>
+<method name="IsDelegate" type="System.Dynamic.Utils.TypeUtils" token="60013ca" module="System.Core.dll"><hits/>
+<coverage domain="userortestcode" unit="block" covered="0" total="3" coveredRatio="0"/>
+</method>
+<method name="EmitCastToType" type="System.Linq.Expressions.Compiler.ILGen" token="6001477" module="System.Core.dll"><hits/>
+<coverage domain="userortestcode" unit="block" covered="0" total="25" coveredRatio="0"/>
+</method>
+<method name="EmitMethodCall" type="System.Linq.Expressions.Compiler.LambdaCompiler" token="60014f0" module="System.Core.dll"><hits/>
+<coverage domain="userortestcode" unit="block" covered="0" total="24" coveredRatio="0"/>
+</method>
+<method name="EmitArguments" type="System.Linq.Expressions.Compiler.LambdaCompiler" token="60014f4" module="System.Core.dll"><hits/>
+<coverage domain="userortestcode" unit="block" covered="0" total="2" coveredRatio="0"/>
+</method>
+<method name="EmitArguments" type="System.Linq.Expressions.Compiler.LambdaCompiler" token="60014f5" module="System.Core.dll"><hits/>
+<coverage domain="userortestcode" unit="block" covered="0" total="15" coveredRatio="0"/>
+</method>
+<method name="UseVirtual" type="System.Linq.Expressions.Compiler.LambdaCompiler" token="60014f3" module="System.Core.dll"><hits/>
+<coverage domain="userortestcode" unit="block" covered="0" total="8" coveredRatio="0"/>
+</method>
+<method name="EmitWriteBack" type="System.Linq.Expressions.Compiler.LambdaCompiler" token="60014f6" module="System.Core.dll"><hits/>
+<coverage domain="userortestcode" unit="block" covered="0" total="9" coveredRatio="0"/>
+</method>
+<method name="PopLabelBlock" type="System.Linq.Expressions.Compiler.LambdaCompiler" token="60014c0" module="System.Core.dll"><hits/>
+<coverage domain="userortestcode" unit="block" covered="0" total="1" coveredRatio="0"/>
+</method>
+<method name="Exit" type="System.Linq.Expressions.Compiler.CompilerScope" token="6001408" module="System.Core.dll"><hits/>
+<coverage domain="userortestcode" unit="block" covered="0" total="12" coveredRatio="0"/>
+</method>
+<method name="CreateDelegate" type="System.Linq.Expressions.Compiler.LambdaCompiler" token="60014d9" module="System.Core.dll"><hits/>
+<coverage domain="userortestcode" unit="block" covered="0" total="5" coveredRatio="0"/>
+</method>
+<method name="ToArray" type="System.Linq.Expressions.Compiler.BoundConstants" token="60013f8" module="System.Core.dll"><hits/>
+<coverage domain="userortestcode" unit="block" covered="0" total="2" coveredRatio="0"/>
+</method>
+<method name=".ctor" type="System.Runtime.CompilerServices.Closure" token="6001404" module="System.Core.dll"><hits/>
+<coverage domain="userortestcode" unit="block" covered="0" total="2" coveredRatio="0"/>
+</method>
+<method name="CreateDelegate" type="System.Dynamic.Utils.TypeExtensions" token="6001691" module="System.Core.dll"><hits/>
+<coverage domain="userortestcode" unit="block" covered="0" total="6" coveredRatio="0"/>
+</method>
+<method name=".ctor" type="System.Data.Entity.Internal.DbContextTypesInitializersPair" token="6001067" module="EntityFramework.dll"><hits/>
+<coverage domain="userortestcode" unit="block" covered="0" total="2" coveredRatio="0"/>
+</method>
+<method name="get_EntityTypeToPropertyNameMap" type="System.Data.Entity.Internal.DbContextTypesInitializersPair" token="6001068" module="EntityFramework.dll"><hits/>
+<coverage domain="userortestcode" unit="block" covered="0" total="2" coveredRatio="0"/>
+</method>
+<method name="get_SetsInitializer" type="System.Data.Entity.Internal.DbContextTypesInitializersPair" token="6001069" module="EntityFramework.dll"><hits/>
+<coverage domain="userortestcode" unit="block" covered="0" total="2" coveredRatio="0"/>
+</method>
+<method name="&lt;GetSets&gt;b__1" type="System.Data.Entity.Internal.DbSetDiscoveryService+&lt;&gt;c__DisplayClass3" token="60015f3" module="EntityFramework.dll"><hits/>
+<coverage domain="userortestcode" unit="block" covered="0" total="8" coveredRatio="0"/>
+</method>
+<method name="Set" type="System.Data.Entity.DbContext" token="6000109" module="EntityFramework.dll"><hits/>
+<coverage domain="userortestcode" unit="block" covered="0" total="3" coveredRatio="0"/>
+</method>
+<method name="get_InternalContext" type="System.Data.Entity.DbContext" token="6000117" module="EntityFramework.dll"><hits/>
+<coverage domain="userortestcode" unit="block" covered="0" total="1" coveredRatio="0"/>
+</method>
+<method name="Set" type="System.Data.Entity.Internal.InternalContext" token="6000d89" module="EntityFramework.dll"><hits/>
+<coverage domain="userortestcode" unit="block" covered="0" total="13" coveredRatio="0"/>
+</method>
+<method name=".ctor" type="System.Data.Entity.Internal.Linq.InternalSet`1" token="6000ba4" module="EntityFramework.dll"><hits/>
+<coverage domain="userortestcode" unit="block" covered="0" total="2" coveredRatio="0"/>
+</method>
+<method name=".ctor" type="System.Data.Entity.Internal.Linq.InternalQuery`1" token="600004c" module="EntityFramework.dll"><hits/>
+<coverage domain="userortestcode" unit="block" covered="0" total="2" coveredRatio="0"/>
+</method>
+<method name=".ctor" type="System.Data.Entity.DbSet`1" token="6000e75" module="EntityFramework.dll"><hits/>
+<coverage domain="userortestcode" unit="block" covered="0" total="2" coveredRatio="0"/>
+</method>
+<method name=".ctor" type="System.Data.Entity.Infrastructure.DbQuery`1" token="60008c9" module="EntityFramework.dll"><hits/>
+<coverage domain="userortestcode" unit="block" covered="0" total="2" coveredRatio="0"/>
+</method>
+<method name="set_Users" type="emAPI.DAL.EMDatabase" token="6000260" module="emAPI.dll"><hits/>
+<coverage domain="usercodeundertest" unit="block" covered="0" total="1" coveredRatio="0"/>
+</method>
+<method name="set_Properties" type="emAPI.DAL.EMDatabase" token="6000262" module="emAPI.dll"><hits/>
+<coverage domain="usercodeundertest" unit="block" covered="0" total="1" coveredRatio="0"/>
+</method>
+<method name="set_Meters" type="emAPI.DAL.EMDatabase" token="6000264" module="emAPI.dll"><hits/>
+<coverage domain="usercodeundertest" unit="block" covered="0" total="1" coveredRatio="0"/>
+</method>
+<method name="set_Invoices" type="emAPI.DAL.EMDatabase" token="6000266" module="emAPI.dll"><hits/>
+<coverage domain="usercodeundertest" unit="block" covered="0" total="1" coveredRatio="0"/>
+</method>
+<method name="set_MeterReadings" type="emAPI.DAL.EMDatabase" token="6000268" module="emAPI.dll"><hits/>
+<coverage domain="usercodeundertest" unit="block" covered="0" total="1" coveredRatio="0"/>
+</method>
+<method name="set_Tariffs" type="emAPI.DAL.EMDatabase" token="600026a" module="emAPI.dll"><hits/>
+<coverage domain="usercodeundertest" unit="block" covered="0" total="1" coveredRatio="0"/>
+</method>
+<method name="set_TariffBands" type="emAPI.DAL.EMDatabase" token="600026c" module="emAPI.dll"><hits/>
+<coverage domain="usercodeundertest" unit="block" covered="0" total="1" coveredRatio="0"/>
+</method>
+<method name="set_Annotations" type="emAPI.DAL.EMDatabase" token="600026e" module="emAPI.dll"><hits/>
+<coverage domain="usercodeundertest" unit="block" covered="0" total="1" coveredRatio="0"/>
+</method>
+<method name="set_Benchmarks" type="emAPI.DAL.EMDatabase" token="6000270" module="emAPI.dll"><hits/>
+<coverage domain="usercodeundertest" unit="block" covered="0" total="1" coveredRatio="0"/>
+</method>
+<method name="set_PropertyTypes" type="emAPI.DAL.EMDatabase" token="6000272" module="emAPI.dll"><hits/>
+<coverage domain="usercodeundertest" unit="block" covered="0" total="1" coveredRatio="0"/>
+</method>
+<method name="set_HeatingTypes" type="emAPI.DAL.EMDatabase" token="6000274" module="emAPI.dll"><hits/>
+<coverage domain="usercodeundertest" unit="block" covered="0" total="1" coveredRatio="0"/>
+</method>
+<method name="set_WallTypes" type="emAPI.DAL.EMDatabase" token="6000276" module="emAPI.dll"><hits/>
+<coverage domain="usercodeundertest" unit="block" covered="0" total="1" coveredRatio="0"/>
+</method>
+<method name="set_BuildingTypes" type="emAPI.DAL.EMDatabase" token="6000278" module="emAPI.dll"><hits/>
+<coverage domain="usercodeundertest" unit="block" covered="0" total="1" coveredRatio="0"/>
+</method>
+<method name="set_Periods" type="emAPI.DAL.EMDatabase" token="600027a" module="emAPI.dll"><hits/>
+<coverage domain="usercodeundertest" unit="block" covered="0" total="1" coveredRatio="0"/>
+</method>
+<method name=".ctor" type="emAPI.DAL.SampleData" token="60000aa" module="emAPI.dll"><hits/>
+<coverage domain="usercodeundertest" unit="block" covered="0" total="2" coveredRatio="0"/>
+</method>
+<method name=".ctor" type="System.Data.Entity.DropCreateDatabaseIfModelChanges`1" token="6000dcf" module="EntityFramework.dll"><hits/>
+<coverage domain="userortestcode" unit="block" covered="0" total="2" coveredRatio="0"/>
+</method>
+<method name="SetInitializer" type="System.Data.Entity.Database" token="6000f2b" module="EntityFramework.dll"><hits/>
+<coverage domain="userortestcode" unit="block" covered="0" total="2" coveredRatio="0"/>
+</method>
+<method name="SetInitializerInternal" type="System.Data.Entity.Database" token="6000f2c" module="EntityFramework.dll"><hits/>
+<coverage domain="userortestcode" unit="block" covered="0" total="9" coveredRatio="0"/>
+</method>
+<method name=".ctor" type="System.Data.Entity.Database+&lt;&gt;c__DisplayClass2`1" token="6001667" module="EntityFramework.dll"><hits/>
+<coverage domain="userortestcode" unit="block" covered="0" total="2" coveredRatio="0"/>
+</method>
+<method name=".ctor" type="System.Data.Entity.Internal.InitializerLockPair" token="60007b4" module="EntityFramework.dll"><hits/>
+<coverage domain="userortestcode" unit="block" covered="0" total="2" coveredRatio="0"/>
+</method>
+<method name="set_emdb" type="emAPI.DAL.EMDataManager" token="600018f" module="emAPI.dll"><hits/>
+<coverage domain="usercodeundertest" unit="block" covered="0" total="1" coveredRatio="0"/>
+</method>
+<method name="set_DataManager" type="emAPI.Controllers.EMMediator" token="6000248" module="emAPI.dll"><hits/>
+<coverage domain="usercodeundertest" unit="block" covered="0" total="1" coveredRatio="0"/>
+</method>
+<method name="OrderBy" type="System.Linq.Enumerable" token="6000419" module="System.Core.dll"><hits/>
+<coverage domain="userortestcode" unit="block" covered="2" total="2" coveredRatio="1"/>
+</method>
+<method name=".ctor" type="System.Linq.OrderedEnumerable`2" token="6000527" module="System.Core.dll"><hits/>
+<coverage domain="userortestcode" unit="block" covered="8" total="11" coveredRatio="0.72727272727272729"/>
+</method>
+<method name="ArgumentNull" type="System.Linq.Error" token="6000695" module="System.Core.dll"><hits/>
+<coverage domain="userortestcode" unit="block" covered="2" total="2" coveredRatio="1"/>
+</method>
+<method name="&lt;SetInitializerInternal&gt;b__1" type="System.Data.Entity.Database+&lt;&gt;c__DisplayClass2`1" token="6001669" module="EntityFramework.dll"><hits/>
+<coverage domain="userortestcode" unit="block" covered="0" total="6" coveredRatio="0"/>
+</method>
+<method name="get_IsLocked" type="System.Data.Entity.Internal.InitializerLockPair" token="60007b6" module="EntityFramework.dll"><hits/>
+<coverage domain="userortestcode" unit="block" covered="0" total="2" coveredRatio="0"/>
+</method>
+<method name="GetEnumerator" type="System.Linq.OrderedEnumerable`1" token="6000522" module="System.Core.dll"><hits/>
+<coverage domain="userortestcode" unit="block" covered="2" total="2" coveredRatio="1"/>
+</method>
+<method name=".ctor" type="System.Linq.OrderedEnumerable`1+&lt;GetEnumerator&gt;d__0" token="60019c6" module="System.Core.dll"><hits/>
+<coverage domain="userortestcode" unit="block" covered="2" total="2" coveredRatio="1"/>
+</method>
+<method name="ToList" type="System.Linq.Enumerable" token="600043f" module="System.Core.dll"><hits/>
+<coverage domain="userortestcode" unit="block" covered="3" total="5" coveredRatio="0.6"/>
+</method>
+<method name="MoveNext" type="System.Linq.OrderedEnumerable`1+&lt;GetEnumerator&gt;d__0" token="60019c1" module="System.Core.dll"><hits/>
+<coverage domain="userortestcode" unit="block" covered="9" total="10" coveredRatio="0.9"/>
+</method>
+<method name=".ctor" type="System.Linq.Buffer`1" token="6000531" module="System.Core.dll"><hits/>
+<coverage domain="userortestcode" unit="block" covered="6" total="19" coveredRatio="0.31578947368421051"/>
+</method>
+<method name="System.IDisposable.Dispose" type="System.Linq.OrderedEnumerable`1+&lt;GetEnumerator&gt;d__0" token="60019c4" module="System.Core.dll"><hits/>
+<coverage domain="userortestcode" unit="block" covered="1" total="1" coveredRatio="1"/>
+</method>
+<method name="First" type="System.Linq.Enumerable" token="600044f" module="System.Core.dll"><hits/>
+<coverage domain="userortestcode" unit="block" covered="8" total="18" coveredRatio="0.44444444444444442"/>
+</method>
+<method name="NoElements" type="System.Linq.Error" token="6000690" module="System.Core.dll"><hits/>
+<coverage domain="userortestcode" unit="block" covered="3" total="3" coveredRatio="1"/>
+</method>
+<method name="get_NoElements" type="System.Linq.Strings" token="6000648" module="System.Core.dll"><hits/>
+<coverage domain="userortestcode" unit="block" covered="2" total="2" coveredRatio="1"/>
+</method>
+<method name="GetString" type="System.Linq.SR" token="60018aa" module="System.Core.dll"><hits/>
+<coverage domain="userortestcode" unit="block" covered="5" total="6" coveredRatio="0.83333333333333337"/>
+</method>
+<method name="GetLoader" type="System.Linq.SR" token="60018a6" module="System.Core.dll"><hits/>
+<coverage domain="userortestcode" unit="block" covered="4" total="4" coveredRatio="1"/>
+</method>
+<method name=".ctor" type="System.Linq.SR" token="60018a5" module="System.Core.dll"><hits/>
+<coverage domain="userortestcode" unit="block" covered="5" total="5" coveredRatio="1"/>
+</method>
+<method name="get_Culture" type="System.Linq.SR" token="60018a7" module="System.Core.dll"><hits/>
+<coverage domain="userortestcode" unit="block" covered="1" total="1" coveredRatio="1"/>
+</method>
+<method name="GetEnumerableSorter" type="System.Linq.OrderedEnumerable`2" token="6000528" module="System.Core.dll"><hits/>
+<coverage domain="userortestcode" unit="block" covered="3" total="5" coveredRatio="0.6"/>
+</method>
+<method name=".ctor" type="System.Linq.EnumerableSorter`2" token="600052e" module="System.Core.dll"><hits/>
+<coverage domain="userortestcode" unit="block" covered="2" total="2" coveredRatio="1"/>
+</method>
+<method name=".ctor" type="System.Linq.EnumerableSorter`1" token="600052d" module="System.Core.dll"><hits/>
+<coverage domain="userortestcode" unit="block" covered="2" total="2" coveredRatio="1"/>
+</method>
+<method name="ComputeKeys" type="System.Linq.EnumerableSorter`2" token="600052f" module="System.Core.dll"><hits/>
+<coverage domain="userortestcode" unit="block" covered="5" total="6" coveredRatio="0.83333333333333337"/>
+</method>
+<method name="CompareKeys" type="System.Linq.EnumerableSorter`2" token="6000530" module="System.Core.dll"><hits/>
+<coverage domain="userortestcode" unit="block" covered="6" total="9" coveredRatio="0.66666666666666663"/>
+</method>
+<method name="QuickSort" type="System.Linq.EnumerableSorter`1" token="600052c" module="System.Core.dll"><hits/>
+<coverage domain="userortestcode" unit="block" covered="21" total="22" coveredRatio="0.95454545454545459"/>
+</method>
+<method name="Sort" type="System.Linq.EnumerableSorter`1" token="600052b" module="System.Core.dll"><hits/>
+<coverage domain="userortestcode" unit="block" covered="5" total="5" coveredRatio="1"/>
+</method>
+<method name="get_StartDate" type="emAPI.ClassLibrary.Chunk" token="60000e4" module="emAPI_ClassLibrary.dll"><hits/>
+<coverage domain="userortestcode" unit="block" covered="1" total="1" coveredRatio="1"/>
+</method>
+<method name="System.Collections.Generic.IEnumerator&lt;TElement&gt;.get_Current" type="System.Linq.OrderedEnumerable`1+&lt;GetEnumerator&gt;d__0" token="60019c2" module="System.Core.dll"><hits/>
+<coverage domain="userortestcode" unit="block" covered="1" total="1" coveredRatio="1"/>
+</method>
+<method name="Last" type="System.Linq.Enumerable" token="6000453" module="System.Core.dll"><hits/>
+<coverage domain="userortestcode" unit="block" covered="6" total="20" coveredRatio="0.3"/>
+</method>
+<method name="get_EndDate" type="emAPI.ClassLibrary.Chunk" token="60000e6" module="emAPI_ClassLibrary.dll"><hits/>
+<coverage domain="userortestcode" unit="block" covered="1" total="1" coveredRatio="1"/>
+</method>
+<method name="get_Amount" type="emAPI.ClassLibrary.Chunk" token="60000e8" module="emAPI_ClassLibrary.dll"><hits/>
+<coverage domain="userortestcode" unit="block" covered="1" total="1" coveredRatio="1"/>
+</method>
+<method name="set_StartDate" type="emAPI.ClassLibrary.Chunk" token="60000e5" module="emAPI_ClassLibrary.dll"><hits/>
+<coverage domain="userortestcode" unit="block" covered="1" total="1" coveredRatio="1"/>
+</method>
+<method name="set_EndDate" type="emAPI.ClassLibrary.Chunk" token="60000e7" module="emAPI_ClassLibrary.dll"><hits/>
+<coverage domain="userortestcode" unit="block" covered="1" total="1" coveredRatio="1"/>
+</method>
+<method name="set_Amount" type="emAPI.ClassLibrary.Chunk" token="60000e9" module="emAPI_ClassLibrary.dll"><hits/>
+<coverage domain="userortestcode" unit="block" covered="1" total="1" coveredRatio="1"/>
+</method>
+<method name="ElementAt" type="System.Linq.Enumerable" token="600045b" module="System.Core.dll"><hits/>
+<coverage domain="userortestcode" unit="block" covered="4" total="20" coveredRatio="0.2"/>
+</method>
+</document>
+</documents>

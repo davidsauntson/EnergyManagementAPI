@@ -1,0 +1,132 @@
+﻿@*----------------------------------------------------------
+DAVID SAUNTSON
+
+ENERGY MANAGER WEB APPLICATION
+HANDWRITTEN
+VIEW FILE (.cshtml)
+
+Analysis/Money
+----------------------------------------------------------*@
+
+@model EnergyManagerWebApp.Models.AnalysisOptionsModel
+         
+     
+<script type="text/javascript">
+    $(function () {
+    
+            $("#startdate").datepicker(
+            {
+                dateFormat: "dd/mm/yy",
+                changeYear: 'True',
+                onSelect: function (selectedDate) {
+                    $("#enddate").datepicker("option", "minDate", selectedDate);
+                }
+            });
+    
+            $("#enddate").datepicker(
+            {
+                dateFormat: "dd/mm/yy",
+                changeYear: 'True',
+                onSelect: function (selectedDate) {
+                    $("#startdate").datepicker("option", "maxDate", selectedDate);
+                }
+            });
+        });
+    
+</script>   
+<body>
+
+@using (Html.BeginForm())
+{
+    <div style="display:inline-block">
+        <h1>Financial Analysis <span class="faded"> @Model.property.Property.Name</span></h1>
+    </div>
+    <div style="display:inline-block; float: right;">
+        <input type="submit" value="Z" class="icon" />@Html.DropDownListFor(model => model.propertyId, new SelectList(Model.UsersProperties, "Id", "Name"))
+    </div>
+    <h2>Energy Cost History</h2>
+    <p>
+        Keep an eye on your energy bills and see how much you have spent over time.  
+    </p>
+    
+ <div style="display:inline-block; width:8%;">
+    <p>
+        @Html.HiddenFor(model => model.propertyId)   
+    
+        <input type="submit" value="Graph" />
+    </p>
+ </div>
+    
+ <div style="display:inline-block; width:90%; padding-left:12px; vertical-align: middle;">
+    <div>
+        <div>          
+            <div style="display:inline-block; width: 30%">
+                <div class="editor-label-narrow">
+                    Select interval
+                </div>
+            </div>
+            <div style="display:inline-block; width: 30%">
+                <div class="editor-label-narrow">
+                    Start Date
+                </div>
+            </div>
+            <div style="display:inline-block; width: 30%">
+                <div class="editor-label-narrow">
+                    End Date
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <div>
+        <div>          
+            <div style="display:inline-block; width: 30%">
+                <div class="editor-field-no-validation">
+                    @Html.DropDownListFor(model => model.periodId, new SelectList(Model.Periods, "Id", "Length"), new { id = "period" })
+                </div>
+            </div>
+            <div style="display:inline-block; width: 30%">
+                <div class="editor-field-no-validation">
+                    @Html.TextBoxFor(model => model.startDate, new { @id = "startdate", @Value = Model.startDate.ToShortDateString() })
+                </div>
+            </div>
+            <div style="display:inline-block; width: 30%">
+                <div class="editor-field-no-validation">
+                    @Html.TextBoxFor(model => model.endDate, new { @id = "enddate", @Value = Model.endDate.ToShortDateString() })
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+           
+    }
+
+
+        <div id="graph">
+            @Html.Action("IntervalGraph", new { options = Model, dataTypeId = 2 /*cost*/})
+        </div>
+
+    
+    
+    
+    
+ 
+    <div>   
+        <h2>Energy Cost Comparison</h2>
+        <p>
+            How does your energy bill compare against other users?  The graph below shows the total annual cost of each property in our database.  We've highlighted yours
+            so it's easy to see how you're doing.
+        </p>
+        <p>
+            NB Properties with no invoices will not be shown.
+        </p>
+        <div >
+            @*@Html.Action("ComparativeGraph")*@
+            <iframe style="border:0px; width:100%; height:450px" src="@Url.Action("ComparativeGraph")"></iframe>
+        </div>
+    </div>
+    
+    <div class="back">
+        @Html.ActionLink("Back", "Analysis", "Property", new { propertyId = Model.property.Property.Id }, null)
+    </div>
+</body>

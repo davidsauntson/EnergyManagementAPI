@@ -1,0 +1,85 @@
+﻿@*----------------------------------------------------------
+DAVID SAUNTSON
+
+ENERGY MANAGER WEB APPLICATION
+HANDWRITTEN
+VIEW FILE (.cshtml)
+
+Reading/Index
+----------------------------------------------------------*@
+
+@model EnergyManagerWebApp.Models.MeterReadingListViewModel
+<script type="text/javascript">
+    function scrollToTop() {
+        window.scroll(0, 0);
+    }
+</script>
+
+<div class="title">
+    <h2>Meter Reading History - @Model.MeterDetails.Meter.SerialNo</h2>
+</div>
+
+<div>
+            All your meter readings for this meter are listed here.  Click on the icons to amend a reading.
+            <ul style="list-style-type:none;">
+                <li><span class="icon">p</span> edit reading</li>
+                <li><span class="icon">#</span> delete reading</li>
+            </ul>
+</div>
+<p>
+    <br />
+    @Html.ActionLink("Back", "Home", "Meter", new { meterId = Model.MeterDetails.Meter.Id, propertyId = Model.MeterDetails.BelongsToProperty, type = Model.MeterDetails.Meter.Fuel }, null)
+</p>
+
+<div id = "reading"></div>
+<div id = "deletereading" class="delete"></div>
+
+<div style="display:inline-block; width:60%;">
+    <table>
+    <colgroup>
+        <col style="width:20%"/>
+        <col style="width:20%"/>
+        <col style="width:20%"/>
+        <col style="width:3%"/>
+        <col style="width:3%"/>
+    </colgroup>
+        <tr>
+            <th>
+                Date
+            </th>
+            <th>
+                Reading
+            </th>
+            <th>
+                Energy, kWh
+            </th>
+        </tr>
+    
+    @foreach (var rdg in Model.Readings ) {
+        <tr class="hover">
+            <td>
+                @Html.DisplayFor(modelItem => rdg.Date, "ShortDateTime")
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => rdg.Reading)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => rdg.Consumption)
+            </td>
+            <td class="tableicon">
+                <span class="icon">@Ajax.ActionLink("p", "Edit", "Reading",
+                                                    new { readingId = rdg.Id, meterId = Model.MeterDetails.Meter.Id, propertyId = Model.MeterDetails.BelongsToProperty, fuel = Model.MeterDetails.Meter.Fuel },
+                                                    new AjaxOptions { HttpMethod = "GET", UpdateTargetId = "reading", InsertionMode = InsertionMode.Replace }, new { onclick = "scrollToTop()" })
+                                                    </span>
+            </td>
+            <td class="tableicon">
+                <span class="icon">@Ajax.ActionLink("#", "Delete", "Reading", 
+                                                    new { readingId = rdg.Id, meterId = Model.MeterDetails.Meter.Id,  propertyId = Model.MeterDetails.BelongsToProperty, fuel = Model.MeterDetails.Meter.Fuel },
+                                                    new AjaxOptions { HttpMethod="GET", UpdateTargetId = "deletereading", InsertionMode = InsertionMode.Replace }, new { onclick = "scrollToTop()" })
+                                                    </span>
+            </td>
+        </tr>
+    }
+    
+    </table>
+</div>

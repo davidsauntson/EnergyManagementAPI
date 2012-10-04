@@ -1,0 +1,1140 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<wsdl:definitions xmlns:wsap="http://schemas.xmlsoap.org/ws/2004/08/addressing/policy" xmlns:wsa10="http://www.w3.org/2005/08/addressing" xmlns:tns="http://tempuri.org/" xmlns:msc="http://schemas.microsoft.com/ws/2005/12/wsdl/contract" xmlns:soapenc="http://schemas.xmlsoap.org/soap/encoding/" xmlns:wsp="http://schemas.xmlsoap.org/ws/2004/09/policy" xmlns:wsam="http://www.w3.org/2007/05/addressing/metadata" xmlns:soap12="http://schemas.xmlsoap.org/wsdl/soap12/" xmlns:wsa="http://schemas.xmlsoap.org/ws/2004/08/addressing" xmlns:wsaw="http://www.w3.org/2006/05/addressing/wsdl" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:wsu="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-utility-1.0.xsd" xmlns:xsd="http://www.w3.org/2001/XMLSchema" name="emAPI" targetNamespace="http://tempuri.org/" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">
+  <wsdl:types>
+    <xsd:schema targetNamespace="http://tempuri.org/Imports">
+      <xsd:import namespace="http://tempuri.org/" />
+      <xsd:import namespace="http://schemas.microsoft.com/2003/10/Serialization/" />
+    </xsd:schema>
+  </wsdl:types>
+  <wsdl:message name="IemAPI_deleteTariff_InputMessage">
+    <wsdl:part name="parameters" element="tns:deleteTariff" />
+  </wsdl:message>
+  <wsdl:message name="IemAPI_deleteTariff_OutputMessage">
+    <wsdl:part name="parameters" element="tns:deleteTariffResponse" />
+  </wsdl:message>
+  <wsdl:message name="IemAPI_validateInvoice_InputMessage">
+    <wsdl:part name="parameters" element="tns:validateInvoice" />
+  </wsdl:message>
+  <wsdl:message name="IemAPI_validateInvoice_OutputMessage">
+    <wsdl:part name="parameters" element="tns:validateInvoiceResponse" />
+  </wsdl:message>
+  <wsdl:message name="IemAPI_forecastNextInvoice_InputMessage">
+    <wsdl:part name="parameters" element="tns:forecastNextInvoice" />
+  </wsdl:message>
+  <wsdl:message name="IemAPI_forecastNextInvoice_OutputMessage">
+    <wsdl:part name="parameters" element="tns:forecastNextInvoiceResponse" />
+  </wsdl:message>
+  <wsdl:message name="IemAPI_getMeter_InputMessage">
+    <wsdl:part name="parameters" element="tns:getMeter" />
+  </wsdl:message>
+  <wsdl:message name="IemAPI_getMeter_OutputMessage">
+    <wsdl:part name="parameters" element="tns:getMeterResponse" />
+  </wsdl:message>
+  <wsdl:message name="IemAPI_getReading_InputMessage">
+    <wsdl:part name="parameters" element="tns:getReading" />
+  </wsdl:message>
+  <wsdl:message name="IemAPI_getReading_OutputMessage">
+    <wsdl:part name="parameters" element="tns:getReadingResponse" />
+  </wsdl:message>
+  <wsdl:message name="IemAPI_getMeterReadings_InputMessage">
+    <wsdl:part name="parameters" element="tns:getMeterReadings" />
+  </wsdl:message>
+  <wsdl:message name="IemAPI_getMeterReadings_OutputMessage">
+    <wsdl:part name="parameters" element="tns:getMeterReadingsResponse" />
+  </wsdl:message>
+  <wsdl:message name="IemAPI_getMinimumReadingDate_InputMessage">
+    <wsdl:part name="parameters" element="tns:getMinimumReadingDate" />
+  </wsdl:message>
+  <wsdl:message name="IemAPI_getMinimumReadingDate_OutputMessage">
+    <wsdl:part name="parameters" element="tns:getMinimumReadingDateResponse" />
+  </wsdl:message>
+  <wsdl:message name="IemAPI_getMinimumReadingDateForEdit_InputMessage">
+    <wsdl:part name="parameters" element="tns:getMinimumReadingDateForEdit" />
+  </wsdl:message>
+  <wsdl:message name="IemAPI_getMinimumReadingDateForEdit_OutputMessage">
+    <wsdl:part name="parameters" element="tns:getMinimumReadingDateForEditResponse" />
+  </wsdl:message>
+  <wsdl:message name="IemAPI_getLastInvoiceDate_InputMessage">
+    <wsdl:part name="parameters" element="tns:getLastInvoiceDate" />
+  </wsdl:message>
+  <wsdl:message name="IemAPI_getLastInvoiceDate_OutputMessage">
+    <wsdl:part name="parameters" element="tns:getLastInvoiceDateResponse" />
+  </wsdl:message>
+  <wsdl:message name="IemAPI_getDetailsForMeter_InputMessage">
+    <wsdl:part name="parameters" element="tns:getDetailsForMeter" />
+  </wsdl:message>
+  <wsdl:message name="IemAPI_getDetailsForMeter_OutputMessage">
+    <wsdl:part name="parameters" element="tns:getDetailsForMeterResponse" />
+  </wsdl:message>
+  <wsdl:message name="IemAPI_getDataFromMeter_InputMessage">
+    <wsdl:part name="parameters" element="tns:getDataFromMeter" />
+  </wsdl:message>
+  <wsdl:message name="IemAPI_getDataFromMeter_OutputMessage">
+    <wsdl:part name="parameters" element="tns:getDataFromMeterResponse" />
+  </wsdl:message>
+  <wsdl:message name="IemAPI_getDataFromMeterByInterval_InputMessage">
+    <wsdl:part name="parameters" element="tns:getDataFromMeterByInterval" />
+  </wsdl:message>
+  <wsdl:message name="IemAPI_getDataFromMeterByInterval_OutputMessage">
+    <wsdl:part name="parameters" element="tns:getDataFromMeterByIntervalResponse" />
+  </wsdl:message>
+  <wsdl:message name="IemAPI_createElectricityMeter_InputMessage">
+    <wsdl:part name="parameters" element="tns:createElectricityMeter" />
+  </wsdl:message>
+  <wsdl:message name="IemAPI_createElectricityMeter_OutputMessage">
+    <wsdl:part name="parameters" element="tns:createElectricityMeterResponse" />
+  </wsdl:message>
+  <wsdl:message name="IemAPI_createGasMeter_InputMessage">
+    <wsdl:part name="parameters" element="tns:createGasMeter" />
+  </wsdl:message>
+  <wsdl:message name="IemAPI_createGasMeter_OutputMessage">
+    <wsdl:part name="parameters" element="tns:createGasMeterResponse" />
+  </wsdl:message>
+  <wsdl:message name="IemAPI_createMeterReading_InputMessage">
+    <wsdl:part name="parameters" element="tns:createMeterReading" />
+  </wsdl:message>
+  <wsdl:message name="IemAPI_createMeterReading_OutputMessage">
+    <wsdl:part name="parameters" element="tns:createMeterReadingResponse" />
+  </wsdl:message>
+  <wsdl:message name="IemAPI_editMeter_InputMessage">
+    <wsdl:part name="parameters" element="tns:editMeter" />
+  </wsdl:message>
+  <wsdl:message name="IemAPI_editMeter_OutputMessage">
+    <wsdl:part name="parameters" element="tns:editMeterResponse" />
+  </wsdl:message>
+  <wsdl:message name="IemAPI_editMeterReading_InputMessage">
+    <wsdl:part name="parameters" element="tns:editMeterReading" />
+  </wsdl:message>
+  <wsdl:message name="IemAPI_editMeterReading_OutputMessage">
+    <wsdl:part name="parameters" element="tns:editMeterReadingResponse" />
+  </wsdl:message>
+  <wsdl:message name="IemAPI_deleteMeter_InputMessage">
+    <wsdl:part name="parameters" element="tns:deleteMeter" />
+  </wsdl:message>
+  <wsdl:message name="IemAPI_deleteMeter_OutputMessage">
+    <wsdl:part name="parameters" element="tns:deleteMeterResponse" />
+  </wsdl:message>
+  <wsdl:message name="IemAPI_deleteReading_InputMessage">
+    <wsdl:part name="parameters" element="tns:deleteReading" />
+  </wsdl:message>
+  <wsdl:message name="IemAPI_deleteReading_OutputMessage">
+    <wsdl:part name="parameters" element="tns:deleteReadingResponse" />
+  </wsdl:message>
+  <wsdl:message name="IemAPI_getInvoicesForMeter_InputMessage">
+    <wsdl:part name="parameters" element="tns:getInvoicesForMeter" />
+  </wsdl:message>
+  <wsdl:message name="IemAPI_getInvoicesForMeter_OutputMessage">
+    <wsdl:part name="parameters" element="tns:getInvoicesForMeterResponse" />
+  </wsdl:message>
+  <wsdl:message name="IemAPI_getInvoice_InputMessage">
+    <wsdl:part name="parameters" element="tns:getInvoice" />
+  </wsdl:message>
+  <wsdl:message name="IemAPI_getInvoice_OutputMessage">
+    <wsdl:part name="parameters" element="tns:getInvoiceResponse" />
+  </wsdl:message>
+  <wsdl:message name="IemAPI_createInvoice_InputMessage">
+    <wsdl:part name="parameters" element="tns:createInvoice" />
+  </wsdl:message>
+  <wsdl:message name="IemAPI_createInvoice_OutputMessage">
+    <wsdl:part name="parameters" element="tns:createInvoiceResponse" />
+  </wsdl:message>
+  <wsdl:message name="IemAPI_editInvoice_InputMessage">
+    <wsdl:part name="parameters" element="tns:editInvoice" />
+  </wsdl:message>
+  <wsdl:message name="IemAPI_editInvoice_OutputMessage">
+    <wsdl:part name="parameters" element="tns:editInvoiceResponse" />
+  </wsdl:message>
+  <wsdl:message name="IemAPI_deleteInvoice_InputMessage">
+    <wsdl:part name="parameters" element="tns:deleteInvoice" />
+  </wsdl:message>
+  <wsdl:message name="IemAPI_deleteInvoice_OutputMessage">
+    <wsdl:part name="parameters" element="tns:deleteInvoiceResponse" />
+  </wsdl:message>
+  <wsdl:message name="IemAPI_getSCPeriods_InputMessage">
+    <wsdl:part name="parameters" element="tns:getSCPeriods" />
+  </wsdl:message>
+  <wsdl:message name="IemAPI_getSCPeriods_OutputMessage">
+    <wsdl:part name="parameters" element="tns:getSCPeriodsResponse" />
+  </wsdl:message>
+  <wsdl:message name="IemAPI_getTariff_InputMessage">
+    <wsdl:part name="parameters" element="tns:getTariff" />
+  </wsdl:message>
+  <wsdl:message name="IemAPI_getTariff_OutputMessage">
+    <wsdl:part name="parameters" element="tns:getTariffResponse" />
+  </wsdl:message>
+  <wsdl:message name="IemAPI_getMinimumTariffDate_InputMessage">
+    <wsdl:part name="parameters" element="tns:getMinimumTariffDate" />
+  </wsdl:message>
+  <wsdl:message name="IemAPI_getMinimumTariffDate_OutputMessage">
+    <wsdl:part name="parameters" element="tns:getMinimumTariffDateResponse" />
+  </wsdl:message>
+  <wsdl:message name="IemAPI_getMinimumTariffDateForEdit_InputMessage">
+    <wsdl:part name="parameters" element="tns:getMinimumTariffDateForEdit" />
+  </wsdl:message>
+  <wsdl:message name="IemAPI_getMinimumTariffDateForEdit_OutputMessage">
+    <wsdl:part name="parameters" element="tns:getMinimumTariffDateForEditResponse" />
+  </wsdl:message>
+  <wsdl:message name="IemAPI_createTariff_InputMessage">
+    <wsdl:part name="parameters" element="tns:createTariff" />
+  </wsdl:message>
+  <wsdl:message name="IemAPI_createTariff_OutputMessage">
+    <wsdl:part name="parameters" element="tns:createTariffResponse" />
+  </wsdl:message>
+  <wsdl:message name="IemAPI_createTariffBand_InputMessage">
+    <wsdl:part name="parameters" element="tns:createTariffBand" />
+  </wsdl:message>
+  <wsdl:message name="IemAPI_createTariffBand_OutputMessage">
+    <wsdl:part name="parameters" element="tns:createTariffBandResponse" />
+  </wsdl:message>
+  <wsdl:message name="IemAPI_editTariff_InputMessage">
+    <wsdl:part name="parameters" element="tns:editTariff" />
+  </wsdl:message>
+  <wsdl:message name="IemAPI_editTariff_OutputMessage">
+    <wsdl:part name="parameters" element="tns:editTariffResponse" />
+  </wsdl:message>
+  <wsdl:message name="IemAPI_usernameIsUnique_InputMessage">
+    <wsdl:part name="parameters" element="tns:usernameIsUnique" />
+  </wsdl:message>
+  <wsdl:message name="IemAPI_usernameIsUnique_OutputMessage">
+    <wsdl:part name="parameters" element="tns:usernameIsUniqueResponse" />
+  </wsdl:message>
+  <wsdl:message name="IemAPI_emailIsUnique_InputMessage">
+    <wsdl:part name="parameters" element="tns:emailIsUnique" />
+  </wsdl:message>
+  <wsdl:message name="IemAPI_emailIsUnique_OutputMessage">
+    <wsdl:part name="parameters" element="tns:emailIsUniqueResponse" />
+  </wsdl:message>
+  <wsdl:message name="IemAPI_createUser_InputMessage">
+    <wsdl:part name="parameters" element="tns:createUser" />
+  </wsdl:message>
+  <wsdl:message name="IemAPI_createUser_OutputMessage">
+    <wsdl:part name="parameters" element="tns:createUserResponse" />
+  </wsdl:message>
+  <wsdl:message name="IemAPI_validateUser_InputMessage">
+    <wsdl:part name="parameters" element="tns:validateUser" />
+  </wsdl:message>
+  <wsdl:message name="IemAPI_validateUser_OutputMessage">
+    <wsdl:part name="parameters" element="tns:validateUserResponse" />
+  </wsdl:message>
+  <wsdl:message name="IemAPI_getPropertiesForUser_InputMessage">
+    <wsdl:part name="parameters" element="tns:getPropertiesForUser" />
+  </wsdl:message>
+  <wsdl:message name="IemAPI_getPropertiesForUser_OutputMessage">
+    <wsdl:part name="parameters" element="tns:getPropertiesForUserResponse" />
+  </wsdl:message>
+  <wsdl:message name="IemAPI_getUser_InputMessage">
+    <wsdl:part name="parameters" element="tns:getUser" />
+  </wsdl:message>
+  <wsdl:message name="IemAPI_getUser_OutputMessage">
+    <wsdl:part name="parameters" element="tns:getUserResponse" />
+  </wsdl:message>
+  <wsdl:message name="IemAPI_getComparativeCostsForUser_InputMessage">
+    <wsdl:part name="parameters" element="tns:getComparativeCostsForUser" />
+  </wsdl:message>
+  <wsdl:message name="IemAPI_getComparativeCostsForUser_OutputMessage">
+    <wsdl:part name="parameters" element="tns:getComparativeCostsForUserResponse" />
+  </wsdl:message>
+  <wsdl:message name="IemAPI_editUser_InputMessage">
+    <wsdl:part name="parameters" element="tns:editUser" />
+  </wsdl:message>
+  <wsdl:message name="IemAPI_editUser_OutputMessage">
+    <wsdl:part name="parameters" element="tns:editUserResponse" />
+  </wsdl:message>
+  <wsdl:message name="IemAPI_updatePassword_InputMessage">
+    <wsdl:part name="parameters" element="tns:updatePassword" />
+  </wsdl:message>
+  <wsdl:message name="IemAPI_updatePassword_OutputMessage">
+    <wsdl:part name="parameters" element="tns:updatePasswordResponse" />
+  </wsdl:message>
+  <wsdl:message name="IemAPI_getPropertyTypes_InputMessage">
+    <wsdl:part name="parameters" element="tns:getPropertyTypes" />
+  </wsdl:message>
+  <wsdl:message name="IemAPI_getPropertyTypes_OutputMessage">
+    <wsdl:part name="parameters" element="tns:getPropertyTypesResponse" />
+  </wsdl:message>
+  <wsdl:message name="IemAPI_getProperty_InputMessage">
+    <wsdl:part name="parameters" element="tns:getProperty" />
+  </wsdl:message>
+  <wsdl:message name="IemAPI_getProperty_OutputMessage">
+    <wsdl:part name="parameters" element="tns:getPropertyResponse" />
+  </wsdl:message>
+  <wsdl:message name="IemAPI_createProperty_InputMessage">
+    <wsdl:part name="parameters" element="tns:createProperty" />
+  </wsdl:message>
+  <wsdl:message name="IemAPI_createProperty_OutputMessage">
+    <wsdl:part name="parameters" element="tns:createPropertyResponse" />
+  </wsdl:message>
+  <wsdl:message name="IemAPI_getPropertyTypeId_InputMessage">
+    <wsdl:part name="parameters" element="tns:getPropertyTypeId" />
+  </wsdl:message>
+  <wsdl:message name="IemAPI_getPropertyTypeId_OutputMessage">
+    <wsdl:part name="parameters" element="tns:getPropertyTypeIdResponse" />
+  </wsdl:message>
+  <wsdl:message name="IemAPI_getHeatingTypes_InputMessage">
+    <wsdl:part name="parameters" element="tns:getHeatingTypes" />
+  </wsdl:message>
+  <wsdl:message name="IemAPI_getHeatingTypes_OutputMessage">
+    <wsdl:part name="parameters" element="tns:getHeatingTypesResponse" />
+  </wsdl:message>
+  <wsdl:message name="IemAPI_getBuildingTypes_InputMessage">
+    <wsdl:part name="parameters" element="tns:getBuildingTypes" />
+  </wsdl:message>
+  <wsdl:message name="IemAPI_getBuildingTypes_OutputMessage">
+    <wsdl:part name="parameters" element="tns:getBuildingTypesResponse" />
+  </wsdl:message>
+  <wsdl:message name="IemAPI_getWallTypes_InputMessage">
+    <wsdl:part name="parameters" element="tns:getWallTypes" />
+  </wsdl:message>
+  <wsdl:message name="IemAPI_getWallTypes_OutputMessage">
+    <wsdl:part name="parameters" element="tns:getWallTypesResponse" />
+  </wsdl:message>
+  <wsdl:message name="IemAPI_getTotalData_InputMessage">
+    <wsdl:part name="parameters" element="tns:getTotalData" />
+  </wsdl:message>
+  <wsdl:message name="IemAPI_getTotalData_OutputMessage">
+    <wsdl:part name="parameters" element="tns:getTotalDataResponse" />
+  </wsdl:message>
+  <wsdl:message name="IemAPI_getElecData_InputMessage">
+    <wsdl:part name="parameters" element="tns:getElecData" />
+  </wsdl:message>
+  <wsdl:message name="IemAPI_getElecData_OutputMessage">
+    <wsdl:part name="parameters" element="tns:getElecDataResponse" />
+  </wsdl:message>
+  <wsdl:message name="IemAPI_getGasData_InputMessage">
+    <wsdl:part name="parameters" element="tns:getGasData" />
+  </wsdl:message>
+  <wsdl:message name="IemAPI_getGasData_OutputMessage">
+    <wsdl:part name="parameters" element="tns:getGasDataResponse" />
+  </wsdl:message>
+  <wsdl:message name="IemAPI_getBenchmarkForProperty_InputMessage">
+    <wsdl:part name="parameters" element="tns:getBenchmarkForProperty" />
+  </wsdl:message>
+  <wsdl:message name="IemAPI_getBenchmarkForProperty_OutputMessage">
+    <wsdl:part name="parameters" element="tns:getBenchmarkForPropertyResponse" />
+  </wsdl:message>
+  <wsdl:message name="IemAPI_getAnonymousProperties_InputMessage">
+    <wsdl:part name="parameters" element="tns:getAnonymousProperties" />
+  </wsdl:message>
+  <wsdl:message name="IemAPI_getAnonymousProperties_OutputMessage">
+    <wsdl:part name="parameters" element="tns:getAnonymousPropertiesResponse" />
+  </wsdl:message>
+  <wsdl:message name="IemAPI_getDataAtProperty_InputMessage">
+    <wsdl:part name="parameters" element="tns:getDataAtProperty" />
+  </wsdl:message>
+  <wsdl:message name="IemAPI_getDataAtProperty_OutputMessage">
+    <wsdl:part name="parameters" element="tns:getDataAtPropertyResponse" />
+  </wsdl:message>
+  <wsdl:message name="IemAPI_getBuildingType_InputMessage">
+    <wsdl:part name="parameters" element="tns:getBuildingType" />
+  </wsdl:message>
+  <wsdl:message name="IemAPI_getBuildingType_OutputMessage">
+    <wsdl:part name="parameters" element="tns:getBuildingTypeResponse" />
+  </wsdl:message>
+  <wsdl:message name="IemAPI_getHeatingType_InputMessage">
+    <wsdl:part name="parameters" element="tns:getHeatingType" />
+  </wsdl:message>
+  <wsdl:message name="IemAPI_getHeatingType_OutputMessage">
+    <wsdl:part name="parameters" element="tns:getHeatingTypeResponse" />
+  </wsdl:message>
+  <wsdl:message name="IemAPI_getWallType_InputMessage">
+    <wsdl:part name="parameters" element="tns:getWallType" />
+  </wsdl:message>
+  <wsdl:message name="IemAPI_getWallType_OutputMessage">
+    <wsdl:part name="parameters" element="tns:getWallTypeResponse" />
+  </wsdl:message>
+  <wsdl:message name="IemAPI_editProperty_InputMessage">
+    <wsdl:part name="parameters" element="tns:editProperty" />
+  </wsdl:message>
+  <wsdl:message name="IemAPI_editProperty_OutputMessage">
+    <wsdl:part name="parameters" element="tns:editPropertyResponse" />
+  </wsdl:message>
+  <wsdl:message name="IemAPI_deleteProperty_InputMessage">
+    <wsdl:part name="parameters" element="tns:deleteProperty" />
+  </wsdl:message>
+  <wsdl:message name="IemAPI_deleteProperty_OutputMessage">
+    <wsdl:part name="parameters" element="tns:deletePropertyResponse" />
+  </wsdl:message>
+  <wsdl:message name="IemAPI_updateBenchmarks_InputMessage">
+    <wsdl:part name="parameters" element="tns:updateBenchmarks" />
+  </wsdl:message>
+  <wsdl:message name="IemAPI_updateBenchmarks_OutputMessage">
+    <wsdl:part name="parameters" element="tns:updateBenchmarksResponse" />
+  </wsdl:message>
+  <wsdl:portType name="IemAPI">
+    <wsdl:operation name="deleteTariff">
+      <wsdl:input wsaw:Action="http://tempuri.org/IemAPI/deleteTariff" message="tns:IemAPI_deleteTariff_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IemAPI/deleteTariffResponse" message="tns:IemAPI_deleteTariff_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="validateInvoice">
+      <wsdl:input wsaw:Action="http://tempuri.org/IemAPI/validateInvoice" message="tns:IemAPI_validateInvoice_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IemAPI/validateInvoiceResponse" message="tns:IemAPI_validateInvoice_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="forecastNextInvoice">
+      <wsdl:input wsaw:Action="http://tempuri.org/IemAPI/forecastNextInvoice" message="tns:IemAPI_forecastNextInvoice_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IemAPI/forecastNextInvoiceResponse" message="tns:IemAPI_forecastNextInvoice_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="getMeter">
+      <wsdl:input wsaw:Action="http://tempuri.org/IemAPI/getMeter" message="tns:IemAPI_getMeter_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IemAPI/getMeterResponse" message="tns:IemAPI_getMeter_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="getReading">
+      <wsdl:input wsaw:Action="http://tempuri.org/IemAPI/getReading" message="tns:IemAPI_getReading_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IemAPI/getReadingResponse" message="tns:IemAPI_getReading_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="getMeterReadings">
+      <wsdl:input wsaw:Action="http://tempuri.org/IemAPI/getMeterReadings" message="tns:IemAPI_getMeterReadings_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IemAPI/getMeterReadingsResponse" message="tns:IemAPI_getMeterReadings_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="getMinimumReadingDate">
+      <wsdl:input wsaw:Action="http://tempuri.org/IemAPI/getMinimumReadingDate" message="tns:IemAPI_getMinimumReadingDate_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IemAPI/getMinimumReadingDateResponse" message="tns:IemAPI_getMinimumReadingDate_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="getMinimumReadingDateForEdit">
+      <wsdl:input wsaw:Action="http://tempuri.org/IemAPI/getMinimumReadingDateForEdit" message="tns:IemAPI_getMinimumReadingDateForEdit_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IemAPI/getMinimumReadingDateForEditResponse" message="tns:IemAPI_getMinimumReadingDateForEdit_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="getLastInvoiceDate">
+      <wsdl:input wsaw:Action="http://tempuri.org/IemAPI/getLastInvoiceDate" message="tns:IemAPI_getLastInvoiceDate_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IemAPI/getLastInvoiceDateResponse" message="tns:IemAPI_getLastInvoiceDate_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="getDetailsForMeter">
+      <wsdl:input wsaw:Action="http://tempuri.org/IemAPI/getDetailsForMeter" message="tns:IemAPI_getDetailsForMeter_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IemAPI/getDetailsForMeterResponse" message="tns:IemAPI_getDetailsForMeter_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="getDataFromMeter">
+      <wsdl:input wsaw:Action="http://tempuri.org/IemAPI/getDataFromMeter" message="tns:IemAPI_getDataFromMeter_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IemAPI/getDataFromMeterResponse" message="tns:IemAPI_getDataFromMeter_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="getDataFromMeterByInterval">
+      <wsdl:input wsaw:Action="http://tempuri.org/IemAPI/getDataFromMeterByInterval" message="tns:IemAPI_getDataFromMeterByInterval_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IemAPI/getDataFromMeterByIntervalResponse" message="tns:IemAPI_getDataFromMeterByInterval_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="createElectricityMeter">
+      <wsdl:input wsaw:Action="http://tempuri.org/IemAPI/createElectricityMeter" message="tns:IemAPI_createElectricityMeter_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IemAPI/createElectricityMeterResponse" message="tns:IemAPI_createElectricityMeter_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="createGasMeter">
+      <wsdl:input wsaw:Action="http://tempuri.org/IemAPI/createGasMeter" message="tns:IemAPI_createGasMeter_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IemAPI/createGasMeterResponse" message="tns:IemAPI_createGasMeter_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="createMeterReading">
+      <wsdl:input wsaw:Action="http://tempuri.org/IemAPI/createMeterReading" message="tns:IemAPI_createMeterReading_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IemAPI/createMeterReadingResponse" message="tns:IemAPI_createMeterReading_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="editMeter">
+      <wsdl:input wsaw:Action="http://tempuri.org/IemAPI/editMeter" message="tns:IemAPI_editMeter_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IemAPI/editMeterResponse" message="tns:IemAPI_editMeter_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="editMeterReading">
+      <wsdl:input wsaw:Action="http://tempuri.org/IemAPI/editMeterReading" message="tns:IemAPI_editMeterReading_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IemAPI/editMeterReadingResponse" message="tns:IemAPI_editMeterReading_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="deleteMeter">
+      <wsdl:input wsaw:Action="http://tempuri.org/IemAPI/deleteMeter" message="tns:IemAPI_deleteMeter_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IemAPI/deleteMeterResponse" message="tns:IemAPI_deleteMeter_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="deleteReading">
+      <wsdl:input wsaw:Action="http://tempuri.org/IemAPI/deleteReading" message="tns:IemAPI_deleteReading_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IemAPI/deleteReadingResponse" message="tns:IemAPI_deleteReading_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="getInvoicesForMeter">
+      <wsdl:input wsaw:Action="http://tempuri.org/IemAPI/getInvoicesForMeter" message="tns:IemAPI_getInvoicesForMeter_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IemAPI/getInvoicesForMeterResponse" message="tns:IemAPI_getInvoicesForMeter_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="getInvoice">
+      <wsdl:input wsaw:Action="http://tempuri.org/IemAPI/getInvoice" message="tns:IemAPI_getInvoice_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IemAPI/getInvoiceResponse" message="tns:IemAPI_getInvoice_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="createInvoice">
+      <wsdl:input wsaw:Action="http://tempuri.org/IemAPI/createInvoice" message="tns:IemAPI_createInvoice_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IemAPI/createInvoiceResponse" message="tns:IemAPI_createInvoice_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="editInvoice">
+      <wsdl:input wsaw:Action="http://tempuri.org/IemAPI/editInvoice" message="tns:IemAPI_editInvoice_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IemAPI/editInvoiceResponse" message="tns:IemAPI_editInvoice_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="deleteInvoice">
+      <wsdl:input wsaw:Action="http://tempuri.org/IemAPI/deleteInvoice" message="tns:IemAPI_deleteInvoice_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IemAPI/deleteInvoiceResponse" message="tns:IemAPI_deleteInvoice_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="getSCPeriods">
+      <wsdl:input wsaw:Action="http://tempuri.org/IemAPI/getSCPeriods" message="tns:IemAPI_getSCPeriods_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IemAPI/getSCPeriodsResponse" message="tns:IemAPI_getSCPeriods_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="getTariff">
+      <wsdl:input wsaw:Action="http://tempuri.org/IemAPI/getTariff" message="tns:IemAPI_getTariff_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IemAPI/getTariffResponse" message="tns:IemAPI_getTariff_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="getMinimumTariffDate">
+      <wsdl:input wsaw:Action="http://tempuri.org/IemAPI/getMinimumTariffDate" message="tns:IemAPI_getMinimumTariffDate_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IemAPI/getMinimumTariffDateResponse" message="tns:IemAPI_getMinimumTariffDate_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="getMinimumTariffDateForEdit">
+      <wsdl:input wsaw:Action="http://tempuri.org/IemAPI/getMinimumTariffDateForEdit" message="tns:IemAPI_getMinimumTariffDateForEdit_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IemAPI/getMinimumTariffDateForEditResponse" message="tns:IemAPI_getMinimumTariffDateForEdit_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="createTariff">
+      <wsdl:input wsaw:Action="http://tempuri.org/IemAPI/createTariff" message="tns:IemAPI_createTariff_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IemAPI/createTariffResponse" message="tns:IemAPI_createTariff_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="createTariffBand">
+      <wsdl:input wsaw:Action="http://tempuri.org/IemAPI/createTariffBand" message="tns:IemAPI_createTariffBand_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IemAPI/createTariffBandResponse" message="tns:IemAPI_createTariffBand_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="editTariff">
+      <wsdl:input wsaw:Action="http://tempuri.org/IemAPI/editTariff" message="tns:IemAPI_editTariff_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IemAPI/editTariffResponse" message="tns:IemAPI_editTariff_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="usernameIsUnique">
+      <wsdl:input wsaw:Action="http://tempuri.org/IemAPI/usernameIsUnique" message="tns:IemAPI_usernameIsUnique_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IemAPI/usernameIsUniqueResponse" message="tns:IemAPI_usernameIsUnique_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="emailIsUnique">
+      <wsdl:input wsaw:Action="http://tempuri.org/IemAPI/emailIsUnique" message="tns:IemAPI_emailIsUnique_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IemAPI/emailIsUniqueResponse" message="tns:IemAPI_emailIsUnique_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="createUser">
+      <wsdl:input wsaw:Action="http://tempuri.org/IemAPI/createUser" message="tns:IemAPI_createUser_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IemAPI/createUserResponse" message="tns:IemAPI_createUser_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="validateUser">
+      <wsdl:input wsaw:Action="http://tempuri.org/IemAPI/validateUser" message="tns:IemAPI_validateUser_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IemAPI/validateUserResponse" message="tns:IemAPI_validateUser_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="getPropertiesForUser">
+      <wsdl:input wsaw:Action="http://tempuri.org/IemAPI/getPropertiesForUser" message="tns:IemAPI_getPropertiesForUser_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IemAPI/getPropertiesForUserResponse" message="tns:IemAPI_getPropertiesForUser_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="getUser">
+      <wsdl:input wsaw:Action="http://tempuri.org/IemAPI/getUser" message="tns:IemAPI_getUser_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IemAPI/getUserResponse" message="tns:IemAPI_getUser_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="getComparativeCostsForUser">
+      <wsdl:input wsaw:Action="http://tempuri.org/IemAPI/getComparativeCostsForUser" message="tns:IemAPI_getComparativeCostsForUser_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IemAPI/getComparativeCostsForUserResponse" message="tns:IemAPI_getComparativeCostsForUser_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="editUser">
+      <wsdl:input wsaw:Action="http://tempuri.org/IemAPI/editUser" message="tns:IemAPI_editUser_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IemAPI/editUserResponse" message="tns:IemAPI_editUser_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="updatePassword">
+      <wsdl:input wsaw:Action="http://tempuri.org/IemAPI/updatePassword" message="tns:IemAPI_updatePassword_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IemAPI/updatePasswordResponse" message="tns:IemAPI_updatePassword_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="getPropertyTypes">
+      <wsdl:input wsaw:Action="http://tempuri.org/IemAPI/getPropertyTypes" message="tns:IemAPI_getPropertyTypes_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IemAPI/getPropertyTypesResponse" message="tns:IemAPI_getPropertyTypes_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="getProperty">
+      <wsdl:input wsaw:Action="http://tempuri.org/IemAPI/getProperty" message="tns:IemAPI_getProperty_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IemAPI/getPropertyResponse" message="tns:IemAPI_getProperty_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="createProperty">
+      <wsdl:input wsaw:Action="http://tempuri.org/IemAPI/createProperty" message="tns:IemAPI_createProperty_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IemAPI/createPropertyResponse" message="tns:IemAPI_createProperty_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="getPropertyTypeId">
+      <wsdl:input wsaw:Action="http://tempuri.org/IemAPI/getPropertyTypeId" message="tns:IemAPI_getPropertyTypeId_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IemAPI/getPropertyTypeIdResponse" message="tns:IemAPI_getPropertyTypeId_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="getHeatingTypes">
+      <wsdl:input wsaw:Action="http://tempuri.org/IemAPI/getHeatingTypes" message="tns:IemAPI_getHeatingTypes_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IemAPI/getHeatingTypesResponse" message="tns:IemAPI_getHeatingTypes_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="getBuildingTypes">
+      <wsdl:input wsaw:Action="http://tempuri.org/IemAPI/getBuildingTypes" message="tns:IemAPI_getBuildingTypes_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IemAPI/getBuildingTypesResponse" message="tns:IemAPI_getBuildingTypes_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="getWallTypes">
+      <wsdl:input wsaw:Action="http://tempuri.org/IemAPI/getWallTypes" message="tns:IemAPI_getWallTypes_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IemAPI/getWallTypesResponse" message="tns:IemAPI_getWallTypes_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="getTotalData">
+      <wsdl:input wsaw:Action="http://tempuri.org/IemAPI/getTotalData" message="tns:IemAPI_getTotalData_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IemAPI/getTotalDataResponse" message="tns:IemAPI_getTotalData_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="getElecData">
+      <wsdl:input wsaw:Action="http://tempuri.org/IemAPI/getElecData" message="tns:IemAPI_getElecData_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IemAPI/getElecDataResponse" message="tns:IemAPI_getElecData_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="getGasData">
+      <wsdl:input wsaw:Action="http://tempuri.org/IemAPI/getGasData" message="tns:IemAPI_getGasData_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IemAPI/getGasDataResponse" message="tns:IemAPI_getGasData_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="getBenchmarkForProperty">
+      <wsdl:input wsaw:Action="http://tempuri.org/IemAPI/getBenchmarkForProperty" message="tns:IemAPI_getBenchmarkForProperty_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IemAPI/getBenchmarkForPropertyResponse" message="tns:IemAPI_getBenchmarkForProperty_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="getAnonymousProperties">
+      <wsdl:input wsaw:Action="http://tempuri.org/IemAPI/getAnonymousProperties" message="tns:IemAPI_getAnonymousProperties_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IemAPI/getAnonymousPropertiesResponse" message="tns:IemAPI_getAnonymousProperties_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="getDataAtProperty">
+      <wsdl:input wsaw:Action="http://tempuri.org/IemAPI/getDataAtProperty" message="tns:IemAPI_getDataAtProperty_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IemAPI/getDataAtPropertyResponse" message="tns:IemAPI_getDataAtProperty_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="getBuildingType">
+      <wsdl:input wsaw:Action="http://tempuri.org/IemAPI/getBuildingType" message="tns:IemAPI_getBuildingType_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IemAPI/getBuildingTypeResponse" message="tns:IemAPI_getBuildingType_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="getHeatingType">
+      <wsdl:input wsaw:Action="http://tempuri.org/IemAPI/getHeatingType" message="tns:IemAPI_getHeatingType_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IemAPI/getHeatingTypeResponse" message="tns:IemAPI_getHeatingType_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="getWallType">
+      <wsdl:input wsaw:Action="http://tempuri.org/IemAPI/getWallType" message="tns:IemAPI_getWallType_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IemAPI/getWallTypeResponse" message="tns:IemAPI_getWallType_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="editProperty">
+      <wsdl:input wsaw:Action="http://tempuri.org/IemAPI/editProperty" message="tns:IemAPI_editProperty_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IemAPI/editPropertyResponse" message="tns:IemAPI_editProperty_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="deleteProperty">
+      <wsdl:input wsaw:Action="http://tempuri.org/IemAPI/deleteProperty" message="tns:IemAPI_deleteProperty_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IemAPI/deletePropertyResponse" message="tns:IemAPI_deleteProperty_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="updateBenchmarks">
+      <wsdl:input wsaw:Action="http://tempuri.org/IemAPI/updateBenchmarks" message="tns:IemAPI_updateBenchmarks_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IemAPI/updateBenchmarksResponse" message="tns:IemAPI_updateBenchmarks_OutputMessage" />
+    </wsdl:operation>
+  </wsdl:portType>
+  <wsdl:binding name="BasicHttpBinding_IemAPI" type="tns:IemAPI">
+    <soap:binding transport="http://schemas.xmlsoap.org/soap/http" />
+    <wsdl:operation name="deleteTariff">
+      <soap:operation soapAction="http://tempuri.org/IemAPI/deleteTariff" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="validateInvoice">
+      <soap:operation soapAction="http://tempuri.org/IemAPI/validateInvoice" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="forecastNextInvoice">
+      <soap:operation soapAction="http://tempuri.org/IemAPI/forecastNextInvoice" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="getMeter">
+      <soap:operation soapAction="http://tempuri.org/IemAPI/getMeter" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="getReading">
+      <soap:operation soapAction="http://tempuri.org/IemAPI/getReading" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="getMeterReadings">
+      <soap:operation soapAction="http://tempuri.org/IemAPI/getMeterReadings" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="getMinimumReadingDate">
+      <soap:operation soapAction="http://tempuri.org/IemAPI/getMinimumReadingDate" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="getMinimumReadingDateForEdit">
+      <soap:operation soapAction="http://tempuri.org/IemAPI/getMinimumReadingDateForEdit" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="getLastInvoiceDate">
+      <soap:operation soapAction="http://tempuri.org/IemAPI/getLastInvoiceDate" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="getDetailsForMeter">
+      <soap:operation soapAction="http://tempuri.org/IemAPI/getDetailsForMeter" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="getDataFromMeter">
+      <soap:operation soapAction="http://tempuri.org/IemAPI/getDataFromMeter" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="getDataFromMeterByInterval">
+      <soap:operation soapAction="http://tempuri.org/IemAPI/getDataFromMeterByInterval" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="createElectricityMeter">
+      <soap:operation soapAction="http://tempuri.org/IemAPI/createElectricityMeter" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="createGasMeter">
+      <soap:operation soapAction="http://tempuri.org/IemAPI/createGasMeter" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="createMeterReading">
+      <soap:operation soapAction="http://tempuri.org/IemAPI/createMeterReading" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="editMeter">
+      <soap:operation soapAction="http://tempuri.org/IemAPI/editMeter" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="editMeterReading">
+      <soap:operation soapAction="http://tempuri.org/IemAPI/editMeterReading" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="deleteMeter">
+      <soap:operation soapAction="http://tempuri.org/IemAPI/deleteMeter" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="deleteReading">
+      <soap:operation soapAction="http://tempuri.org/IemAPI/deleteReading" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="getInvoicesForMeter">
+      <soap:operation soapAction="http://tempuri.org/IemAPI/getInvoicesForMeter" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="getInvoice">
+      <soap:operation soapAction="http://tempuri.org/IemAPI/getInvoice" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="createInvoice">
+      <soap:operation soapAction="http://tempuri.org/IemAPI/createInvoice" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="editInvoice">
+      <soap:operation soapAction="http://tempuri.org/IemAPI/editInvoice" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="deleteInvoice">
+      <soap:operation soapAction="http://tempuri.org/IemAPI/deleteInvoice" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="getSCPeriods">
+      <soap:operation soapAction="http://tempuri.org/IemAPI/getSCPeriods" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="getTariff">
+      <soap:operation soapAction="http://tempuri.org/IemAPI/getTariff" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="getMinimumTariffDate">
+      <soap:operation soapAction="http://tempuri.org/IemAPI/getMinimumTariffDate" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="getMinimumTariffDateForEdit">
+      <soap:operation soapAction="http://tempuri.org/IemAPI/getMinimumTariffDateForEdit" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="createTariff">
+      <soap:operation soapAction="http://tempuri.org/IemAPI/createTariff" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="createTariffBand">
+      <soap:operation soapAction="http://tempuri.org/IemAPI/createTariffBand" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="editTariff">
+      <soap:operation soapAction="http://tempuri.org/IemAPI/editTariff" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="usernameIsUnique">
+      <soap:operation soapAction="http://tempuri.org/IemAPI/usernameIsUnique" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="emailIsUnique">
+      <soap:operation soapAction="http://tempuri.org/IemAPI/emailIsUnique" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="createUser">
+      <soap:operation soapAction="http://tempuri.org/IemAPI/createUser" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="validateUser">
+      <soap:operation soapAction="http://tempuri.org/IemAPI/validateUser" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="getPropertiesForUser">
+      <soap:operation soapAction="http://tempuri.org/IemAPI/getPropertiesForUser" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="getUser">
+      <soap:operation soapAction="http://tempuri.org/IemAPI/getUser" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="getComparativeCostsForUser">
+      <soap:operation soapAction="http://tempuri.org/IemAPI/getComparativeCostsForUser" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="editUser">
+      <soap:operation soapAction="http://tempuri.org/IemAPI/editUser" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="updatePassword">
+      <soap:operation soapAction="http://tempuri.org/IemAPI/updatePassword" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="getPropertyTypes">
+      <soap:operation soapAction="http://tempuri.org/IemAPI/getPropertyTypes" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="getProperty">
+      <soap:operation soapAction="http://tempuri.org/IemAPI/getProperty" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="createProperty">
+      <soap:operation soapAction="http://tempuri.org/IemAPI/createProperty" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="getPropertyTypeId">
+      <soap:operation soapAction="http://tempuri.org/IemAPI/getPropertyTypeId" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="getHeatingTypes">
+      <soap:operation soapAction="http://tempuri.org/IemAPI/getHeatingTypes" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="getBuildingTypes">
+      <soap:operation soapAction="http://tempuri.org/IemAPI/getBuildingTypes" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="getWallTypes">
+      <soap:operation soapAction="http://tempuri.org/IemAPI/getWallTypes" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="getTotalData">
+      <soap:operation soapAction="http://tempuri.org/IemAPI/getTotalData" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="getElecData">
+      <soap:operation soapAction="http://tempuri.org/IemAPI/getElecData" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="getGasData">
+      <soap:operation soapAction="http://tempuri.org/IemAPI/getGasData" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="getBenchmarkForProperty">
+      <soap:operation soapAction="http://tempuri.org/IemAPI/getBenchmarkForProperty" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="getAnonymousProperties">
+      <soap:operation soapAction="http://tempuri.org/IemAPI/getAnonymousProperties" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="getDataAtProperty">
+      <soap:operation soapAction="http://tempuri.org/IemAPI/getDataAtProperty" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="getBuildingType">
+      <soap:operation soapAction="http://tempuri.org/IemAPI/getBuildingType" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="getHeatingType">
+      <soap:operation soapAction="http://tempuri.org/IemAPI/getHeatingType" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="getWallType">
+      <soap:operation soapAction="http://tempuri.org/IemAPI/getWallType" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="editProperty">
+      <soap:operation soapAction="http://tempuri.org/IemAPI/editProperty" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="deleteProperty">
+      <soap:operation soapAction="http://tempuri.org/IemAPI/deleteProperty" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="updateBenchmarks">
+      <soap:operation soapAction="http://tempuri.org/IemAPI/updateBenchmarks" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:service name="emAPI">
+    <wsdl:port name="BasicHttpBinding_IemAPI" binding="tns:BasicHttpBinding_IemAPI">
+      <soap:address location="http://localhost:8732/Design_Time_Addresses/emAPI/Service1/" />
+    </wsdl:port>
+  </wsdl:service>
+</wsdl:definitions>

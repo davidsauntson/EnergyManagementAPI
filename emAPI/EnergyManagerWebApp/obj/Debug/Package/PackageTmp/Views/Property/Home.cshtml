@@ -1,0 +1,193 @@
+﻿@*----------------------------------------------------------
+DAVID SAUNTSON
+
+ENERGY MANAGER WEB APPLICATION
+HANDWRITTEN
+VIEW FILE (.cshtml)
+
+Property Home
+----------------------------------------------------------*@
+
+@model EnergyManagerWebApp.Models.PropertyViewModel
+
+        <!--define counts for number of electricity & gas meters-->
+        @{int electricityMeters = 0;}
+        @{int gasMeters = 0;}
+
+        <!--populate count variables-->
+        @foreach(var m in Model.Property.Meters)
+        {
+            if(m.Fuel == "Electricity")
+            {
+                electricityMeters++;
+            }
+            else
+            {
+                gasMeters++;
+            }
+        }
+
+@helper showNumbRooms()
+{
+    if ( Model.Property.NumbBedrooms == 0 )
+    {
+        @:<span class="faded">unknown</span>
+    }
+    else
+    {
+        <text>
+            @Model.Property.NumbBedrooms.ToString("n0") 
+        </text>
+    }
+}
+
+
+<div style="display:inline-block; width:90%;">
+    <div class="title">
+        <h1 style="padding-top: -20px;">@Html.DisplayFor(model => model.Property.Name)<span class="faded" style="padding-left:20px;">@Html.DisplayFor(model => model.Property.Postcode)</span></h1>
+    </div>
+</div>
+
+<div style="display: inline-block; width: 50%">
+    <div>
+        <span class="linkicon">p</span><span>@Html.ActionLink("Edit this property", "Edit", "Property", new { id = Model.Property.Id }, null)</span>
+    </div>
+    <div>
+        <span class="linkicon">#</span><span>@Ajax.ActionLink("Delete this property", "Delete", "Property", new { id = Model.Property.Id },
+                                                            new AjaxOptions {HttpMethod = "GET", InsertionMode = InsertionMode.Replace, UpdateTargetId = "deleteproperty"},
+                                                            null)</span>
+    </div>
+</div>
+
+<div id = "deleteproperty" class="delete"></div> 
+
+<h2>Building Details</h2>
+<div>
+    <div style="display:inline-block; border-left:5px;">
+        Floor area <br />
+        No. bedrooms <br />
+        <br />
+        
+        Heating <br />
+        Walls <br />
+        Building <br />
+    </div>
+
+    <div style="display:inline-block; padding-left:10px">
+        @Model.Property.FloorArea.ToString() m<sup>2</sup><br />
+        @showNumbRooms() <br />
+        <br />
+        @Model.Property.PropertyType.Heating.Description <br />
+        @Model.Property.PropertyType.Walls.Description <br />
+        @Model.Property.PropertyType.Building.Description<br />
+    </div>
+</div>
+
+<div>
+    <h2>Meters</h2>
+    <p>
+        Meters store all the information on how much energy you consume (in the form of meter readings) and how much you spend (in the form of utility bills).
+        <br />
+        For the analysis to be accruate, you need to take regular meter readings and make sure you enter the details from all your bills!
+    </p>
+</div>
+<div>
+    <div style="display:inline-block; width:40%; vertical-align:top">
+        <h3>Electricity Meters</h3>
+        @if (electricityMeters != 0)
+        {
+            <ul>
+                @foreach (var m in Model.Property.Meters)
+                {
+                    if (m.Fuel == "Electricity")
+                    {
+                        <li class="meterlist">@Html.ActionLink(m.SerialNo, "Home", "Meter", new { meterId = m.Id, propertyId = Model.Property.Id, Type = "Electricity" }, null)</li>
+                    }
+                }
+            </ul>
+            <span class="icon">+ </span>@Html.ActionLink("Add a new electricity meter", "CreateElec", "Meter", new { propertyId = Model.Property.Id }, null)
+        }
+        else
+        {
+            <p>
+                There are no electricty meters at this property. 
+            </p>
+            <div>
+                <p>
+                    <span class="icon">+ </span>@Html.ActionLink(" Create one now...", "CreateElec", "Meter", new { propertyId = Model.Property.Id }, null)
+                </p>
+            </div>
+        }
+        
+    </div>
+    
+    <div style="display:inline-block; width:40%; vertical-align:top;">
+        <h3>Gas Meters</h3>
+        @if (gasMeters != 0)
+        {
+            <ul>
+                @foreach (var m in Model.Property.Meters)
+                {
+                    if (m.Fuel == "Gas")
+                    {
+                        <li class="meterlist">@Html.ActionLink(m.SerialNo, "Home", "Meter", new { meterId = m.Id, propertyId = Model.Property.Id, Type = "Gas" }, null)</li>
+                    }
+                }
+            </ul>
+            <span class="icon">+ </span>@Html.ActionLink("Add a new gas meter", "CreateGas", "Meter", new { propertyId = Model.Property.Id }, null)
+        }
+        else
+        {
+            <p>
+                There are no gas meters at this property. 
+            </p>
+            <div>
+                <p>
+                    <span class="icon">+ </span>@Html.ActionLink(" Create one now...", "CreateGas", "Meter", new { propertyId = Model.Property.Id }, null)
+                </p>
+            </div>
+        }
+    </div>
+</div>
+
+
+<h2>Analysis</h2>
+
+<div>
+    <div style="display:inline-block; width:40%;">
+        <div style="display:inline-block; border-left:5px;">
+                Annual Cost <br />
+                Annual kWh <br />
+                Annual CO<sub>2</sub><br />
+        </div>
+        
+        <div style="display:inline-block; padding-left:10px">
+            @Math.Ceiling(Model.Property.AnnualCost).ToString("C") <br />
+            @Math.Ceiling(Model.Property.AnnualkWh).ToString("n0") kWh <br />
+            @Math.Ceiling(Model.Property.AnnualCO2kg).ToString("n0") kg <br />
+        </div>
+    
+        <div style="display:inline-block;">
+            <p>
+                The graph on the right shows how much energy this property uses per year, and compares it to good and normal practice for properties of this type.  
+            </p>
+            <p>
+                To get a more detailed analysis click on the 'Analyse' link below.
+            </p>
+            <p>
+                <span class="icon">Z </span>@Html.ActionLink("Analyse this property", "Analysis", "Property", new { propertyId = Model.Property.Id }, null)
+            </p>
+        </div>
+    </div>
+    <div style="display:inline-block; width:40%; vertical-align:top; padding-left:50px;">
+        <iframe frameborder="0px" style="display:inline-block; height:320px; width:500px;" src="@Url.Action("Graph", null, new { id = Model.Property.Id }, null)" runat="server"></iframe>
+    </div>
+
+</div>
+
+<div class="back">
+    @Html.ActionLink("Back", "UserHome", "Home", new { id = int.Parse(User.Identity.Name) }, null)
+</div>
+
+    <!--Hidden fields-->
+    @Html.HiddenFor(model => model.Property.Id)

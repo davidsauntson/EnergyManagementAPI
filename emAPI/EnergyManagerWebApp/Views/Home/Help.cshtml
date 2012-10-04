@@ -1,0 +1,156 @@
+﻿@*----------------------------------------------------------
+DAVID SAUNTSON
+
+ENERGY MANAGER WEB APPLICATION
+HANDWRITTEN
+VIEW FILE (.cshtml)
+
+Help
+----------------------------------------------------------*@
+
+
+<div>
+    <h1>Help & Information</h1>
+</div>
+
+<div>
+    <nav>
+        <ul class="help">
+            <li> @Html.ActionLink("Properties", "Help", "Home", null, null, "properties", null, null)</li>
+            <li> @Html.ActionLink("Meters", "Help", "Home", null, null, "meters", null, null)</li>
+            <li> @Html.ActionLink("Invoices", "Help", "Home", null, null, "invoices", null, null)</li>
+            <li> @Html.ActionLink("Tariffs", "Help", "Home", null, null, "tariffs", null, null)</li>
+        </ul>
+    </nav>
+        <nav>
+        <ul class="help">
+            <li> @Html.ActionLink("What is a kWh?", "Help", "Home", null, null, "kWh", null, null)</li>
+            <li> @Html.ActionLink("What is CO2?", "Help", "Home", null, null, "CO2", null, null)</li>
+        </ul>
+    </nav>
+</div>
+
+
+<div>
+    <h2><span class="icon">H </span> Properties</h2><a id="properties"></a>
+    <p>
+        A property represents your house or flat - it contains @Html.ActionLink("meters", "Help", "Home", null, null, "meters", null, null).  To set up a property, click on "Add a new property" on your
+        homepage.
+    </p>
+    <p>
+        To set up a property, you will need to know:
+
+        <ul>
+            <li>its name, or how you want to refer to it</li>
+            <li>its postcode</li>
+            <li>how it is heated</li>
+            <li>what type of walls it has</li>
+            <li>what kind of building it is</li>
+        </ul>
+    </p>
+    <p>
+        It is also helpful to know
+        
+        <ul>
+            <li>its floor area, in m<sup>2</sup></li>
+            <li>the number of bedrooms it has</li>
+        </ul>
+
+        These items are optional - if you don't know them we'll provide some estimates for you.
+    </p>
+    <p>
+        You can have as many properties as you like.
+    </p>
+</div>
+
+<div>
+    <h2><span class="icon">, </span> Meters</h2><a name="meters"></a>
+    <p>
+        Meters are how you keep track of how much energy you have used to heat and power your home, as well as how much it has cost you.  For each meter,
+        you should set up a @Html.ActionLink("tariff", "Help", "Home", null, null, "tariffs", null, null), and then take regular meter readings.
+    </p>
+    <p>
+        To keep track of your energy costs and valdiate bills, you should also enter details of your @Html.ActionLink("utility bills", "Help", "Home", null, null, "invoices", null, null) as you receive them.
+    </p>
+    <p>
+        When setting up an meter, you will need to know:
+
+        <ul>
+            <li><strong>serial number</strong> - this can be found on the meter</li>
+            <li><strong>number of digits</strong> - make sure you inlcude any decimal points if appropriate</li>
+            <li><strong>start date</strong> - when you'd like to start recording consumption on this meter</li>
+        </ul>
+
+        For electricity meters, you will also need to know:
+
+        <ul>
+            <li><strong>scaling factor</strong> - some meters display units that need to be multiplied to get to kWh.
+                <br /> This can be found on the meter - if there is a x10 next to the display the scaling factor for that meter is 10</li>
+        </ul>
+
+        For gas meters, you will also need to know:
+        
+        <ul>
+            <li><strong>units</strong> - for example, m<sup>3</sup>, ft<sup>3</sup> etc.  This can be found on the meter</li>
+        </ul>
+    </p>
+</div>
+
+<div>
+    <h2><span class="icon">% </span> Invoices</h2><a name="invoices"></a>
+    <p>
+        Invoices keep track of how much money you've spent on the energy used in your home.  Enter the following details when creating an invoice:
+        <ul>
+            <li><strong>bill date</strong> - the date the bill was received</li>
+            <li><strong>start date</strong> - the start date of the period of consumption the bill is for</li>
+            <li><strong>end date</strong> - the start date of the period of consumption the bill is for</li>
+            <li><strong>kWh</strong> - the total amount of energy you have been billed for</li>
+            <li><strong>consumption cost</strong> - the total amout (£) you have been charged for energy only</li>
+            <li><strong>standing charge</strong> - the total amout (£) you have been charged for the standing charge only</li>
+            <li><strong>other charges</strong> - the total amout (£) for all other charges together</li>
+
+        </ul>
+    </p>
+    <p>
+        Invoices will be validated, and the status icon tells you whether it is correct or not.
+        
+        <ul style="list-style-type:none">
+            <li><span class="icon">2 </span> the invoice is correct</li>
+            <li><span class="icon">! </span> either the consumption or cost of the invoice is incorrect</li>
+            <li><span class="icon">D </span> both the consumption and the cost of the invoice are correct</li>
+            <li><span class="icon">? </span> the invoice has not been checked yet</li>
+        </ul>
+    </p>
+</div>
+
+<div>
+    <h2><span class="icon">z </span> Tariffs</h2><a name="tariffs"></a>
+    <p>
+        Tariffs are how we know how much you should pay for your electrcity and gas.  Details of how to set up a tariff are on the "Create a tariff page".
+    </p>
+</div>
+
+<div>
+    <h2><span class="icon">e </span> What is a kWh?</h2><a name="kWh"></a>
+    <p>
+        A kilowatt hour (kWh) is a unit of energy - just like a calorie or a joule.  Most, often used to measure the amount of energy devlivered to a building.
+        1 kWh is equivalent to running a 1000W (watt) heater for one hour, or a 60W light bulb for about 17 hours.
+    </p>
+    <p>
+        Depending on the type and size of the building, a standard house uses anywhere between 500kWh and 15,000kWh per year.
+    </p>
+</div>
+
+<div>
+    <h2><span class="icon">C </span> What is CO2?</h2><a name="CO2"></a>
+    <p>
+       Carbon dioxide (CO<sub>2</sub>), is a greenhouse gas that hangs about in the atmosphere and prevents some of the heat that would normally escape 
+       into the atmosphere from doing so.  This means that the overall temperature of the Earth increases, resulting in more extreme and less regular weather
+       patterns.
+    </p>
+    <p>
+        Some fuels cause greater amounts of CO<sub>2</sub> to be released into the atmosphere for each kWh of energy consumed.  For example, electricity
+        has three times the CO<sub>2</sub> footprint of gas, so if you want to make reductions in your carbon emissions, start by trying to save on 
+        electricity.
+    </p>
+</div>

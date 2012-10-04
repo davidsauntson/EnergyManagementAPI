@@ -1,0 +1,43 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<TestRun id="2d5f9c3b-6368-4a13-80ea-cd6cb49e6c38" name="David Sauntson@WIN-5QGLTLJJF9P 2012-09-03 12:05:21" runUser="WIN-5QGLTLJJF9P\David Sauntson" xmlns="http://microsoft.com/schemas/VisualStudio/TeamTest/2010">
+  <TestSettings name="Local" id="9a2ba9b5-141b-4d31-bfce-11ce98368fa9">
+    <Description>These are default test settings for a local test run.</Description>
+    <Deployment enabled="false" runDeploymentRoot="David Sauntson_WIN-5QGLTLJJF9P 2012-09-03 12_05_21">
+      <DeploymentItem filename="C:\Users\David Sauntson\Documents\Project Codes\emAPI\emAPI\emAPI.Tests\MolesAssemblies\emAPI.Moles.dll" />
+      <DeploymentItem filename="C:\Program Files\Microsoft Pex\PublicAssemblies\Microsoft.Pex.Linq.dll" />
+      <DeploymentItem filename="C:\Users\David Sauntson\Documents\Project Codes\emAPI\emAPI\emAPI\bin\Debug\emAPI.dll" />
+      <DeploymentItem filename="C:\Users\David Sauntson\Documents\Project Codes\emAPI\emAPI\emAPI\bin\Debug\emAPI_ClassLibrary.dll" />
+    </Deployment>
+    <Execution>
+      <TestTypeSpecific />
+      <AgentRule name="Execution Agents">
+      </AgentRule>
+    </Execution>
+  </TestSettings>
+  <Times creation="2012-09-03T12:05:21.8845222+01:00" queuing="2012-09-03T12:05:23.7615739+01:00" start="2012-09-03T12:05:23.8239747+01:00" finish="2012-09-03T12:05:41.6056106+01:00" />
+  <ResultSummary outcome="Error">
+    <Counters total="1" executed="1" error="0" failed="0" timeout="0" aborted="1" inconclusive="0" passedButRunAborted="0" notRunnable="0" notExecuted="0" disconnected="0" warning="0" passed="0" completed="0" inProgress="0" pending="0" />
+    <RunInfos>
+      <RunInfo computerName="WIN-5QGLTLJJF9P" outcome="Error" timestamp="2012-09-03T12:05:41.6046105+01:00">
+        <Text>Test host process exited unexpectedly.</Text>
+      </RunInfo>
+    </RunInfos>
+  </ResultSummary>
+  <TestDefinitions>
+    <UnitTest name="apportionThrowsInvalidOperationException587" storage="c:\users\david sauntson\documents\project codes\emapi\emapi\emapi.tests\bin\debug\emapi.tests.dll" id="463aaf0b-cda8-9583-988a-54d4a5069be9">
+      <Execution id="a5811b6b-aceb-4477-8bf1-821ccf34f035" />
+      <TestMethod codeBase="C:/Users/David Sauntson/Documents/Project Codes/emAPI/emAPI/emAPI.Tests/bin/Debug/emAPI.Tests.DLL" adapterTypeName="Microsoft.VisualStudio.TestTools.TestTypes.Unit.UnitTestAdapter, Microsoft.VisualStudio.QualityTools.Tips.UnitTest.Adapter, Version=10.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" className="emAPI.Controllers.ApportionmentManagerTest, emAPI.Tests, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null" name="apportionThrowsInvalidOperationException587" />
+    </UnitTest>
+  </TestDefinitions>
+  <TestLists>
+    <TestList name="Results Not in a List" id="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestList name="All Loaded Results" id="19431567-8539-422a-85d7-44ee4e166bda" />
+  </TestLists>
+  <TestEntries>
+    <TestEntry testId="463aaf0b-cda8-9583-988a-54d4a5069be9" executionId="a5811b6b-aceb-4477-8bf1-821ccf34f035" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+  </TestEntries>
+  <Results>
+    <UnitTestResult executionId="a5811b6b-aceb-4477-8bf1-821ccf34f035" testId="463aaf0b-cda8-9583-988a-54d4a5069be9" testName="apportionThrowsInvalidOperationException587" computerName="WIN-5QGLTLJJF9P" duration="00:00:17.7192351" startTime="2012-09-03T12:05:23.8863755+01:00" endTime="2012-09-03T12:05:41.6056106+01:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Aborted" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="a5811b6b-aceb-4477-8bf1-821ccf34f035">
+    </UnitTestResult>
+  </Results>
+</TestRun>

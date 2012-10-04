@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Moles xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" CachePath="C:\Program Files\Microsoft Moles\bin\..\MolesAssemblies" xmlns="http://schemas.microsoft.com/moles/2010/">
+  <Assembly Name="emAPI" Location="C:\Users\David Sauntson\Documents\Project Codes\emAPI\emAPI\emAPI\bin\Debug\emAPI.dll" />
+  <CodeStyle MaxIdentifierLength="256" />
+  <StubGeneration>
+    <Types />
+  </StubGeneration>
+  <MoleGeneration>
+    <Types />
+  </MoleGeneration>
+  <Compilation>
+    <Reference FullName="emAPI, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null" Path="C:\Users\David Sauntson\Documents\Project Codes\emAPI\emAPI\emAPI\bin\Debug\emAPI.dll" />
+    <Reference FullName="emAPI_ClassLibrary, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null" Path="C:\Users\David Sauntson\Documents\Project Codes\emAPI\emAPI\emAPI\bin\Debug\emAPI_ClassLibrary.dll" />
+    <Reference FullName="Microsoft.Moles.Framework, Version=0.94.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35" Path="C:\Program Files\Microsoft Moles\PublicAssemblies\Microsoft.Moles.Framework.dll" />
+    <Reference FullName="Microsoft.Pex.Framework, Version=0.94.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35" Path="C:\Program Files\Microsoft Moles\PublicAssemblies\Microsoft.Pex.Framework.dll" />
+    <Reference FullName="Microsoft.Pex.Linq, Version=0.94.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35" Path="C:\Program Files\Microsoft Pex\PublicAssemblies\Microsoft.Pex.Linq.dll" />
+    <Reference FullName="Microsoft.VisualStudio.QualityTools.UnitTestFramework, Version=10.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" Path="C:\Program Files\Microsoft Visual Studio 10.0\Common7\IDE\PublicAssemblies\Microsoft.VisualStudio.QualityTools.UnitTestFramework.dll" />
+    <Reference FullName="mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" Path="C:\Program Files\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.0\mscorlib.dll" />
+    <Reference FullName="System.Core, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" Path="C:\Program Files\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.0\System.Core.dll" />
+    <Reference FullName="System, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" Path="C:\Program Files\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.0\System.dll" />
+    <Reference FullName="emAPI_Accessor, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null" Path="C:\Users\David Sauntson\Documents\Project Codes\emAPI\emAPI\emAPI.Tests\obj\Debug\emAPI_Accessor.dll" />
+  </Compilation>
+</Moles>

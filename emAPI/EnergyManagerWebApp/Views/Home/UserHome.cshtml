@@ -1,0 +1,122 @@
+﻿@*----------------------------------------------------------
+DAVID SAUNTSON
+
+ENERGY MANAGER WEB APPLICATION
+HANDWRITTEN
+VIEW FILE (.cshtml)
+
+User/Home
+----------------------------------------------------------*@
+
+@model emAPI.ClassLibrary.User
+
+@*@{
+    ViewBag.Title = "UserHome";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}*@
+
+<h1>
+   @Model.Forename's Homepage
+</h1>
+
+@if (Model.Properties.Count == 0)
+{
+
+    <div>
+        <h2>Let's get started!</h2>
+        <p>
+            It looks like this is your first time here.  Energy manager is an online tool that lets you track your energy consumption,
+            see how efficient your properties are and even lets you know if you're spending too much on energy bills!
+        </p>
+        <p>
+            Follow the steps below to set up your account.
+        </p>
+    </div>
+    
+    <div class="centre-box">
+        <div class="icon-med">
+            H
+        </div>
+        <div class="centre-box-text">
+            <span style="font-weight:bold;">Set up a property</span>
+            <br />
+            Properties hold all the data you need to manage your energy consumption and utility bills.
+            <div class="action">
+                @Html.ActionLink("Create a property", "Create", "Property", new { userId = int.Parse(User.Identity.Name) }, null)
+            </div>
+        </div>
+    </div>
+
+    <div class="centre-box">
+        <div class="icon-med">
+            ,
+        </div>
+        <div class="centre-box-text">
+            <span style="font-weight:bold;">Create a meter</span>
+            <br />
+            Meters are where you store your meter readings and invoices.
+        </div>
+    </div>
+    
+    <div class="centre-box">
+        <div class="icon-med">
+            l
+        </div>
+        <div class="centre-box-text">
+            <span style="font-weight:bold;">Enter your energy data</span>
+            <br />
+            Take regular meter readings and tell us about your utility bills.
+        </div>
+    </div>
+    
+    
+    <br />
+    <br />
+    
+
+
+}
+else
+{
+    <div>
+    <h2>Your Property Portfolio</h2>
+        Click on a property to see more information.
+    <div>
+        <ul>
+            @foreach (var property in @Model.Properties)
+            {
+               <li class="propertylist">
+                   <span class="icon">H </span>@Html.ActionLink(property.Name + ", " + property.Postcode, "Home", "Property", new { id = property.Id }, null)
+               </li>
+            }
+         </ul>
+        
+        <div class="action">
+            <span class="icon">+ </span>@Html.ActionLink("Add a new property", "Create", "Property", new { userId = int.Parse(User.Identity.Name)}, null)
+        </div>
+    </div>
+    
+    <h2>The UserMap</h2>
+
+    <div style="float:left">
+        <span class="icon-big">&#64;</span>
+    </div>
+    <div style="display:inline-block; padding-left:50px; width: 50%; vertical-align :middle;">
+        <p>
+            The UserMap shows you all of the properties in our system, including other peoples.  It shows where properties are, 
+            and allows you to compare the performance of your properties with others!
+        </p>
+        <p>
+            @Html.ActionLink("See the UserMap", "UserMap", "Map")
+        </p>
+    </div>
+
+    
+    </div>
+   
+}
+
+<h2>Account Settings</h2>
+<div>
+    <span class="linkicon">y </span>@Html.ActionLink("Change Password", "ChangePassword", "Account")
+</div>

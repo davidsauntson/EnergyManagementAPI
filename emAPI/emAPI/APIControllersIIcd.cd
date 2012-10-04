@@ -1,0 +1,123 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ClassDiagram MajorVersion="1" MinorVersion="1">
+  <Class Name="emAPI.Controllers.ForecastingManager" BaseTypeListCollapsed="true">
+    <Position X="1.25" Y="1.75" Width="2" />
+    <AssociationLine Name="mediator" Type="emAPI.Controllers.EMMediator" FixedFromPoint="true" FixedToPoint="true">
+      <Path>
+        <Point X="2.25" Y="3.238" />
+        <Point X="2.25" Y="7" />
+        <Point X="5.5" Y="7" />
+      </Path>
+      <MemberNameLabel ManuallyPlaced="true">
+        <Position X="-0.107" Y="2.693" />
+      </MemberNameLabel>
+    </AssociationLine>
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAEAAAAAAAAAABAAAAAAAAAgAAAAAAAAAACA=</HashCode>
+      <FileName>Controllers\ForecastingManager.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsAssociation>
+      <Field Name="mediator" />
+    </ShowAsAssociation>
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Class Name="emAPI.Controllers.InvoiceManager" BaseTypeListCollapsed="true">
+    <Position X="4" Y="1.75" Width="2.25" />
+    <AssociationLine Name="mediator" Type="emAPI.Controllers.EMMediator" FixedFromPoint="true" FixedToPoint="true">
+      <Path>
+        <Point X="4.75" Y="4.007" />
+        <Point X="4.75" Y="7" />
+        <Point X="5.5" Y="7" />
+      </Path>
+      <MemberNameLabel ManuallyPlaced="true">
+        <Position X="2.385" Y="3.468" />
+      </MemberNameLabel>
+    </AssociationLine>
+    <TypeIdentifier>
+      <HashCode>ACAAEgAAAAEAAAAAAAAAAEAAIAAAAAgAAAAAAAAAAAA=</HashCode>
+      <FileName>Controllers\InvoiceManager.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsAssociation>
+      <Field Name="mediator" />
+    </ShowAsAssociation>
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Class Name="emAPI.Controllers.PropertyManager" BaseTypeListCollapsed="true">
+    <Position X="10" Y="1.75" Width="2.5" />
+    <AssociationLine Name="mediator" Type="emAPI.Controllers.EMMediator" FixedToPoint="true">
+      <Path>
+        <Point X="10" Y="7" />
+        <Point X="7" Y="7" />
+      </Path>
+      <MemberNameLabel ManuallyPlaced="true">
+        <Position X="1.243" Y="2.118" />
+      </MemberNameLabel>
+    </AssociationLine>
+    <TypeIdentifier>
+      <HashCode>AQAABJAAJAAAQQACABgABEAAAAKAKAoBCUAAAAESAAA=</HashCode>
+      <FileName>Controllers\PropertyManager.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsAssociation>
+      <Field Name="mediator" />
+    </ShowAsAssociation>
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Class Name="emAPI.Controllers.TariffManager" BaseTypeListCollapsed="true">
+    <Position X="7" Y="1.75" Width="2.25" />
+    <AssociationLine Name="mediator" Type="emAPI.Controllers.EMMediator" FixedFromPoint="true" FixedToPoint="true">
+      <Path>
+        <Point X="8.156" Y="4.584" />
+        <Point X="8.156" Y="7" />
+        <Point X="7" Y="7" />
+      </Path>
+      <MemberNameLabel ManuallyPlaced="true">
+        <Position X="2.118" Y="0.118" />
+      </MemberNameLabel>
+    </AssociationLine>
+    <TypeIdentifier>
+      <HashCode>EAAAAAAAAAEMAAAABAACAABAAAAAAAgAAAAAAAAAMAA=</HashCode>
+      <FileName>Controllers\TariffManager.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsAssociation>
+      <Field Name="mediator" />
+    </ShowAsAssociation>
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Class Name="emAPI.emAPI" Collapsed="true" BaseTypeListCollapsed="true">
+    <Position X="5.5" Y="0.5" Width="1.5" />
+    <AssociationLine Name="tariffMgr" Type="emAPI.Controllers.TariffManager" FixedFromPoint="true" FixedToPoint="true">
+      <Path>
+        <Point X="7" Y="0.75" />
+        <Point X="8" Y="0.75" />
+        <Point X="8" Y="1.75" />
+      </Path>
+    </AssociationLine>
+    <AssociationLine Name="propertyMgr" Type="emAPI.Controllers.PropertyManager" FixedFromPoint="true" FixedToPoint="true">
+      <Path>
+        <Point X="7" Y="0.75" />
+        <Point X="11.25" Y="0.75" />
+        <Point X="11.25" Y="1.75" />
+      </Path>
+    </AssociationLine>
+    <TypeIdentifier>
+      <HashCode>GSAiFJCEDAEKYUASFCFCJkJBOACICAIEKWBBEBAWeSA=</HashCode>
+      <FileName>emAPI.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsAssociation>
+      <Field Name="forecastingMgr" />
+      <Field Name="invoiceMgr" />
+      <Field Name="tariffMgr" />
+      <Field Name="propertyMgr" />
+    </ShowAsAssociation>
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Class Name="emAPI.Controllers.EMMediator" Collapsed="true">
+    <Position X="5.5" Y="6.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>CAAiJgEAAEAAAEACAKjAIgIgAAgAAAAAAMAAEAAAAIA=</HashCode>
+      <FileName>Controllers\EMMediator.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Font Name="Segoe UI" Size="9" />
+</ClassDiagram>

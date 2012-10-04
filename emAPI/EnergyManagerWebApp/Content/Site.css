@@ -1,0 +1,621 @@
+﻿/*----------------------------------------------------------
+DAVID SAUNTSON
+
+CSS FILE FOR ENERGY MANAGER WEB APPLICATION
+Site.css
+HANDWRITTEN
+----------------------------------------------------------*/
+body 
+{
+    /*page borders*/
+    
+    background-color: #E9E9E9;
+    font-size: 1em;
+    font-family: 'Open Sans';
+    padding: 0;
+    color: #444444;
+}
+
+
+p
+{
+    font-family: 'Open Sans';
+    padding-bottom: 20px;
+    color: #444444;
+}
+
+header,
+footer,
+nav,
+section 
+{
+    display: block;
+}
+
+/* ICONS
+---------------------------------------------------------*/
+@font-face 
+{
+	font-family: 'pictos-web';
+	src: url('pictos-web.eot');
+	src: local('☺'), url('pictos-web.woff') format('woff'), url('pictos-web.ttf') format('truetype'), url('pictos-web.svg#webfontIyfZbseF') format('svg');
+	font-weight: normal;
+	font-style: normal;
+	-webkit-font-smoothing: antialiased;
+	vertical-align: middle;
+}
+
+
+.icon {
+	font-family: 'Pictos';
+	font-size: 1.3em;
+	font-weight: normal;
+}
+
+.linkicon
+{
+    font-family: 'Pictos';
+	font-size: 1.3em;
+	display: inline-block;
+	width: 23px;
+	height: 30px;
+}
+
+.fadedicon
+{
+    font-family: 'Pictos';
+	font-size: 1.3em;
+	display: inline-block;  
+	color:#B9B9B9;  
+}
+
+.icon-big 
+{
+    font-family: 'Pictos';
+    font-size: 140px;
+}
+
+
+.icon-med
+{
+    font-family:'Pictos';
+    font-size: 70px;
+    display: inline-block;  
+    background: #E9E9E9;
+    width: 80px;
+    height: 80px;
+    text-align: center;
+    vertical-align: middle; 
+    padding:5px;
+    
+}
+
+/* LIST
+--------------------------------------------------------*/
+
+.meterlist
+{
+    list-style-image:url(195.png);  
+    height: 30px;
+}
+
+.propertylist
+{
+    list-style-type:none;
+    height: 30px;
+}
+
+ul
+{
+    font-family: 'Open Sans';
+    color: #444444;
+}
+    
+
+/* ANALYSIS PAGES
+---------------------------------------------------------*/
+
+.analysisIcon
+{
+    font-family: 'Pictos';
+    font-size: 250px;
+    display: inline-block;
+    text-align: center;
+    vertical-align: middle;
+    width: 30%;
+}
+
+.analysisTitle
+{
+    font-size: 1.2em;
+    font-weight: bold;
+    display:inline-block;
+    width: 30%;
+    text-align: center;
+    padding:30px, 0px, 30px, 0px;
+}
+
+.analysisDesc
+{
+    display: inline-block;
+    text-align: center;
+    vertical-align: top;
+    width: 30%; 
+}
+
+.analysisLink
+{
+    display: inline-block;
+    text-align: center;
+    vertical-align: middle;
+    width: 30%; 
+}
+
+/* HEADINGS   
+----------------------------------------------------------*/
+h1, h2, h3, h4, h5, h6 
+{
+    font-family: 'Open Sans';
+    padding-bottom:0px;
+}
+
+h1 
+{
+    font-size: 2em;
+}
+
+h2 
+{ 
+    font-size: 1.5em;
+    background-color: #D0E7FF;
+    margin-left: -30px;
+    padding-left: 30px;
+    margin-right:-30px;
+    padding-right:30px;
+}
+
+h3 
+{
+    font-size: 1.2em;
+}
+
+h4 
+{
+    font-size: 1.1em;
+}
+
+h5, h6 
+{
+    font-size: 1em;
+}
+
+/* PRIMARY LAYOUT ELEMENTS   
+----------------------------------------------------------*/
+
+/* you can specify a greater or lesser percentage for the 
+page width. Or, you can specify an exact pixel width. */
+
+
+.page {
+    width: 60%;
+    background-color: #1D87CE;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+header, #header {
+    position: relative;
+    margin-left: 25px;
+    color: #F9F9F9;
+    padding: 0;
+    
+    
+}
+
+header h1, #header h1 {
+    font-weight: bold;
+    padding: 5px 0;
+    margin: 0;
+    color: #F9F9F9;
+    border: none;
+    line-height: 2em;
+    font-size: 32px !important;
+    text-shadow: 0px 1px 1px #1D87CE;
+}
+
+#main {
+    padding: 30px 30px 15px 30px;
+    background-color: #F9F9F9;
+}
+
+
+/* TAB MENU   
+----------------------------------------------------------*/
+ul#menu {
+    border-bottom: 1px #5C87B2 solid;
+    padding: 0 0 2px;
+    position: relative;
+    margin: 0;
+    text-align: right;
+}
+
+ul#menu li {
+    display: inline;
+    list-style: none;
+}
+
+ul#menu li#greeting {
+    padding: 10px 20px;
+    font-weight: bold;
+    text-decoration: none;
+    line-height: 2.8em;
+    color: #fff;
+}
+
+ul#menu li a {
+    padding: 10px 20px;
+    font-weight: bold;
+    text-decoration: none;
+    line-height: 2.8em;
+    background-color: #1D87CE;
+    color: #E9E9E9;
+    border-color: #E9E9E9;
+}
+
+ul#menu li a:hover {
+    background-color: #E9E9E9;
+    color: #1D87CE;
+    text-decoration: none;
+}
+
+ul#menu li a:active {
+    background-color: #a6e2a6;
+    text-decoration: none;
+}
+
+ul#menu li.selected a {
+    background-color: #fff;
+    color: #000;
+}
+
+/* HELP TABS
+----------------------------------------------------------*/
+
+ul.help
+{
+ padding: 0px;   
+}
+
+ul.help li
+{
+    display:inline-block;
+    padding: 0px;
+    list-style: none;
+    background-color: #E9E9E9;
+}
+
+/* FORM LAYOUT ELEMENTS   
+----------------------------------------------------------*/
+
+fieldset {
+    border: 1px solid #ddd;
+    padding: 0 1.4em 1.4em 1.4em;
+    margin: 0 0 1.5em 0;
+}
+
+legend {
+    font-size: 1.2em;
+    font-weight: bold;
+}
+
+input[type="text"], 
+input[type="password"]
+{
+    border: 0px;
+    background-color: #E9E9E9;
+    padding: 2px;
+    font-family: Segoe UI;
+    font-size: 1em;
+    color: #444;
+    width: 200px;
+}
+
+select
+{
+    font-family: Segoe UI;
+    width: 200px;
+    border:0px;
+    padding: 2px;
+    font-size: 1em;
+    background: #E9E9E9;
+}
+
+input[type="submit"] 
+{
+    font-size: 1.2em;
+    padding: 5px;
+    background: #1D87CE;
+    color: #F9F9F9;
+    border: 0px;
+}
+
+/* TABLE
+----------------------------------------------------------*/
+
+table {
+        border-collapse:collapse;  
+}
+
+table tr 
+{
+    height: 30px;
+}
+
+table td  {
+    padding: 5px;
+    border-left:none;
+    border-right:none;
+    border-top:1px;
+    border-bottom:1px;
+    border-top-color: #444444;
+    border-bottom-color: #444444;
+}
+
+tr.hover:hover
+{
+    background: #E9E9E9;
+}
+
+
+.tableicon 
+{
+    text-align: left;
+    font-family: Pictos;
+    font-size: 1.3em;
+    border-right-color: transparent;
+    border-top-color: transparent;
+    border-bottom-color: transparent;
+    background-color: transparent;
+}
+
+.tableicon:hover
+{
+    background: #E9E9E9;   
+}
+
+.right 
+{
+    text-align: right;
+    padding-right: 10px;
+}
+
+table td .center
+{
+    text-align: center;
+}
+
+table th {
+    padding: 6px 5px;
+    text-align: left;
+    background-color: #e9e9e9;
+    border: solid 1px #e9e9e9;
+}
+
+.toolip 
+{
+    border:0px;
+    background-color:white;
+}
+
+
+/* MISC  
+----------------------------------------------------------*/
+.clear {
+    clear: both;
+}
+
+.error {
+    color: Red;
+}
+
+#menucontainer {
+    margin-top: 10px;
+}
+
+nav 
+{
+    color: #E9E9E9;
+    font: 'Open Sans';
+    padding-left: 0px;
+    padding-right:4px;
+}
+
+div#title {
+    display: block;
+    float: left;
+    text-align: left;
+}
+
+#logindisplay {
+    font-size: 0.9em;
+    display: block;
+    text-align: right;
+    margin: 10px;
+    color: #F9F9F9;
+}
+
+#logindisplay a:link {
+    color: white;
+    text-decoration: underline;
+}
+
+#logindisplay a:visited {
+    color: white;
+    text-decoration: underline;
+}
+
+#logindisplay a:hover {
+    color: white;
+    text-decoration: none;
+}
+
+
+/* Styles for validation helpers
+-----------------------------------------------------------*/
+.field-validation-error 
+{
+    font-size:10pt;
+    color: #F9F9F9;
+    background: #F18D05;
+}
+
+.field-validation-valid {
+    display: none;
+}
+
+.input-validation-error {
+    border: 1px solid #ff0000;
+    background-color: #ffeeee;
+    
+}
+
+.validation-summary-errors {
+    font-weight: bold;
+    color: #ff0000;
+}
+
+.validation-summary-valid {
+    display: none;
+}
+
+/* Styles for editor and display helpers
+----------------------------------------------------------*/
+.editor-label 
+{
+    display:inline-block;
+    width:300px;
+    margin: 1em 0 0 0;
+    
+}
+
+.editor-field 
+{
+    display:inline-block;
+    width: 500px;
+    margin: 0.5em 0 0 0;
+}
+
+.editor-list
+{
+    display:inline-block;
+    width:500px;   
+}
+
+.text-box {
+    width: 500px;
+    height:25px;
+}
+
+.text-box.multi-line {
+    height: 6.5em;
+}
+
+.tri-state
+{
+    width: 6em;
+}
+
+/* CUSTOM DIVS
+-------------------------------------------------------------*/
+
+.usermap
+{
+    font: 'Open Sans';
+}
+
+.log-on
+{
+    text-align:left;
+}
+
+.centre-box
+{
+    padding-left:50px;
+    padding-top: 10px;
+}
+
+.centre-box-text
+{
+    padding-left:20px;
+    display:inline-block;  
+    vertical-align:middle; 
+    width: 700px;
+    height: 80px;
+}
+
+.faded
+{
+    color:#B9B9B9;
+}
+
+
+.back
+{
+ padding-top: 30px;   
+}
+
+.delete
+{
+    padding-left: 0px;
+    padding-right:0px;
+    margin-left: -30px;
+    margin-right: -30px;
+}
+
+.errormsg
+{
+    text-align:center;   
+}
+
+.errorhighlight
+{
+    background-color: #F1CCCC;   
+}
+
+
+/* SMILEYS
+-------------------------------------------------------------*/
+
+.smiley-giant
+{
+    font: 'Open Sans';
+    font-size: 200pt;
+    text-align: center;
+    font: Courier New;
+}
+
+/* LINKS
+-------------------------------------------------------------*/
+
+a:link, a:visited {
+    background: #E9E9E9;
+    text-decoration:none;
+    padding:2px;
+    color: #444444;
+}
+
+a:hover
+{
+    background: #1D87CE;
+    text-decoration:none;
+    padding:2px;
+    color: #F9F9F9;
+}
+
+a.log-on-off
+{
+    background:inherit;
+    color: #F9F9F9;
+    text-decoration: underline;
+    font-size: small;   
+}

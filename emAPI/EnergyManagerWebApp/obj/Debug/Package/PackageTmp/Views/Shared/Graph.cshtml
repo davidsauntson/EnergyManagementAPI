@@ -1,0 +1,80 @@
+﻿@*----------------------------------------------------------
+DAVID SAUNTSON
+
+ENERGY MANAGER WEB APPLICATION
+HANDWRITTEN
+VIEW FILE (.cshtml)
+
+Graph
+----------------------------------------------------------*@
+
+@model EnergyManagerWebApp.Models.Graph
+
+  <head>
+    <!--Load the AJAX API-->
+    <script type="text/javascript" src="https://www.google.com/jsapi"></script>
+    <script type="text/javascript">
+    @{
+        @:// Load the Visualization API and the piechart package.
+        @:google.load('visualization', '1.0', { 'packages': ['corechart'] });
+
+        @:// Set a callback to run when the Google Visualization API is loaded.
+        @:google.setOnLoadCallback(drawChart);
+
+        @:// Callback that creates and populates a data table,
+        @:// instantiates the pie chart, passes in the data and
+        @:// draws it.
+        @:function drawChart() {
+
+            @:// Create the data table.
+            @:var data = new google.visualization.DataTable();
+            @:data.addColumn('@Model.Legend.DataType', '@Model.Legend.Title');
+
+            foreach (var series in Model.Series)
+            {
+                @:data.addColumn('@series.DataType', '@series.Title');
+            }
+            
+
+            @:data.addRows([
+            
+            
+            
+                int numbPoints = Model.Legend.Data.Count;
+                int numbSeries = Model.Series.Count;
+                for (int i = 0 ; i < numbPoints ; i++)
+                {
+                    @:['@Model.Legend.Data[i]'
+
+                        for(int j = 0; j < numbSeries; j ++)
+                        {
+                            @:, @Model.Series.ElementAt(j).Data[i]
+                        }
+
+                        @:],
+                }
+
+
+
+        @:]);
+
+            @:// Set chart options
+            @:var options = { 
+            @:    'title': '@Model.Title',
+            @:    'width': @Model.Width,
+            @:    'height': @Model.Height,
+            @:};
+
+            @:// Instantiate and draw our chart, passing in some options.
+            @:var chart = new google.visualization.@Model.ChartType 
+            @:(document.getElementById('chart_div'));
+            @:chart.draw(data, options);
+        }
+        }
+    </script>
+  </head>
+
+  <body>
+    <!--Div that will hold the pie chart-->
+    <div id="chart_div"></div>
+  </body>

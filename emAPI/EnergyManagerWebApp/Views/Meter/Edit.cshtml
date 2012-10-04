@@ -1,0 +1,56 @@
+﻿@*----------------------------------------------------------
+DAVID SAUNTSON
+
+ENERGY MANAGER WEB APPLICATION
+HANDWRITTEN
+VIEW FILE (.cshtml)
+
+Meter/Edit
+----------------------------------------------------------*@
+
+@model EnergyManagerWebApp.Models.MeterViewModel
+
+<script src="@Url.Content("~/Scripts/jquery.validate.unobtrusive.min.js")" type="text/javascript"></script>
+
+<script type="text/javascript">
+
+    $("#datepicker").datepicker({ dateFormat: "dd/mm/yy", maxDate: '0' });
+
+</script>
+
+@using (Html.BeginForm()) {
+    @Html.ValidationSummary(true)
+
+    
+    <div>
+        <div class="editor-label">
+            Serial No.
+        </div>
+        <div class="editor-field">
+            @Html.EditorFor(model => model.Meter.SerialNo)
+            @Html.ValidationMessageFor(model => model.Meter.SerialNo)
+        </div>
+    </div>
+    <div>
+
+        <div class="editor-label">
+            No. of digits on the meter
+        </div>
+        <div class="editor-field">
+            @Html.EditorFor(model => model.Meter.NumbDigits)
+            @Html.ValidationMessageFor(model => model.Meter.NumbDigits)
+        </div>
+    </div>
+
+        @Html.HiddenFor(model => model.Meter.Id)
+        @Html.HiddenFor(model => model.BelongsToProperty)
+        @Html.HiddenFor(model => Model.Meter.Fuel)
+
+        <p>
+            <input type="submit" value="Save" />
+        </p>
+        <p>
+            @Html.ActionLink("Cancel", "Home", "Meter", new { meterId = Model.Meter.Id, propertyId = Model.BelongsToProperty, type = Model.Meter.Fuel}, null)
+        </p>
+}
+

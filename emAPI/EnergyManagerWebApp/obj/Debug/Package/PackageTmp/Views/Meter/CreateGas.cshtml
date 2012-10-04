@@ -1,0 +1,64 @@
+﻿@*----------------------------------------------------------
+DAVID SAUNTSON
+
+ENERGY MANAGER WEB APPLICATION
+HANDWRITTEN
+VIEW FILE (.cshtml)
+
+GasMeter/Create
+----------------------------------------------------------*@
+
+@model EnergyManagerWebApp.Models.GasMeterViewModel
+
+@using (Html.BeginForm())
+{
+
+    <div>
+        <div class="editor-label">
+            @Html.LabelFor(model => model.Meter.SerialNo)
+        </div>
+        <div class="editor-field">
+            @Html.EditorFor(model => model.Meter.SerialNo)
+            @Html.ValidationMessageFor(model => model.Meter.SerialNo)
+        </div>
+    </div>
+    
+    <div>
+        <div class="editor-label">
+            @Html.Label("How many digits are on the meter?")
+        </div>
+        <div class="editor-field">
+            @Html.TextBoxFor(model => model.Meter.NumbDigits)
+            @Html.ValidationMessageFor(model => model.Meter.NumbDigits)
+        </div>
+    </div>
+    
+    <div>
+        <div class="editor-label">
+            What kind of units are displayed on the meter?
+        </div>
+        <div class="editor-list">
+            @Html.DropDownListFor(model => model.Meter.MeterCoefficient, new SelectList(Model.meterCoefficients, "value", "key"))
+            @Html.ValidationMessageFor(model => model.Meter.MeterCoefficient)
+        </div>
+    </div>
+    <div>
+        <div class="editor-label">
+            @Html.Label("When did this meter start?")
+        </div>
+        <div class="editor-field">
+            @Html.TextBoxFor(model => model.StartDate, new { @id = "datepicker", @Value = Model.StartDate.ToString("dd/MM/yyyy")})
+            @Html.ValidationMessageFor(model => model.Meter.StartDate)
+        </div>
+    </div>
+  
+    <p>
+        @Html.HiddenFor(model => model.BelongsToProperty)
+        <input type="submit" value="Create" />
+    </p>
+}
+
+<div>
+    @Html.ActionLink("Back to property", "Home", "Property", new { id = Model.BelongsToProperty }, null)
+</div>
+

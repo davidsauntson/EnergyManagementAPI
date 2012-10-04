@@ -1,0 +1,50 @@
+﻿<frameTree version="0.94.51006.1"><frameException type="System.InvalidOperationException"><tag exceptionState="unexpected"><generatedTestRef idref="e27471bc-b26f-4180-9843-0fcb4a3cf69a"/>
+</tag>
+<frameNode><frame value="  at Enumerable.First(IEnumerable`1&lt;!!0&gt;)" method="Enumerable.First(IEnumerable`1&lt;!!0&gt;)" offset="82"><method assemblyName="System.Core" name="First" static="true" token="600044f"><declaringType assemblyName="System.Core" name="Enumerable" token="2000053" namespace="System.Linq"/>
+<genericParameter value="TSource"/>
+<parameter name="source" position="0"><type spec="Class"><definition assemblyName="mscorlib" name="IEnumerable`1" token="200004d" namespace="System.Collections.Generic"><genericParameter value="T"/>
+</definition>
+<genericTypeArgument spec="GenericMethodParameter" index="0"/>
+</type>
+</parameter>
+<resultType spec="GenericMethodParameter" index="0"/>
+</method>
+</frame>
+<tag exceptionState="unexpected"><generatedTestRef idref="e27471bc-b26f-4180-9843-0fcb4a3cf69a"/>
+</tag>
+<frameNode><frame value="  at ApportionmentManager.apportion(List`1&lt;Chunk&gt;, List`1&lt;Chunk&gt;) in C:\Users\David Sauntson\Documents\Project Codes\emAPI\emAPI\emAPI\Controllers\ApportionmentManager.cs(210)" method="ApportionmentManager.apportion(List`1&lt;Chunk&gt;, List`1&lt;Chunk&gt;)" offset="52" file="C:\Users\David Sauntson\Documents\Project Codes\emAPI\emAPI\emAPI\Controllers\ApportionmentManager.cs" line="210"><method assemblyName="emAPI" name="apportion" token="60001f1"><declaringType assemblyName="emAPI" name="ApportionmentManager" token="2000019" namespace="emAPI.Controllers"/>
+<parameter this="true" name="this" position="0"><type spec="Class"><definition assemblyName="emAPI" name="ApportionmentManager" token="2000019" namespace="emAPI.Controllers"/>
+</type>
+</parameter>
+<parameter name="datedChunks" position="1"><type spec="Class"><definition assemblyName="mscorlib" name="List`1" token="200036d" namespace="System.Collections.Generic"><genericParameter value="T"/>
+</definition>
+<genericTypeArgument spec="ValueType"><definition assemblyName="emAPI_ClassLibrary" valueType="true" name="Chunk" token="2000016" namespace="emAPI.ClassLibrary"/>
+</genericTypeArgument>
+</type>
+</parameter>
+<parameter name="dataIn" position="2"><type spec="Class"><definition assemblyName="mscorlib" name="List`1" token="200036d" namespace="System.Collections.Generic"><genericParameter value="T"/>
+</definition>
+<genericTypeArgument spec="ValueType"><definition assemblyName="emAPI_ClassLibrary" valueType="true" name="Chunk" token="2000016" namespace="emAPI.ClassLibrary"/>
+</genericTypeArgument>
+</type>
+</parameter>
+<resultType spec="Class"><definition assemblyName="mscorlib" name="List`1" token="200036d" namespace="System.Collections.Generic"><genericParameter value="T"/>
+</definition>
+<genericTypeArgument spec="ValueType"><definition assemblyName="emAPI_ClassLibrary" valueType="true" name="Chunk" token="2000016" namespace="emAPI.ClassLibrary"/>
+</genericTypeArgument>
+</resultType>
+</method>
+<beforeSource><![CDATA[            dataIn = dataIn.OrderBy(chunk => chunk.StartDate).ToList();
+
+            ///determine max start and end dates from dataIn]]></beforeSource>
+<source><![CDATA[            DateTime maxStart = dataIn.First().StartDate;]]></source>
+<afterSource><![CDATA[            DateTime maxEnd = dataIn.Last().EndDate;
+
+            ///do the apportioning]]></afterSource>
+</frame>
+<tag exceptionState="unexpected"><generatedTestRef idref="e27471bc-b26f-4180-9843-0fcb4a3cf69a"/>
+</tag>
+</frameNode>
+</frameNode>
+</frameException>
+</frameTree>

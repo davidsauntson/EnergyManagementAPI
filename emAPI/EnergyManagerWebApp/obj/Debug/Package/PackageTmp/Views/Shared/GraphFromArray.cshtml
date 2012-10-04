@@ -1,0 +1,52 @@
+﻿@*----------------------------------------------------------
+DAVID SAUNTSON
+
+ENERGY MANAGER WEB APPLICATION
+HANDWRITTEN
+VIEW FILE (.cshtml)
+
+GraphFromArray
+----------------------------------------------------------*@
+
+@model EnergyManagerWebApp.Models.Graph
+
+
+    <script type="text/javascript" src="https://www.google.com/jsapi"></script>
+    <script type="text/javascript">
+    @{
+        @:google.load("visualization", "1", { packages: ["corechart"] });
+        @:google.setOnLoadCallback(drawChart);
+        @:function drawChart() {
+        @:    var data = google.visualization.arrayToDataTable(
+
+        
+            @Html.Raw(Model.Data);
+        @:);
+
+           @:  var chart = new google.visualization.ColumnChart(document.getElementById('chart_div'));
+           <text> chart.draw(data, {
+                                        title: '@Model.Title',
+                                        width: @Model.Width, 
+                                        height: @Model.Height,
+                                        fontSize: 14,
+                                        fontName: 'Arial',
+                                        @if(Model.Legend !="")
+                                        {
+                                           @:legend: { position: '@Model.Legend' }, 
+                                        }
+                                        
+                                        hAxis: { title: '@Model.hAxisTitle', format: '@Model.hAxisFormat' },
+                                        vAxis: { title: '@Model.vAxisTitle', format: '@Model.vAxisFormat', baseline: @Model.Baseline },
+                                        colors: ['#1D87CE', '#B9B9B9'],
+                                        backgroundColor: '#F9F9F9',
+                                        chartArea: { width: @Model.chartAreaWidth }
+
+                                    
+                                 }); </text>
+
+        @:}
+    }
+    </script>
+ 
+
+    <div id="chart_div"></div>

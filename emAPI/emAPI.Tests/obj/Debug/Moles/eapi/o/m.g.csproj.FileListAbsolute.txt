@@ -1,0 +1,17 @@
+C:\Users\David Sauntson\Documents\Project Codes\emAPI\emAPI\emAPI.Tests\obj\Debug\Moles\eapi\b\emAPI.Moles.xml
+C:\Users\David Sauntson\Documents\Project Codes\emAPI\emAPI\emAPI.Tests\obj\Debug\Moles\eapi\b\emAPI.Moles.dll
+C:\Users\David Sauntson\Documents\Project Codes\emAPI\emAPI\emAPI.Tests\obj\Debug\Moles\eapi\b\emAPI.Moles.pdb
+C:\Users\David Sauntson\Documents\Project Codes\emAPI\emAPI\emAPI.Tests\obj\Debug\Moles\eapi\b\emAPI.dll
+C:\Users\David Sauntson\Documents\Project Codes\emAPI\emAPI\emAPI.Tests\obj\Debug\Moles\eapi\b\emAPI_ClassLibrary.dll
+C:\Users\David Sauntson\Documents\Project Codes\emAPI\emAPI\emAPI.Tests\obj\Debug\Moles\eapi\b\EntityFramework.dll
+C:\Users\David Sauntson\Documents\Project Codes\emAPI\emAPI\emAPI.Tests\obj\Debug\Moles\eapi\b\Newtonsoft.Json.dll
+C:\Users\David Sauntson\Documents\Project Codes\emAPI\emAPI\emAPI.Tests\obj\Debug\Moles\eapi\b\emAPI.pdb
+C:\Users\David Sauntson\Documents\Project Codes\emAPI\emAPI\emAPI.Tests\obj\Debug\Moles\eapi\b\emAPI.xml
+C:\Users\David Sauntson\Documents\Project Codes\emAPI\emAPI\emAPI.Tests\obj\Debug\Moles\eapi\b\emAPI_ClassLibrary.pdb
+C:\Users\David Sauntson\Documents\Project Codes\emAPI\emAPI\emAPI.Tests\obj\Debug\Moles\eapi\b\EntityFramework.xml
+C:\Users\David Sauntson\Documents\Project Codes\emAPI\emAPI\emAPI.Tests\obj\Debug\Moles\eapi\b\Newtonsoft.Json.xml
+C:\Users\David Sauntson\Documents\Project Codes\emAPI\emAPI\emAPI.Tests\obj\Debug\Moles\eapi\o\ResolveAssemblyReference.cache
+C:\Users\David Sauntson\Documents\Project Codes\emAPI\emAPI\emAPI.Tests\obj\Debug\Moles\eapi\o\emAPI.Moles.dll
+C:\Users\David Sauntson\Documents\Project Codes\emAPI\emAPI\emAPI.Tests\obj\Debug\Moles\eapi\o\emAPI.Moles.pdb
+C:\Users\David Sauntson\Documents\Project Codes\emAPI\emAPI\emAPI.Tests\obj\Debug\Moles\eapi\b\emAPI_Accessor.dll
+C:\Users\David Sauntson\Documents\Project Codes\emAPI\emAPI\emAPI.Tests\obj\Debug\Moles\eapi\b\emAPI_Accessor.pdb

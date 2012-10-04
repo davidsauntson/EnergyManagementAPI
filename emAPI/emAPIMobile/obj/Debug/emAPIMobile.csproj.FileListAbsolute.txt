@@ -1,0 +1,10 @@
+C:\Users\David Sauntson\Documents\Project Codes\emAPI\emAPI\emAPIMobile\obj\Debug\ResolveAssemblyReference.cache
+C:\Users\David Sauntson\Documents\Project Codes\emAPI\emAPI\emAPIMobile\bin\Debug\emAPIMobile.dll.config
+C:\Users\David Sauntson\Documents\Project Codes\emAPI\emAPI\emAPIMobile\bin\Debug\emAPIMobile.dll
+C:\Users\David Sauntson\Documents\Project Codes\emAPI\emAPI\emAPIMobile\bin\Debug\emAPIMobile.pdb
+C:\Users\David Sauntson\Documents\Project Codes\emAPI\emAPI\emAPIMobile\bin\Debug\emAPI_ClassLibrary.dll
+C:\Users\David Sauntson\Documents\Project Codes\emAPI\emAPI\emAPIMobile\bin\Debug\Newtonsoft.Json.dll
+C:\Users\David Sauntson\Documents\Project Codes\emAPI\emAPI\emAPIMobile\bin\Debug\emAPI_ClassLibrary.pdb
+C:\Users\David Sauntson\Documents\Project Codes\emAPI\emAPI\emAPIMobile\bin\Debug\Newtonsoft.Json.xml
+C:\Users\David Sauntson\Documents\Project Codes\emAPI\emAPI\emAPIMobile\obj\Debug\emAPIMobile.dll
+C:\Users\David Sauntson\Documents\Project Codes\emAPI\emAPI\emAPIMobile\obj\Debug\emAPIMobile.pdb

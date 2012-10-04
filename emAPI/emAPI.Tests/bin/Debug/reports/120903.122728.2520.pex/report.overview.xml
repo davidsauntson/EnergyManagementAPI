@@ -1,0 +1,190 @@
+﻿<?xml version="1.0" encoding="utf-8"?><pex id="{5fa8af5f-24e7-413f-ae0f-0eb498bcbd12}" creationTime="2012-09-03 11:27:28Z" configuration="emAPI.Controllers!\ApportionmentManagerTest!\apportion!" product="emAPI" created="2012-09-03 11:27:28Z" pexVersion="0.94.51006.1" xml="C:\Users\David Sauntson\Documents\Project Codes\emAPI\emAPI\emAPI.Tests\bin\Debug\reports\120903.122728.2520.pex\report.per" html="C:\Users\David Sauntson\Documents\Project Codes\emAPI\emAPI\emAPI.Tests\bin\Debug\reports\120903.122728.2520.pex\report.html"><environment commandLine="&quot;C:\Program Files\Microsoft Pex\bin\Microsoft.Pex.exe&quot; &quot;C:\Users\David Sauntson\Documents\Project Codes\emAPI\emAPI\emAPI.Tests\bin\Debug\emAPI.Tests.dll&quot; /methodnamefilter:apportion! /namespacefilter:emAPI.Controllers! /typefilter:ApportionmentManagerTest! /x64failsilently /clrversion:v4.0.30319 /referencedprojectassemblies:emAPI /donotopenreport /reportlevel:Xml /reportrootpath:&quot;C:\Users\David Sauntson\Documents\Project Codes\emAPI\emAPI\emAPI.Tests\bin\Debug\reports&quot; /testframework:VisualStudioUnitTest /testlanguage:cs /testprojectfile:&quot;C:\Users\David Sauntson\Documents\Project Codes\emAPI\emAPI\emAPI.Tests\emAPI.Tests.csproj&quot; /testprojectnotupdate /testprojectskip" machineName="WIN-5QGLTLJJF9P" osVersion="Microsoft Windows NT 6.1.7601 Service Pack 1" processorCount="4" clrVersion="4.0.30319.269" bitness="x86" user="David Sauntson"><envVars><envVar name="HOMEPATH" value="\Users\David Sauntson"/>
+<envVar name="PUBLIC" value="C:\Users\Public"/>
+<envVar name="COMPUTERNAME" value="WIN-5QGLTLJJF9P"/>
+<envVar name="CLRMONITOR_INJECT_TYPES" value=""/>
+<envVar name="COMPLUS_ProfAPI_ProfilerCompatibilitySetting" value="EnableV2Profiler"/>
+<envVar name="PROCESSOR_REVISION" value="3a09"/>
+<envVar name="CLRMONITOR_INSTRUMENT_TYPES_EXCLUSIONS" value=""/>
+<envVar name="PATHEXT" value=".COM;.EXE;.BAT;.CMD;.VBS;.VBE;.JS;.JSE;.WSF;.WSH;.MSC"/>
+<envVar name="COMPLUS_DEFAULTVERSION" value="v4.0.30319"/>
+<envVar name="CLRMONITOR_CLSID" value="{21bbb412-71ac-41f9-a377-48529a4859cf}"/>
+<envVar name="TMP" value="C:\Users\DAVIDS~1\AppData\Local\Temp"/>
+<envVar name="TEMP" value="C:\Users\DAVIDS~1\AppData\Local\Temp"/>
+<envVar name="LOCALAPPDATA" value="C:\Users\David Sauntson\AppData\Local"/>
+<envVar name="CLRMONITOR_INSTRUMENT_NAMESPACES_EXCLUSIONS" value=""/>
+<envVar name="CLRMONITOR_PROTECT_TYPES" value="Microsoft.FSharp.Text.Printf,Microsoft.FSharp.Text.PrintfImpl"/>
+<envVar name="CLRMONITOR_INJECT_ASSEMBLIES" value=""/>
+<envVar name="ProgramData" value="C:\ProgramData"/>
+<envVar name="CLRMONITOR_INITIALIZED" value="0xe"/>
+<envVar name="USERDOMAIN" value="WIN-5QGLTLJJF9P"/>
+<envVar name="windir" value="C:\Windows"/>
+<envVar name="CLRMONITOR_ERASE_FINALIZER_TYPES" value=""/>
+<envVar name="CLRMONITOR_INJECT_NAMESPACES" value=""/>
+<envVar name="PROCESSOR_IDENTIFIER" value="x86 Family 6 Model 58 Stepping 9, GenuineIntel"/>
+<envVar name="windows_tracing_flags" value="3"/>
+<envVar name="Path" value="C:\Windows\system32;C:\Windows;C:\Windows\System32\Wbem;C:\Windows\System32\WindowsPowerShell\v1.0\;c:\Program Files\Microsoft SQL Server\100\Tools\Binn\;c:\Program Files\Microsoft SQL Server\100\DTS\Binn\;c:\Program Files\Microsoft ASP.NET\ASP.NET Web Pages\v1.0\;C:\Program Files\doxygen\bin;C:\Users\David Sauntson\Documents\Project Codes\emAPI\emAPI\packages\EntityFramework.4.3.1\tools;C:\Users\David Sauntson\Documents\Project Codes\emAPI\emAPI\packages\SilverlightToolkitWP.4.2012.6.25\tools"/>
+<envVar name="PSModulePath" value="\\vmware-host\Shared Folders\Documents\WindowsPowerShell\Modules;C:\Windows\system32\WindowsPowerShell\v1.0\Modules\"/>
+<envVar name="PROCESSOR_LEVEL" value="6"/>
+<envVar name="CommonProgramFiles" value="C:\Program Files\Common Files"/>
+<envVar name="CLRMONITOR_FLAGS" value=""/>
+<envVar name="pex_instrumentation" value="1"/>
+<envVar name="SESSIONNAME" value="Console"/>
+<envVar name="CLRMONITOR_INSTRUMENT_TYPES" value="System.Array,System.Array+ArrayEnumerator,System.Array+FunctorComparer`1,System.Array+SZArrayEnumerator,System.Array+SorterGenericArray,System.Array+SorterObjectArray,System.Boolean,System.Byte,System.Char,System.CharEnumerator,System.ComponentModel.Component,System.ComponentModel.Container,System.ComponentModel.Container+Site,System.Convert,System.Currency,System.DateTime,System.Decimal,System.Diagnostics.Assert,System.Double,System.Globalization.CharUnicodeInfo,System.Globalization.CultureTableRecord,System.Globalization.TextInfo,System.Guid,System.IO.MemoryStream,System.IO.Stream,System.IO.StreamReader,System.IO.StreamWriter,System.IO.StringReader,System.IO.StringWriter,System.Int16,System.Int32,System.Int64,System.Lazy`1,System.Lazy`1+Boxed,System.Lazy`1+LazyInternalExceptionHolder,System.Linq.Expressions.ExpressionCompiler,System.Math,System.Nullable,System.Nullable`1,System.OrdinalComparer,System.SByte,System.SZArrayHelper,System.SZArrayHelper+SZGenericArrayEnumerator`1,System.Single,System.String,System.StringComparer,System.Text.ASCIIEncoding,System.Text.DecoderNLS,System.Text.Encoding,System.Text.UTF8Encoding,System.TimeSpan,System.Tuple,System.Tuple`1,System.Tuple`2,System.Tuple`3,System.Tuple`4,System.Tuple`5,System.Tuple`6,System.Tuple`7,System.Tuple`8,System.UInt16,System.UInt32,System.UInt64,System.Xml.XmlTextWriter,System.Xml.XmlTextWriter+Namespace,System.Xml.XmlTextWriter+NamespaceState,System.Xml.XmlTextWriter+SpecialAttr,System.Xml.XmlTextWriter+State,System.Xml.XmlTextWriter+TagInfo,System.Xml.XmlTextWriter+Token,System.Xml.XmlWriter,__Box`1,__SzArrayHelper`1"/>
+<envVar name="VisualStudioDir" value="\\vmware-host\Shared Folders\Documents\Visual Studio 2010"/>
+<envVar name="ProgramFiles" value="C:\Program Files"/>
+<envVar name="XNAGSShared" value="C:\Program Files\Common Files\Microsoft Shared\XNA\"/>
+<envVar name="CLRMONITOR_ERASE_CCTOR_TYPES" value=""/>
+<envVar name="FP_NO_HOST_CHECK" value="NO"/>
+<envVar name="pex_clientid" value="pex2584_1"/>
+<envVar name="NUMBER_OF_PROCESSORS" value="4"/>
+<envVar name="SystemRoot" value="C:\Windows"/>
+<envVar name="CLRMONITOR_INSTRUMENT_ATTRIBUTE" value="Microsoft.Moles.Framework.Moles.MolesInstrumentAttribute"/>
+<envVar name="CLRMONITOR_PROTECT_ALL_CCTORS" value="1"/>
+<envVar name="XNAGSv4" value="C:\Program Files\Microsoft XNA\XNA Game Studio\v4.0\"/>
+<envVar name="LOGONSERVER" value="\\WIN-5QGLTLJJF9P"/>
+<envVar name="USERPROFILE" value="C:\Users\David Sauntson"/>
+<envVar name="CLRMONITOR_SUBSTITUTIONS" value="C:\Windows\assembly\GAC_MSIL\Microsoft.ExtendedReflection\0.94.0.0__31bf3856ad364e35\Microsoft.ExtendedReflection.dll,C:\Windows\assembly\GAC_MSIL\Microsoft.Pex.Linq\0.94.0.0__31bf3856ad364e35\Microsoft.Pex.Linq.dll"/>
+<envVar name="CLRMONITOR_INSTRUMENT_ASSEMBLIES_EXCLUSIONS" value=""/>
+<envVar name="APPDATA" value="C:\Users\David Sauntson\AppData\Roaming"/>
+<envVar name="HOMEDRIVE" value="C:"/>
+<envVar name="PSExecutionPolicyPreference" value="RemoteSigned"/>
+<envVar name="windows_tracing_logfile" value="C:\BVTBin\Tests\installpackage\csilogfile.log"/>
+<envVar name="ComSpec" value="C:\Windows\system32\cmd.exe"/>
+<envVar name="VS100COMNTOOLS" value="C:\Program Files\Microsoft Visual Studio 10.0\Common7\Tools\"/>
+<envVar name="USERNAME" value="David Sauntson"/>
+<envVar name="COR_PROFILER" value="{21bbb412-71ac-41f9-a377-48529a4859cf}"/>
+<envVar name="PROCESSOR_ARCHITECTURE" value="x86"/>
+<envVar name="pex_server_channel" value="pex2584"/>
+<envVar name="OS" value="Windows_NT"/>
+<envVar name="CLRMONITOR_INSTRUMENT_NAMESPACES" value="System.Collections,System.Collections.Generic,System.Collections.ObjectModel,System.Collections.Specialized,System.Diagnostics.Contracts"/>
+<envVar name="SystemDrive" value="C:"/>
+<envVar name="CLRMONITOR_INSTRUMENT_ASSEMBLIES" value="EntityFramework,FSharp.Core,FSharp.PowerPack,Microsoft.Contracts,Microsoft.VisualBasic,Microsoft.VisualStudio.QualityTools.UnitTestFramework,Newtonsoft.Json,System,System.Core,System.ServiceModel,System.Web,emAPI,emAPI.Tests,emAPI_ClassLibrary"/>
+<envVar name="ALLUSERSPROFILE" value="C:\ProgramData"/>
+</envVars>
+</environment>
+<settings/>
+<reflection><existingTest method="apportion119" type="emAPI.Controllers.ApportionmentManagerTest" token="600000e" generated="true"/>
+<existingTest method="apportion715" type="emAPI.Controllers.ApportionmentManagerTest" token="600000d" generated="true"/>
+<existingTest method="apportionThrowsArgumentNullException599" type="emAPI.Controllers.ApportionmentManagerTest" token="6000002" generated="true" failure="true" exceptionType="System.ArgumentNullException"/>
+<existingTest method="apportionThrowsInvalidOperationException64" type="emAPI.Controllers.ApportionmentManagerTest" token="6000003" generated="true" failure="true" exceptionType="System.InvalidOperationException"/>
+<existingTest method="apportionThrowsNullReferenceException25" type="emAPI.Controllers.ApportionmentManagerTest" token="6000005" generated="true" failure="true" exceptionType="System.NullReferenceException"/>
+<existingTest method="apportionThrowsNullReferenceException92" type="emAPI.Controllers.ApportionmentManagerTest" token="6000006" generated="true" failure="true" exceptionType="System.NullReferenceException"/>
+<existingTest method="apportionThrowsNullReferenceException263" type="emAPI.Controllers.ApportionmentManagerTest" token="600000b" generated="true" failure="true" exceptionType="System.NullReferenceException"/>
+<existingTest method="apportionThrowsNullReferenceException309" type="emAPI.Controllers.ApportionmentManagerTest" token="6000004" generated="true" failure="true" exceptionType="System.NullReferenceException"/>
+<existingTest method="apportionThrowsNullReferenceException449" type="emAPI.Controllers.ApportionmentManagerTest" token="600000c" generated="true" failure="true" exceptionType="System.NullReferenceException"/>
+<existingTest method="apportionThrowsNullReferenceException509" type="emAPI.Controllers.ApportionmentManagerTest" token="6000008" generated="true" failure="true" exceptionType="System.NullReferenceException"/>
+<existingTest method="apportionThrowsNullReferenceException658" type="emAPI.Controllers.ApportionmentManagerTest" token="600000a" generated="true" failure="true" exceptionType="System.NullReferenceException"/>
+<existingTest method="apportionThrowsNullReferenceException715" type="emAPI.Controllers.ApportionmentManagerTest" token="600000f" generated="true" failure="true" exceptionType="System.NullReferenceException"/>
+<existingTest method="apportionThrowsNullReferenceException845" type="emAPI.Controllers.ApportionmentManagerTest" token="6000009" generated="true" failure="true" exceptionType="System.NullReferenceException"/>
+<existingTest method="apportionThrowsNullReferenceException951" type="emAPI.Controllers.ApportionmentManagerTest" token="6000007" generated="true" failure="true" exceptionType="System.NullReferenceException"/>
+</reflection>
+<assembly name="emAPI.Tests" version="0.0.0.0" fileVersion="0.0.0.0" fullName="emAPI.Tests, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null" location="C:\Users\David Sauntson\Documents\Project Codes\emAPI\emAPI\emAPI.Tests\bin\Debug\emAPI.Tests.dll" fileName="emAPI.Tests.dll"><settings testFramework="VisualStudioUnitTest" testLanguage="cs"/>
+<fixture name="ApportionmentManagerTest" type="emAPI.Controllers.ApportionmentManagerTest" typeName="ApportionmentManagerTest" token="2000002" href="fix\emAPI.Tests.100.html"><type spec="Class"><definition assemblyName="emAPI.Tests" name="ApportionmentManagerTest" token="2000002" namespace="emAPI.Controllers"/>
+</type>
+<settings typeUnderTest="emAPI.Controllers.ApportionmentManager"/>
+<exploration shortName="apportion(ApportionmentManager, List`1&lt;Chunk&gt;, List`1&lt;Chunk&gt;)" fullName="emAPI.Controllers.ApportionmentManagerTest.apportion(ApportionmentManager, List`1&lt;Chunk&gt;, List`1&lt;Chunk&gt;)"><settings maxBranches="20000" maxConstraintSolverTime="2" timeout="240"/>
+<explorable title="guessed how to create emAPI.Controllers.ApportionmentManager" kind="guessedclass" isExplorableTypeExported="true"><explorableType spec="Class"><definition assemblyName="emAPI" name="ApportionmentManager" token="2000019" namespace="emAPI.Controllers"/>
+</explorableType>
+<testAssemblyName name="emAPI.Tests"/>
+<update kind="CollectionCodeUpdate" name="Accept/Edit Factory"><codeUpdate kind="AddTypeCodeUpdate" name="Add type" fileNameHint="Factories\ApportionmentManagerFactory" abstract="true" sealed="true" visibility="Public"><doc><![CDATA[<summary>A factory for emAPI.Controllers.ApportionmentManager instances</summary>
+]]></doc>
+<reference name="mscorlib"/>
+<reference name="Microsoft.Pex.Framework"/>
+<reference name="emAPI" location="C:\Users\David Sauntson\Documents\Project Codes\emAPI\emAPI\emAPI.Tests\bin\Debug\emAPI.dll"/>
+<typeDefinition assemblyName="emAPI.Tests" name="ApportionmentManagerFactory" token="ffffffff" namespace="emAPI.Controllers"/>
+<baseType spec="Class"><definition assemblyName="mscorlib" name="Object" token="2000002" namespace="System"/>
+</baseType>
+<target><assembly name="emAPI.Tests"/>
+</target>
+</codeUpdate>
+<codeUpdate kind="AddMethodCodeUpdate" name="Add method" visibility="Public"><attribute><ctor><definition assemblyName="Microsoft.Pex.Framework" name=".ctor" token="6000e46"><declaringType assemblyName="Microsoft.Pex.Framework" name="PexFactoryMethodAttribute" token="200027d" namespace="Microsoft.Pex.Framework"/>
+<parameter this="true" name="this" position="0"><type spec="Class"><definition assemblyName="Microsoft.Pex.Framework" name="PexFactoryMethodAttribute" token="200027d" namespace="Microsoft.Pex.Framework"/>
+</type>
+</parameter>
+<parameter name="factoredType" position="1"><type spec="Class"><definition assemblyName="mscorlib" name="Type" token="2000130" namespace="System"/>
+</type>
+</parameter>
+</definition>
+</ctor>
+<ctorArgument><value kind="TypeOfExpression"><type spec="Class"><definition assemblyName="emAPI" name="ApportionmentManager" token="2000019" namespace="emAPI.Controllers"/>
+</type>
+</value>
+</ctorArgument>
+</attribute>
+<doc><![CDATA[<summary>A factory for emAPI.Controllers.ApportionmentManager instances</summary>
+]]></doc>
+<reference name="emAPI" location="C:\Users\David Sauntson\Documents\Project Codes\emAPI\emAPI\emAPI.Tests\bin\Debug\emAPI.dll"/>
+<reference name="mscorlib"/>
+<methodDefinition assemblyName="emAPI.Tests" name="Create" static="true"><declaringType assemblyName="emAPI.Tests" name="ApportionmentManagerFactory" token="ffffffff" namespace="emAPI.Controllers"/>
+<resultType spec="Class"><definition assemblyName="emAPI" name="ApportionmentManager" token="2000019" namespace="emAPI.Controllers"/>
+</resultType>
+</methodDefinition>
+<target><typeDefinition assemblyName="emAPI.Tests" name="ApportionmentManagerFactory" token="ffffffff" namespace="emAPI.Controllers"/>
+</target>
+</codeUpdate>
+<codeUpdate kind="SelectCodeUpdate" name="Select" selectKind="Body"><target><methodDefinition assemblyName="emAPI.Tests" name="Create" static="true"><declaringType assemblyName="emAPI.Tests" name="ApportionmentManagerFactory" token="ffffffff" namespace="emAPI.Controllers"/>
+<resultType spec="Class"><definition assemblyName="emAPI" name="ApportionmentManager" token="2000019" namespace="emAPI.Controllers"/>
+</resultType>
+</methodDefinition>
+</target>
+</codeUpdate>
+</update>
+</explorable>
+<log level="message" time="2012-09-03 11:27:30Z" category="symbols" message="could not load symbols for C:\Program Files\Microsoft Pex\bin\Microsoft.Pex.exe"/>
+<log level="message" time="2012-09-03 11:27:30Z" category="symbols" message="search path: ;"/>
+<log level="message" time="2012-09-03 11:27:31Z" category="symbols" message="could not load symbols for C:\Windows\Microsoft.NET\Framework\v4.0.30319\mscorlib.dll"/>
+<log level="message" time="2012-09-03 11:27:31Z" category="symbols" message="could not load symbols for C:\Windows\Microsoft.Net\assembly\GAC_MSIL\System.Core\v4.0_4.0.0.0__b77a5c561934e089\System.Core.dll"/>
+<log level="message" time="2012-09-03 11:27:31Z" category="symbols" message="could not load symbols for C:\Users\David Sauntson\Documents\Project Codes\emAPI\emAPI\emAPI.Tests\bin\Debug\EntityFramework.dll"/>
+<uninstrumented methodDisplayName="System.Void System.Text.EncoderReplacementFallback..ctor(System.String replacement)" declaringTypeDisplayName="System.Text.EncoderReplacementFallback" methodShortDisplayName="EncoderReplacementFallback..ctor(String)" wikiTopic="Uninstrumented Method Called"/>
+<uninstrumented methodDisplayName="System.Void System.Text.DecoderReplacementFallback..ctor(System.String replacement)" declaringTypeDisplayName="System.Text.DecoderReplacementFallback" methodShortDisplayName="DecoderReplacementFallback..ctor(String)" wikiTopic="Uninstrumented Method Called"/>
+<uninstrumented methodDisplayName="System.Text.EncoderFallback System.Text.EncoderFallback.get_ExceptionFallback()" declaringTypeDisplayName="System.Text.EncoderFallback" methodShortDisplayName="EncoderFallback.get_ExceptionFallback()" wikiTopic="Uninstrumented Method Called"/>
+<uninstrumented methodDisplayName="System.Text.DecoderFallback System.Text.DecoderFallback.get_ExceptionFallback()" declaringTypeDisplayName="System.Text.DecoderFallback" methodShortDisplayName="DecoderFallback.get_ExceptionFallback()" wikiTopic="Uninstrumented Method Called"/>
+<uninstrumented methodDisplayName="System.Void System.Text.UTF8Encoding+UTF8Encoder..ctor(System.Text.UTF8Encoding encoding)" declaringTypeDisplayName="System.Text.UTF8Encoding+UTF8Encoder" methodShortDisplayName="UTF8Encoder..ctor(UTF8Encoding)" wikiTopic="Uninstrumented Method Called"/>
+<uninstrumented extern="true" methodDisplayName="System.Void System.Buffer.InternalBlockCopy(System.Array src, System.Int32 srcOffsetBytes, System.Array dst, System.Int32 dstOffsetBytes, System.Int32 byteCount)" declaringTypeDisplayName="System.Buffer" methodShortDisplayName="Buffer.InternalBlockCopy(Array, Int32, Array, Int32, Int32)" wikiTopic="External Method Called"/>
+<staticFieldStore fieldDisplayName="System.Linq.SR.loader" declaringTypeDisplayName="System.Linq.SR" fieldShortDisplayName="loader" wikiTopic="Value Stored In Static Field"><field><definition assemblyName="System.Core" name="loader" static="true" token="4000bee"><declaringType assemblyName="System.Core" name="SR" token="2000347" namespace="System.Linq"/>
+<fieldType spec="Class"><definition assemblyName="System.Core" name="SR" token="2000347" namespace="System.Linq"/>
+</fieldType>
+</definition>
+</field>
+<stackTrace><frame value="  at SR.GetLoader()" method="SR.GetLoader()" offset="20"/>
+<frame value="  at SR.GetString(String)" method="SR.GetString(String)" offset="0"/>
+<frame value="  at Strings.get_NoElements()" method="Strings.get_NoElements()" offset="5"/>
+<frame value="  at Error.NoElements()" method="Error.NoElements()" offset="0"/>
+<frame value="  at Enumerable.First(IEnumerable`1&lt;!!0&gt;)" method="Enumerable.First(IEnumerable`1&lt;!!0&gt;)" offset="77"/>
+<frame value="  at ApportionmentManager.apportion(List`1&lt;Chunk&gt;, List`1&lt;Chunk&gt;) in C:\Users\David Sauntson\Documents\Project Codes\emAPI\emAPI\emAPI\Controllers\ApportionmentManager.cs(210)" method="ApportionmentManager.apportion(List`1&lt;Chunk&gt;, List`1&lt;Chunk&gt;)" offset="52" file="C:\Users\David Sauntson\Documents\Project Codes\emAPI\emAPI\emAPI\Controllers\ApportionmentManager.cs" line="210"><beforeSource><![CDATA[            dataIn = dataIn.OrderBy(chunk => chunk.StartDate).ToList();
+
+            ///determine max start and end dates from dataIn]]></beforeSource>
+<source><![CDATA[            DateTime maxStart = dataIn.First().StartDate;]]></source>
+<afterSource><![CDATA[            DateTime maxEnd = dataIn.Last().EndDate;
+
+            ///do the apportioning]]></afterSource>
+</frame>
+<frame value="  at ApportionmentManagerTest.apportion(ApportionmentManager, List`1&lt;Chunk&gt;, List`1&lt;Chunk&gt;) in C:\Users\David Sauntson\Documents\Project Codes\emAPI\emAPI\emAPI.Tests\ApportionmentManagerTest.cs(26)" method="ApportionmentManagerTest.apportion(ApportionmentManager, List`1&lt;Chunk&gt;, List`1&lt;Chunk&gt;)" offset="4" file="C:\Users\David Sauntson\Documents\Project Codes\emAPI\emAPI\emAPI.Tests\ApportionmentManagerTest.cs" line="26"><beforeSource><![CDATA[            [PexAssumeNotNull] List<Chunk> dataIn
+        )
+        {]]></beforeSource>
+<source><![CDATA[            List<Chunk> result = target.apportion(datedChunks, dataIn);]]></source>
+<afterSource><![CDATA[            return result;
+            // TODO: add assertions to method ApportionmentManagerTest.apportion(ApportionmentManager, List`1<Chunk>, List`1<Chunk>)
+        }]]></afterSource>
+</frame>
+</stackTrace>
+</staticFieldStore>
+<generatedTest id="bb9d8d96-fbe2-40d9-83ab-e43a9291f28d" index="1" run="5" exceptionState="unexpected" status="exception" failed="true" failureText="Exception not validated by PexAllowedExceptionFromTypeUnderTest(typeof(InvalidOperationException)), PexAllowedExceptionFromTypeUnderTest(typeof(ArgumentException), AcceptExceptionSubtypes), contract requires failure at type-under-test surface, documented." generated="true" new="true" assemblyName="emAPI.Tests" name="apportionThrowsInvalidOperationException726"/>
+<log level="message" time="2012-09-03 11:27:33Z" category="coverage" message="coverage increased from 0 to 7 blocks (+7) after flipping emAPI.Controllers.ApportionmentManagerTest.apportion at 0x0004"/>
+<coverage domain="usercodeundertest" unit="block" covered="7" total="126" coveredRatio="0.055555555555555552"/>
+<sourceCoverage xml="cov\e305\cov.xml" html="cov\e305\cov.html"/>
+<result name="apportion(ApportionmentManager, List`1&lt;Chunk&gt;, List`1&lt;Chunk&gt;)" state="success" duration="5.02596999059936"/>
+<duration start="2012-09-03 11:27:28Z" end="2012-09-03 11:27:33Z" seconds="5.0388"/>
+</exploration>
+<coverage domain="usercodeundertest" unit="block" covered="7" total="126" coveredRatio="0.055555555555555552"/>
+<sourceCoverage xml="cov\t100\cov.xml" html="cov\t100\cov.html"/>
+<duration start="2012-09-03 11:27:28Z" end="2012-09-03 11:27:33Z" seconds="5.1324"/>
+</fixture>
+<coverage domain="usercodeundertest" unit="block" covered="7" total="126" coveredRatio="0.055555555555555552"/>
+<sourceCoverage xml="cov\a59082817\cov.xml" html="cov\a59082817\cov.html"/>
+<duration start="2012-09-03 11:27:28Z" end="2012-09-03 11:27:33Z" seconds="5.2104"/>
+<frameTreeRef exceptionCount="1"/>
+</assembly>
+<duration start="2012-09-03 11:27:28Z" end="2012-09-03 11:27:33Z" seconds="5.7408"/>
+<background/>
+</pex>

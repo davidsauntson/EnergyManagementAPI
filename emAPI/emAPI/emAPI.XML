@@ -1,0 +1,615 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>emAPI</name>
+    </assembly>
+    <members>
+        <member name="M:emAPI.Controllers.AccountManager.checkPassword(System.String,System.Int32)">
+            <summary>
+            Compares a submitted password with a stored password
+            </summary>
+            <param name="submittedPassword">encrypted submitted password</param>
+            <param name="storedPassword">encrypted stored password</param>
+            <returns>true if equal</returns>
+        </member>
+        <member name="M:emAPI.Controllers.AccountManager.addPropertyToUser(System.Int32,System.Int32)">
+            <summary>
+            Add the specified property to the specified user
+            </summary>
+            <param name="propertyId"></param>
+            <param name="userId"></param>
+        </member>
+        <member name="M:emAPI.Controllers.AccountManager.validateUser(System.String,System.String)">
+            <summary>
+            Checks an encrytped password against the stored password
+            </summary>
+            <param name="username">username of user</param>
+            <param name="password">submitted encrypted password to check against stored value</param>
+            <returns>true if the provided password is correct</returns>
+        </member>
+        <member name="M:emAPI.Controllers.Validators.UnbandedValidator.validateCost(emAPI.ClassLibrary.Invoice)">
+            <summary>
+            Validates the cost of an invoice on an unbanded tariff.
+            </summary>
+            <param name="invoice"></param>
+            <returns>the updated invoice object</returns>
+        </member>
+        <member name="M:emAPI.Controllers.Validators.ConsumptionBandedValidator.calculateCost(System.Double,System.Double,System.Double,System.Double)">
+            override virtual abstract base class methods
+        </member>
+        <member name="M:emAPI.Controllers.Validators.ConsumptionBandedValidator.validateCost(emAPI.ClassLibrary.Invoice)">
+            validation method
+        </member>
+        <member name="M:emAPI.Controllers.MeterManager.getMinimumReadingDate(System.Int32)">
+            <summary>
+            Gets the minimum date for a reading to be entered for the specified meter
+            </summary>
+            <param name="meterId"></param>
+            <returns></returns>
+        </member>
+        <member name="M:emAPI.Controllers.MeterManager.getPreviousReadingOnMeter(emAPI.ClassLibrary.MeterReading,emAPI.ClassLibrary.Meter)">
+            <summary>
+            Gets the previous reading on this meter, using the date of the reading object passed in
+            </summary>
+            <param name="currentReading"></param>
+            <param name="meter"></param>
+            <returns></returns>
+        </member>
+        <member name="M:emAPI.Controllers.MeterManager.calculatekWh(emAPI.ClassLibrary.MeterReading,emAPI.ClassLibrary.Meter)">
+            <summary>
+            Calculates the energy in kWh for a given meter reading.  Previous reading is retrieved from the Register of the meter and
+            used in the calculation.  NB kWh calculated to nearest whole number, rounding away from zero.
+            </summary>
+            <param name="reading">the MeterReading object of the current reading</param>
+            <param name="meter">the Id of the meter the reading belongs to</param>
+            <returns>kWh consumed as integer</returns>
+        </member>
+        <member name="T:emAPI.Controllers.PropertyManager">
+            <summary>
+            PropertyManager controller object for emAPI
+            </summary>
+        </member>
+        <member name="M:emAPI.Controllers.PropertyManager.#ctor">
+            <summary>
+            Constructor
+            </summary>
+        </member>
+        <member name="M:emAPI.IemAPI.usernameIsUnique(System.String)">
+            <summary>
+            Check if the 
+            </summary>
+            <param name="username"></param>
+            <returns></returns>
+        </member>
+        <member name="M:emAPI.IemAPI.editUser(System.Int32,System.String)">
+            EDIT METHODS
+            
+        </member>
+        <member name="M:emAPI.IemAPI.getPropertyTypes">
+            <summary>
+            Get list of all property types in database
+            </summary>
+            <returns>JSON representation of list of property types</returns>
+        </member>
+        <member name="M:emAPI.IemAPI.getProperty(System.Int32)">
+            <summary>
+            Get a single property
+            </summary>
+            <param name="propertyId"></param>
+            <returns>JSON representation of a property</returns>
+        </member>
+        <member name="M:emAPI.IemAPI.createProperty(System.String,System.String,System.Int32,System.Int32,System.Int32,System.Int32)">
+            <summary>
+            Create a new property and save it to the database
+            </summary>
+            <param name="name">property title</param>
+            <param name="postcode">property postcode</param>
+            <param name="floorArea">floor area in m2</param>
+            <param name="numbBedrooms">number of bedrooms</param>
+            <param name="typeId">property type id</param>
+            <returns>the id of the new property</returns>
+        </member>
+        <member name="M:emAPI.IemAPI.getPropertyTypeId(System.Int32,System.Int32,System.Int32)">
+            <summary>
+            Get property type id from heating, building and wall type ids
+            </summary>
+            <param name="heatingId"></param>
+            <param name="buildingId"></param>
+            <param name="wallId"></param>
+            <returns>mathcing PropertyType id or 0 if cannot be found</returns>
+        </member>
+        <member name="M:emAPI.IemAPI.getHeatingTypes">
+            <summary>
+            Get list of all heating types in the database
+            </summary>
+            <returns>JSON representation of list of HeatingTypes</returns>
+        </member>
+        <member name="M:emAPI.IemAPI.getBuildingTypes">
+            <summary>
+            Get list of all building types in the database
+            </summary>
+            <returns>JSON representation of list of BuildingTypes</returns>
+        </member>
+        <member name="M:emAPI.IemAPI.getWallTypes">
+            <summary>
+            Get list of all wall types in the database
+            </summary>
+            <returns>JSON representation of list of WallTypes</returns>
+        </member>
+        <member name="M:emAPI.IemAPI.editProperty(System.Int32,System.String)">
+            EDIT METHODS
+            
+        </member>
+        <member name="M:emAPI.IemAPI.deleteProperty(System.Int32)">
+            DELETE METHODS
+            
+        </member>
+        <member name="M:emAPI.IemAPI.updateBenchmarks">
+            OTHER METHODS
+            
+        </member>
+        <member name="M:emAPI.IemAPI.getMeter(System.Int32)">
+            GET METHODS
+            
+        </member>
+        <member name="M:emAPI.IemAPI.createElectricityMeter(System.String,System.Double,System.Int32,System.String,System.Int32)">
+            CREATE METHODS
+            
+        </member>
+        <member name="M:emAPI.IemAPI.editMeter(System.Int32,System.String)">
+            EDIT METHODS
+            
+        </member>
+        <member name="M:emAPI.IemAPI.deleteMeter(System.Int32)">
+            DELETE METHODS
+            
+        </member>
+        <member name="M:emAPI.IemAPI.getInvoicesForMeter(System.Int32)">
+            GET METHODS
+            
+        </member>
+        <member name="M:emAPI.IemAPI.createInvoice(System.Int32,System.String,System.String,System.String,System.Int32,System.Int32,System.Double,System.Double,System.Double,System.Int32)">
+            CREATE METHODS
+            
+        </member>
+        <member name="M:emAPI.IemAPI.editInvoice(System.Int32,System.String,System.Int32)">
+            EDIT METHODS
+            
+        </member>
+        <member name="M:emAPI.IemAPI.deleteInvoice(System.Int32)">
+            DELETE METHODS
+            
+        </member>
+        <member name="M:emAPI.IemAPI.getSCPeriods">
+            GET METHODS
+            
+        </member>
+        <member name="M:emAPI.IemAPI.createTariff(System.Double,System.String,System.Int32,System.Int32,System.Int32)">
+            CREATE METHODS
+            
+        </member>
+        <member name="M:emAPI.IemAPI.editTariff(System.Int32,System.String)">
+            EDIT METHODS
+            
+        </member>
+        <member name="M:emAPI.IemAPI.deleteTariff(System.Int32)">
+            DELETE METHODS
+            
+        </member>
+        <member name="T:emAPI.DAL.EMDataManager">
+            <summary>
+            Entity Framework implementation of data storage.  Sub-class of DataAcccessObject.
+            </summary>
+        </member>
+        <member name="M:emAPI.DAL.EMDataManager.#ctor">
+            <summary>
+            Ctor, initialises emdb to hold ref to the database
+            </summary>
+        </member>
+        <!-- Badly formed XML comment ignored for member "M:emAPI.DAL.EMDataManager.getInvoice(System.Int32)" -->
+        <member name="M:emAPI.DAL.EMDataManager.getMeter(System.Int32)">
+            <summary>
+            Retreives the meter with specified id and associated meter readings
+            </summary>
+            <param name="meterId"></param>
+            <returns></returns>
+        </member>
+        <member name="M:emAPI.DAL.EMDataManager.getProperty(System.Int32)">
+            <summary>
+            Retreives the property with the specified property id and associated meters
+            </summary>
+            <param name="PropertyId"></param>
+            <returns></returns>
+        </member>
+        <member name="M:emAPI.DAL.EMDataManager.getPropertyType(System.Int32)">
+            <summary>
+            Retreives the property type with the specified id
+            </summary>
+            <param name="typeId"></param>
+            <returns></returns>
+        </member>
+        <member name="M:emAPI.DAL.EMDataManager.getReading(System.Int32)">
+            <summary>
+            Retreive meter reading with specified id
+            </summary>
+            <param name="meterReadingId"></param>
+            <returns></returns>
+        </member>
+        <!-- Badly formed XML comment ignored for member "M:emAPI.DAL.EMDataManager.getTariff(System.Int32)" -->
+        <member name="M:emAPI.DAL.EMDataManager.getPeriod(System.Int32)">
+            <summary>
+            Retreives the standing charge period with the specified id
+            </summary>
+            <param name="periodId"></param>
+            <returns></returns>
+        </member>
+        <member name="M:emAPI.DAL.EMDataManager.getUser(System.Int32)">
+            <summary>
+            Retrieves user with specified id
+            </summary>
+            <param name="userId"></param>
+            <returns></returns>
+        </member>
+        <member name="M:emAPI.DAL.EMDataManager.getNote(System.Int32)">
+            <summary>
+            Retrieves note with specified id
+            </summary>
+            <param name="noteId"></param>
+            <returns></returns>
+        </member>
+        <member name="M:emAPI.DAL.EMDataManager.getProperties(System.Int32)">
+            <summary>
+            Retreive list of properties for user with specified id
+            </summary>
+            <param name="userId"></param>
+            <returns></returns>
+        </member>
+        <member name="M:emAPI.DAL.EMDataManager.getMeters(System.Int32)">
+            <summary>
+            Retrieve list of meters at property with specified id
+            </summary>
+            <param name="propertyId"></param>
+            <returns></returns>
+        </member>
+        <member name="M:emAPI.DAL.EMDataManager.getMeterReadings(System.Int32)">
+            <summary>
+            Retrieve list of meter readings for the meter with specified id
+            </summary>
+            <param name="meterId"></param>
+            <returns></returns>
+        </member>
+        <member name="M:emAPI.DAL.EMDataManager.getInvoicesForMeter(System.Int32)">
+            <summary>
+            Retireve list of invoices assigned to meter with specified id
+            </summary>
+            <param name="meterId"></param>
+            <returns></returns>
+        </member>
+        <member name="M:emAPI.DAL.EMDataManager.getNotes(System.Int32)">
+            <summary>
+            Retreives list of notes on the meter with the specified id
+            </summary>
+            <param name="meterId"></param>
+            <returns></returns>
+        </member>
+        <member name="M:emAPI.DAL.EMDataManager.getMeterForInvoice(System.Int32)">
+            <summary>
+            Return the meter associated with the specified invoice
+            </summary>
+            <param name="invoiceId"></param>
+            <returns></returns>
+        </member>
+        <member name="M:emAPI.DAL.EMDataManager.getUserPassword(System.Int32)">
+            single attributes
+        </member>
+        <member name="M:emAPI.DAL.EMDataManager.getPropertyTypes">
+            whole tables
+        </member>
+        <member name="M:emAPI.DAL.EMDataManager.getDetailsForMeter(System.Int32)">
+            other
+        </member>
+        <member name="M:emAPI.DAL.EMDataManager.editMeter(System.Int32,emAPI.ClassLibrary.Meter)">
+            <summary>
+            Updates meter with specified id.  Child objects ARE NOT affected.
+            </summary>
+            <param name="meterId">id of meter to update</param>
+            <param name="newMeter">meter object with replacement data</param>
+        </member>
+        <member name="M:emAPI.DAL.EMDataManager.editInvoice(System.Int32,emAPI.ClassLibrary.Invoice)">
+            <summary>
+            Updates invoice with specified id.  Child objects ARE NOT updated (except meter).
+            </summary>
+            <param name="invoiceId">id of invoice to update</param>
+            <param name="newInvoice">invoice object with replacement data</param>
+        </member>
+        <member name="M:emAPI.DAL.EMDataManager.editTariff(System.Int32,emAPI.ClassLibrary.Tariff)">
+            <summary>
+            Updates tariff with specified id.  Child TariffBand objects ARE updated, and their ids are required in the new tariff object
+            </summary>
+            <param name="tariffId">id of tariff to update</param>
+            <param name="newTariff">tariff object with replacement data NLCUDING updated TariffBand objects with their ids as they exist in the database before change</param>
+        </member>
+        <member name="M:emAPI.DAL.EMDataManager.editTariffBand(System.Int32,emAPI.ClassLibrary.TariffBand)">
+            <summary>
+            Update tariffBand with specified id.
+            </summary>
+            <param name="tariffBandId">id of tariff band to update</param>
+            <param name="tariffBand">replacement tariff band object</param>
+        </member>
+        <member name="M:emAPI.DAL.EMDataManager.editUser(System.Int32,emAPI.ClassLibrary.User)">
+            <summary>
+            Update with specified id.  Child objects ARE NOT updated.
+            </summary>
+            <param name="userId">id of user to update</param>
+            <param name="newUser">user object with replacement data</param>
+        </member>
+        <member name="M:emAPI.DAL.EMDataManager.editProperty(System.Int32,emAPI.ClassLibrary.Property)">
+            <summary>
+            Update property with specified id.  Child objects ARE NOT updated.
+            </summary>
+            <param name="propertyId">id of proeprty to update</param>
+            <param name="newProperty">property object with replacement data</param>
+        </member>
+        <member name="M:emAPI.DAL.EMDataManager.editNote(System.Int32,emAPI.ClassLibrary.Annotation)">
+            <summary>
+            Update note with specified id.  Child objects ARE NOT updated.
+            </summary>
+            <param name="noteId"></param>
+            <param name="newNote"></param>
+            <returns></returns>
+        </member>
+        <member name="M:emAPI.DAL.EMDataManager.saveUser(emAPI.ClassLibrary.User)">
+            <summary>
+            Store the user object in the database
+            </summary>
+            <param name="user"></param>
+            <returns>id of created user</returns>
+        </member>
+        <member name="M:emAPI.DAL.EMDataManager.saveProperty(emAPI.ClassLibrary.Property)">
+            <summary>
+            Store the property object in the database
+            </summary>
+            <param name="property"></param>
+            <returns>id of the created property</returns>
+        </member>
+        <member name="M:emAPI.DAL.EMDataManager.saveMeter(emAPI.ClassLibrary.Meter)">
+            <summary>
+            Store the meter object in the database
+            </summary>
+            <param name="meter"></param>
+        </member>
+        <member name="M:emAPI.DAL.EMDataManager.saveMeterReading(emAPI.ClassLibrary.MeterReading)">
+            <summary>
+            Saves the meter reading object to the database
+            </summary>
+            <param name="meterReading"></param>
+        </member>
+        <member name="M:emAPI.DAL.EMDataManager.saveInvoice(emAPI.ClassLibrary.Invoice)">
+            <summary>
+            Saves the invoice object to the databse
+            </summary>
+            <param name="invoice"></param>
+        </member>
+        <member name="M:emAPI.DAL.EMDataManager.saveTariff(emAPI.ClassLibrary.Tariff)">
+            <summary>
+            Saves the tariff object to the databse
+            </summary>
+            <param name="tariff"></param>
+        </member>
+        <member name="M:emAPI.DAL.EMDataManager.saveTariffBand(emAPI.ClassLibrary.TariffBand)">
+            <summary>
+            Saves a tariff band object to the database
+            </summary>
+            <param name="tariffBand"></param>
+        </member>
+        <member name="M:emAPI.DAL.EMDataManager.saveNote(emAPI.ClassLibrary.Annotation)">
+            <summary>
+            Saves the annotation object to the database
+            </summary>
+            <param name="note"></param>
+        </member>
+        <member name="P:emAPI.DAL.EMDataManager.emdb">
+            <summary>
+            instance of the EMDatabase EF4.3 DbContext class
+            </summary>
+        </member>
+        <member name="F:emAPI.Controllers.EMConverter.gasCalorificValue">
+            conversion factor from joules to kWh
+        </member>
+        <member name="F:emAPI.Controllers.EMConverter.gasCorrectionFactor">
+            standard calorific value of 1m3 natural gas      
+        </member>
+        <member name="F:emAPI.Controllers.EMConverter.gaskWhFactor">
+            standard correction factor for room temperature and pressure
+        </member>
+        <member name="F:emAPI.Controllers.EMConverter.eleckWhFactor">
+            CO2 conversion factor kWh natural gas -> kg CO2
+        </member>
+        <member name="M:emAPI.Controllers.EMConverter.fromObjectToJSON(System.Object)">
+            <summary>
+            Convert an object of any type to a JSON string
+            </summary>
+            <param name="obj">object to convert</param>
+            <returns></returns>
+        </member>
+        <member name="M:emAPI.Controllers.EMConverter.fromJSONtoA``1(System.String)">
+            <summary>
+            Convert a JSON string to an object
+            </summary>
+            <typeparam name="T">type of object required</typeparam>
+            <param name="JSON">JSON representation of object</param>
+            <returns></returns>
+        </member>
+        <member name="M:emAPI.Controllers.ApportionmentManager.apportionToPeriod(System.Collections.Generic.List{emAPI.ClassLibrary.Chunk},System.DateTime,System.DateTime,emAPI.ClassLibrary.AppotionmentPeriod)">
+            <summary>
+            Converts meter readings / invoice costs into consumption between regular intervals.
+            </summary>
+            <param name="dataIn">List of date/double pairs that represent raw meter readings or invoices</param>
+            <param name="startDate">start date of required apportioned consumption</param>
+            <param name="endDate">end date of required apportioned consumption</param>
+            <param name="interval">interval between required apportioned date/double pairs</param>
+            <returns>Returns null if apportionment cannot be undertaken (not enough readings/invoices / no readings/invoices in specified time period)</returns>
+        </member>
+        <member name="M:emAPI.Controllers.ApportionmentManager.setupDatedChunksForApportionToPeriod(System.DateTime,System.DateTime,emAPI.ClassLibrary.AppotionmentPeriod)">
+            <summary>
+            internal since used in property to get kwh for all meters
+            </summary>
+            <param name="startDate"></param>
+            <param name="endDate"></param>
+            <param name="interval"></param>
+            <returns></returns>
+        </member>
+        <member name="M:emAPI.Controllers.ApportionmentManager.apportion(System.Collections.Generic.List{emAPI.ClassLibrary.Chunk},System.Collections.Generic.List{emAPI.ClassLibrary.Chunk})">
+            <summary>
+            
+            </summary>
+            <param name="datedChunks"></param>
+            <param name="dataIn"></param>
+            <returns></returns>
+        </member>
+        <member name="M:emAPI.emAPI.usernameIsUnique(System.String)">
+            <summary>
+            Checks existence of given username in the database
+            </summary>
+            <param name="username"></param>
+            <returns>bool wrapped in EMResponse object</returns>
+        </member>
+        <member name="M:emAPI.emAPI.emailIsUnique(System.String)">
+            <summary>
+            Checks existance of given email in the database
+            </summary>
+            <param name="email"></param>
+            <returns>bool wrapped in EMResponse object</returns>
+        </member>
+        <member name="M:emAPI.emAPI.createUser(System.String,System.String,System.String,System.String,System.String)">
+            <summary>
+            Creates a user object and saves it to the database.
+            </summary>
+            <param name="username"></param>
+            <param name="forename"></param>
+            <param name="surname"></param>
+            <param name="password">NB Plaintext passwords should not be stored in the database.  Consider a salty hash instead.</param>
+            <param name="email"></param>
+            <returns>Id of created user - int wrapped in EMResponse object</returns>
+        </member>
+        <member name="M:emAPI.emAPI.validateUser(System.String,System.String)">
+            <summary>
+            Checks that the password provided matches the username given
+            </summary>
+            <param name="username"></param>
+            <param name="password">NB Plaintext passwords should not be stored in the database.  Consider a salty hash instead.</param>
+            <returns>Id of user if the match is successful, or 0 if password does not match or user cannot be found.  Both are ints wrapped in EMResponse obect.</returns>
+        </member>
+        <member name="M:emAPI.emAPI.getUser(System.Int32)">
+            <summary>
+            Returns representation of the user object with the specified id.  ALL child objects are returned
+            </summary>
+            <param name="userId"></param>
+            <returns>JSON representation of user object.  String wrapped in EMResponse object.</returns>
+        </member>
+        <member name="M:emAPI.emAPI.editUser(System.Int32,System.String)">
+            <summary>
+            Updates the user object in the database with the details in the newUser object.  NB Child objects are NOT updated.
+            </summary>
+            <param name="userId">id of the user to be updated</param>
+            <param name="newUser">JSON representation of user object containing the details with which to update the user</param>
+            <returns>JSON representaion of the updated user (incl child objects).  String wrapped in EMResponse object.</returns>
+        </member>
+        <member name="M:emAPI.emAPI.updatePassword(System.Int32,System.String)">
+            <summary>
+            Updates the password of the user with given id.  NB ONLY USE THIS METHOD ONCE THE USER HAS BEEN AUTHENTICATED.
+            </summary>
+            <param name="userId">Id of user whose password will be updated</param>
+            <param name="newPassword">Updated password.  NB Plaintext passwords should not be stored in the database.  Consider a salty hash instead.</param>
+            <returns>Bool as JSON string | represents success of update | wrapped in EMResponse.</returns>
+        </member>
+        <member name="M:emAPI.emAPI.getPropertiesForUser(System.Int32)">
+            <summary>
+            Retrieves all properties in the database belonging to user with specified id.
+            </summary>
+            <param name="userId"></param>
+            <returns>JSON representation of </returns>
+        </member>
+        <member name="M:emAPI.emAPI.getPropertyTypes">
+            GET METHODS
+        </member>
+        <member name="M:emAPI.emAPI.createProperty(System.String,System.String,System.Int32,System.Int32,System.Int32,System.Int32)">
+            <summary>
+            
+            </summary>
+            <param name="name"></param>
+            <param name="postcode"></param>
+            <param name="floorArea"></param>
+            <param name="numbBedrooms"></param>
+            <param name="typeId"></param>
+            <param name="userId"></param>
+            <returns></returns>
+        </member>
+        <member name="M:emAPI.emAPI.editProperty(System.Int32,System.String)">
+            EDIT METHODS
+        </member>
+        <member name="M:emAPI.emAPI.deleteProperty(System.Int32)">
+            DELETE METHODS
+            
+        </member>
+        <member name="M:emAPI.emAPI.updateBenchmarks">
+            OTHER
+            
+        </member>
+        <member name="M:emAPI.emAPI.getMeter(System.Int32)">
+            GET METHODS
+            
+        </member>
+        <member name="M:emAPI.emAPI.createElectricityMeter(System.String,System.Double,System.Int32,System.String,System.Int32)">
+            CREATE METHODS
+            
+        </member>
+        <member name="M:emAPI.emAPI.editMeter(System.Int32,System.String)">
+            EDIT METHODS
+            
+        </member>
+        <member name="M:emAPI.emAPI.deleteMeter(System.Int32)">
+            DELETE METHODS
+            
+        </member>
+        <member name="M:emAPI.emAPI.getInvoicesForMeter(System.Int32)">
+            GET METHODS
+            
+        </member>
+        <member name="M:emAPI.emAPI.createInvoice(System.Int32,System.String,System.String,System.String,System.Int32,System.Int32,System.Double,System.Double,System.Double,System.Int32)">
+            CREATE METHODS
+            
+        </member>
+        <member name="M:emAPI.emAPI.editInvoice(System.Int32,System.String,System.Int32)">
+            EDIT METHODS
+            
+        </member>
+        <member name="M:emAPI.emAPI.deleteInvoice(System.Int32)">
+            DELETE METHODS
+            
+        </member>
+        <member name="M:emAPI.emAPI.getSCPeriods">
+            GET METHODS
+            
+        </member>
+        <member name="M:emAPI.emAPI.createTariff(System.Double,System.String,System.Int32,System.Int32,System.Int32)">
+            CREATE METHODS
+            
+        </member>
+        <member name="M:emAPI.emAPI.getMinimumTariffDate(System.Int32)">
+            <summary>
+            Gets the minimum tariff date for the specified meter
+            </summary>
+            <param name="meterId"></param>
+            <returns></returns>
+        </member>
+        <member name="M:emAPI.emAPI.editTariff(System.Int32,System.String)">
+            EDIT METHODS
+            
+        </member>
+        <member name="M:emAPI.emAPI.deleteTariff(System.Int32)">
+            DELETE METHODS
+            
+        </member>
+    </members>
+</doc>

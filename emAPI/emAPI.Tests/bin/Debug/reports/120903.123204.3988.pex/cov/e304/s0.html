@@ -1,0 +1,505 @@
+﻿<?xml version="1.0" encoding="utf-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html>
+<!-- saved from url=(0033)http://research.microsoft.com/pex -->
+<head><link rel="StyleSheet" href="er.common.css" type="text/css" /><script src="er.common.js" type="text/javascript"> </script><link rel="SHORTCUT ICON" href="favicon.ico" /><link rel="icon" href="favicon.ico" type="image/x-icon" /><title>C:\Users\David Sauntson\Documents\Project Codes\emAPI\emAPI\emAPI\Controllers\ApportionmentManager.cs</title></head><body><div class="banner"></div><h2 id="top">C:\Users\David Sauntson\Documents\Project Codes\emAPI\emAPI\emAPI\Controllers\ApportionmentManager.cs</h2><div class="toggle"><p class="copyright"><a class="usercodeundertestcovered">user code under test</a>, 
+  <span class="usercodeundertestnotcovered">user code under test (not covered)</span>, 
+  <a class="userortestcodecovered">user code or test</a>, 
+  <span class="userortestcodenotcovered">user code or test (not covered)</span>,
+  <span class="tagged">tagged</span></p><table><tr><th>Methods</th></tr><tr><th /></tr></table><div class="toggle"><a class="button" href="#ID0EL">first</a><pre class="coverage">/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
+ * DAVID SAUNTSON 12993011                                               *
+ * MSc Software Engineering - Final Year Project                         *
+ *                                                                       *
+ * Energy Management API &amp; Software                                      *
+ * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
+ * 
+ * ApportionmentManager.cs
+ * Code source: Handwritten
+ */
+		
+
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using emAPI.ClassLibrary;
+using emAPI.Interfaces;
+
+namespace emAPI.Controllers
+{
+    /// &lt;summary&gt;
+    /// Controller object responsible for apportioning data into regularly sized Chunk objects.
+    /// &lt;/summary&gt;
+    public class ApportionmentManager : IApportionmentManager
+    {
+        <span id="ID0EL"><a class="button" href="#top">top</a>|<a class="button" href="#ID0EJB">next</a></span><span class="usercodeundertestnotcovered">private EMMediator mediator = new EMMediator();</span>
+
+
+        /// &lt;summary&gt;
+        /// Calculates total amount between start and end date based on provided data
+        /// &lt;/summary&gt;
+        /// &lt;param name="dataIn"&gt;List[Chunk] of base data&lt;/param&gt;
+        /// &lt;param name="startDate"&gt;&lt;/param&gt;
+        /// &lt;param name="endDate"&gt;&lt;/param&gt;
+        /// &lt;returns&gt;Double representing total amount between start and end date, apportioned between start and end dates&lt;/returns&gt;
+        public double apportionToDates(List&lt;Chunk&gt;dataIn, string startDate, string endDate)
+        {
+            DateTime start = Convert.ToDateTime(startDate);
+            DateTime end = Convert.ToDateTime(endDate);
+
+            if(!canApportion(dataIn, start, end))
+            {
+                return 0;
+            }
+            else
+            {
+                List&lt;Chunk&gt; datedChunks = setupDatedChunksForApportionToDates(start, end);
+                List&lt;Chunk&gt; result = apportion(datedChunks, dataIn);
+
+                if (result == null | result.Count == 0)
+                {
+                    return 0;
+                }
+                else
+                {
+                    return result.ElementAt(0).Amount;
+                }
+            }
+
+        }
+
+
+        /// &lt;summary&gt;
+        /// Converts meter readings / invoice costs into consumption between regular intervals.
+        /// &lt;/summary&gt;
+        /// &lt;param name="dataIn"&gt;List of date/double pairs that represent raw meter readings or invoices&lt;/param&gt;
+        /// &lt;param name="startDate"&gt;start date of required apportioned consumption&lt;/param&gt;
+        /// &lt;param name="endDate"&gt;end date of required apportioned consumption&lt;/param&gt;
+        /// &lt;param name="interval"&gt;interval between required apportioned date/double pairs&lt;/param&gt;
+        /// &lt;returns&gt;Returns null if apportionment cannot be undertaken (not enough readings/invoices / no readings/invoices in specified time period)&lt;/returns&gt;
+        public List&lt;Chunk&gt; apportionToPeriod(List&lt;Chunk&gt; dataIn, DateTime startDate, DateTime endDate, AppotionmentPeriod interval)
+        {
+            if (!canApportion(dataIn, startDate, endDate))
+            {
+                return null;
+            }
+
+            else
+            {   
+                ///create list of dated chunks with no consumptions, used to create the final results list
+                List&lt;Chunk&gt; datedChunks = setupDatedChunksForApportionToPeriod(startDate, endDate, interval);
+
+                ///do the actual apportioning of data
+                return apportion(datedChunks, dataIn);
+            }
+        }
+
+
+        //SETUP METHODS
+
+
+        /// &lt;summary&gt;
+        /// Creates List[Chunk] with required start and end date.  List[Chunk].Count = 1.
+        /// &lt;/summary&gt;
+        /// &lt;param name="start"&gt;&lt;/param&gt;
+        /// &lt;param name="end"&gt;&lt;/param&gt;
+        /// &lt;returns&gt;List[Chunk] where .Count = 1&lt;/returns&gt;
+        private List&lt;Chunk&gt; setupDatedChunksForApportionToDates(DateTime start, DateTime end)
+        {
+            List&lt;Chunk&gt; datedChunks = new List&lt;Chunk&gt;
+            {
+                new Chunk { StartDate = start, EndDate = end }
+            };
+
+            return datedChunks;
+        }
+
+
+        /// &lt;summary&gt;
+        /// Creates List[Chunk], with regular start and end dates for required intervals.  Amount = 0 for all Chunks.
+        /// &lt;/summary&gt;
+        /// &lt;param name="startDate"&gt;&lt;/param&gt;
+        /// &lt;param name="endDate"&gt;&lt;/param&gt;
+        /// &lt;param name="interval"&gt;&lt;/param&gt;
+        /// &lt;returns&gt;List[Chunk] for required duration, each Chunk covering one interval.&lt;/returns&gt;
+        public List&lt;Chunk&gt; setupDatedChunksForApportionToPeriod(DateTime startDate, DateTime endDate, AppotionmentPeriod interval)
+        <a class="button" href="#ID0EL">prev</a>|<span id="ID0EJB"><a class="button" href="#top">top</a></span><a class="usercodeundertestcovered">{</a>
+            ///calendar object used for adding days/months/years to start date
+            <a class="usercodeundertestcovered">System.Globalization.Calendar calendar = System.Globalization.CultureInfo.CurrentCulture.Calendar;</a>
+
+            ///set up apportionment requirements
+            <a class="usercodeundertestcovered">List&lt;Chunk&gt; datedChunks = new List&lt;Chunk&gt;();</a>
+            <a class="usercodeundertestcovered">int periodType = (int)interval;</a>
+
+            ///i used to keep track of how many Chunks have already been created &amp; adds appropriate no. of intervals to start date.
+            <a class="usercodeundertestcovered">int i = 0;</a>
+
+            ///create list of chunks with correct required start dates
+            do
+            <a class="usercodeundertestcovered">{</a>
+                <a class="usercodeundertestcovered">Chunk chunk = new Chunk();</a>
+                <a class="usercodeundertestcovered">TimeSpan oneDay = new TimeSpan(1, 0, 0);</a> ///one day timespan needed to calculate end dates
+
+                <a class="usercodeundertestcovered">switch (periodType)</a>
+                {
+
+                    case 1: ///interval is daily
+                        ///
+
+                        <a class="tagged" title="call to uninstrumented method System.DateTime System.Globalization.Calendar.AddDays(System.DateTime time, System.Int32 days)">chunk.StartDate = calendar.AddDays(startDate, i);</a>
+                        <a class="usercodeundertestcovered">chunk.EndDate = calendar.AddDays(chunk.StartDate, 1);</a>
+                        <a class="usercodeundertestcovered">break;</a>
+
+                    case 2: ///interval is weekly
+                        ///
+                        <a class="tagged" title="call to uninstrumented method System.DateTime System.Globalization.Calendar.AddWeeks(System.DateTime time, System.Int32 weeks)">chunk.StartDate = calendar.AddWeeks(startDate, i);</a>
+                        <a class="usercodeundertestcovered">chunk.EndDate = calendar.AddWeeks(chunk.StartDate, 1);</a>
+                        <a class="usercodeundertestcovered">break;</a>
+
+                    case 3: ///interval is monthly
+                        ///
+                        <a class="usercodeundertestcovered">chunk.StartDate = calendar.AddMonths(startDate, i);</a>
+                        <a class="usercodeundertestcovered">chunk.EndDate = calendar.AddMonths(chunk.StartDate, 1);</a>
+                        <a class="usercodeundertestcovered">break;</a>
+
+                    case 4: ///interval is quarterly
+                        ///
+                        <a class="tagged" title="call to uninstrumented method System.DateTime System.Globalization.GregorianCalendar.AddMonths(System.DateTime time, System.Int32 months)">chunk.StartDate = calendar.AddMonths(startDate, 3 * i);</a>
+                        <a class="usercodeundertestcovered">chunk.EndDate = calendar.AddMonths(chunk.StartDate, 3 * 1);</a>
+
+                        <a class="usercodeundertestcovered">break;</a>
+
+                    case 5: ///interval is annually
+                        ///
+                        <a class="tagged" title="call to uninstrumented method System.DateTime System.Globalization.GregorianCalendar.AddYears(System.DateTime time, System.Int32 years)">chunk.StartDate = calendar.AddYears(startDate, i);</a>
+                        <a class="usercodeundertestcovered">chunk.EndDate = calendar.AddYears(chunk.StartDate, 1);</a>
+                        <a class="usercodeundertestcovered">break;</a>
+
+                }
+
+                ///take on day off each date date to avoid overlapping date ranges
+                <a class="usercodeundertestcovered">chunk.EndDate = chunk.EndDate.Subtract(oneDay);</a>
+                <a class="usercodeundertestcovered">datedChunks.Add(chunk);</a>
+                <a class="usercodeundertestcovered">i++;</a>
+
+            <a class="usercodeundertestcovered">}</a> <a class="usercodeundertestcovered">while (datedChunks.ElementAt(i - 1).EndDate &lt;= endDate);</a>
+
+            <a class="usercodeundertestcovered">return datedChunks;</a>
+
+        <a class="usercodeundertestcovered">}</a>
+
+        //APPORTIONMENT METHODS
+
+        /// &lt;summary&gt;
+        /// Takes a list of Chunks with irregular (but consecutive) start and end dates and creates another List[Chunk] with regular start
+        /// and end dates, the consumption of each caclulated from available data.  
+        /// Backwards apportionment (where the requested interval is smaller than the interval between readings/invoices) will result in the
+        /// average over the whole period being applied to that chunk.
+        /// Interval, start and end dates for the whole period are determined from the list of Chunks provided.
+        /// &lt;/summary&gt;
+        /// &lt;param name="datedChunks"&gt;
+        /// List[Chunk] containing Chunks with regular start/end date for the duration of the period required.
+        /// Create using setupDatedChunksForApportionToPeriod(DateTime startDate, DateTime endDate, AppotionmentPeriod interval)
+        /// &lt;/param&gt;
+        /// &lt;param name="dataIn"&gt;
+        /// List[Chunk] containing source data.
+        /// Create using convertReadingsToChunks(List[MeterReading] readings) OR convertInvoicesToChunks(List[Invoices] invoices)
+        /// &lt;/param&gt;
+        /// &lt;returns&gt;List[Chunk] of apportioned data.&lt;/returns&gt;
+        private List&lt;Chunk&gt; apportion(List&lt;Chunk&gt; datedChunks, List&lt;Chunk&gt; dataIn)
+        {
+            ///create list to store resulting chunks
+            List&lt;Chunk&gt; resultChunks = new List&lt;Chunk&gt;();
+            
+            ///ensure provided list is in ascending date order
+            dataIn = dataIn.OrderBy(chunk =&gt; chunk.StartDate).ToList();
+
+            ///determine max start and end dates from dataIn
+            DateTime maxStart = dataIn.First().StartDate;
+            DateTime maxEnd = dataIn.Last().EndDate;
+
+            ///do the apportioning
+            foreach (Chunk datedChunk in datedChunks)
+            {
+                ///list for storing the chunks from dataIn that are relevant to this results chunk
+                List&lt;Chunk&gt; relevantChunks = new List&lt;Chunk&gt;();
+
+                double averageDailyRateOverPeriod = 0;
+                double totalAmountOverPeriod = 0;
+                double periodLength = 0;
+
+                ///get all relevant chunks in the dataIn list that lie within the date boundaries of this chunk of the results list
+                foreach (Chunk chunk in dataIn)
+                {
+
+                    ///track average daily amount to fill in gaps in 'backwards' apportionment (ie where interval &lt; time between reads)
+                    TimeSpan tsInChunk = chunk.EndDate - chunk.StartDate;
+                    periodLength += tsInChunk.Days;
+                    totalAmountOverPeriod += chunk.Amount;
+                    averageDailyRateOverPeriod = totalAmountOverPeriod / periodLength;
+
+                    ///check whether this chunk falls in the chunk on datedChunks &amp; is therefore relevant to calculating
+                    ///the total for this datedChunk
+                    if ((chunk.StartDate &gt;= datedChunk.StartDate &amp;&amp; chunk.StartDate &lt;= datedChunk.EndDate) |
+                          (chunk.EndDate &gt;= datedChunk.StartDate &amp;&amp; chunk.EndDate &lt;= datedChunk.EndDate))
+                    {
+                        relevantChunks.Add(chunk);
+                    }
+                }
+
+                double knownAmount = 0;
+                double estimatedAmount = 0;
+
+                ///calculate the known amount for this datedChunk using all the relevant chunks gathered in relevantChunks above
+                foreach (Chunk relevantChunk in relevantChunks)
+                {
+                    knownAmount += relevantChunk.Amount;
+                }
+
+
+                ///determine number of days required by this results chunk
+                TimeSpan ts = datedChunk.EndDate - datedChunk.StartDate;
+                double numbDaysRequired = ts.TotalDays;
+
+
+                double dailyRate = 0;
+
+                ///determine number of days covered by the chunks in this result chunk
+                double numbDaysCovered = new double();
+                if (relevantChunks.Count != 0)
+                {
+                    ts = relevantChunks.ElementAt(relevantChunks.Count - 1).EndDate - relevantChunks.ElementAt(0).StartDate;
+                    numbDaysCovered = ts.TotalDays;
+                }
+                else
+                {
+                    ///in this case we have to use the average of the whole period calculated above
+                    numbDaysCovered = 0;
+                    dailyRate = averageDailyRateOverPeriod;
+                }
+
+
+                ///determine number of missing days that require estimation
+                double missingDays = numbDaysRequired - numbDaysCovered;
+
+                ///determine average daily amount from known amount
+                if (numbDaysCovered != 0)
+                {
+                    dailyRate = knownAmount / numbDaysCovered;
+                }
+
+                ///calculate estimated amount
+                estimatedAmount = missingDays * dailyRate;
+
+                ///create new, final result chunk and add to list
+                Chunk resultChunk = new Chunk
+                {
+                    StartDate = datedChunk.StartDate,
+                    EndDate = datedChunk.EndDate,
+                    Amount = knownAmount + estimatedAmount
+                    ///NB if the length of the chunk is greater than required, missingDays will be negative and the total amount
+                    ///adjusted downward as necessary
+                };
+
+                ///check if chunk lies inside the maxStart and maxEnd range (ie not outide all data available)
+                if ((resultChunk.StartDate &gt;= maxStart &amp;&amp; resultChunk.StartDate &lt;= maxEnd) |
+                      (resultChunk.EndDate &gt;= maxStart &amp;&amp; resultChunk.EndDate &lt;= maxEnd))
+                {
+                    resultChunks.Add(resultChunk);
+                }
+            }
+
+            return resultChunks;
+        }
+
+        
+        //CHECKING METHODS
+        
+        private enum DateCoverage
+        {
+            bothDatesInRange = 1,
+            startDateInRange = 2,
+            endDateInRange = 3,
+            neitherDateInRange = 4,
+            invalidRange = 5,
+            invalidDates = 6
+        }
+
+
+        /// &lt;summary&gt;
+        /// Check the date coverage of two provided start and end dates compared to a range's start and end date
+        /// &lt;/summary&gt;
+        /// &lt;param name="startDate"&gt;&lt;/param&gt;
+        /// &lt;param name="endDate"&gt;&lt;/param&gt;
+        /// &lt;param name="rangeStart"&gt;&lt;/param&gt;
+        /// &lt;param name="rangeEnd"&gt;&lt;/param&gt;
+        /// &lt;returns&gt;DateCoverage enum representing the date coverage&lt;/returns&gt;
+        private DateCoverage getDateCoverage(DateTime startDate, DateTime endDate, DateTime rangeStart, DateTime rangeEnd)
+        {
+            if (startDate &gt; endDate)
+            {
+                return DateCoverage.invalidDates;
+            }
+
+            if (rangeStart &gt; rangeEnd)
+            {
+                return DateCoverage.invalidRange;
+            }
+
+            if ((startDate &gt;= rangeStart) &amp;&amp; (endDate &lt;= rangeEnd))
+            {
+                return DateCoverage.bothDatesInRange;
+            }
+
+            if ((endDate &gt;= rangeStart) | (endDate &lt;= rangeEnd))
+            {
+                return DateCoverage.endDateInRange;
+            }
+
+            if ((startDate &gt;= rangeStart) | (startDate &lt;= rangeEnd))
+            {
+                return DateCoverage.startDateInRange;
+            }
+
+            return DateCoverage.neitherDateInRange;
+        }
+
+
+        /// &lt;summary&gt;
+        /// Determines whether the date coverage of a range of dates is suitable to allow apportionment from that range to between two provided dates
+        /// &lt;/summary&gt;
+        /// &lt;param name="coverage"&gt;&lt;/param&gt;
+        /// &lt;returns&gt;true if date coverage is suitable&lt;/returns&gt;
+        private bool checkDateCoverage(DateCoverage coverage)
+        {
+            return (int)coverage &lt; (int)DateCoverage.neitherDateInRange;
+        }
+
+        /// &lt;summary&gt;
+        /// Determines whether or not apportionment between provided dates can be accomplished using provided List[Chunk]
+        /// &lt;/summary&gt;
+        /// &lt;param name="dataIn"&gt;&lt;/param&gt;
+        /// &lt;param name="startDate"&gt;&lt;/param&gt;
+        /// &lt;param name="endDate"&gt;&lt;/param&gt;
+        /// &lt;returns&gt;true if apportionement can be accomplished&lt;/returns&gt;
+        private bool canApportion(List&lt;Chunk&gt; dataIn, DateTime startDate, DateTime endDate)
+        {
+            ///check if there are appropriate number of chunks to complete apportionment
+            ///
+            if (dataIn.Count &lt; 2)
+            {
+                ///need at least two chunks to do any apportionment
+                ///
+                return false;
+            }
+
+            ///get dateCoverate enum that tells us where the start and end dates of the requested data range fall in relation to the data in the dataIn list
+            DateCoverage dateCoverage = getDateCoverage(startDate, endDate, dataIn.ElementAt(0).StartDate, dataIn.ElementAt(dataIn.Count - 1).EndDate);
+
+            return checkDateCoverage(dateCoverage);
+        }
+
+        //CONVERSION METHODS
+
+        //CONVERTING READINGS &amp; INVOICES INTO CHUNKS
+
+      
+        /// &lt;summary&gt;
+        /// Converts a list of meter readings into a list of chunks suitable for apportionment
+        /// &lt;/summary&gt;
+        /// &lt;param name="readings"&gt;meter readings to convert&lt;/param&gt;
+        /// &lt;returns&gt;List[Chunk] from meter readings&lt;/returns&gt;
+        public List&lt;Chunk&gt; convertReadingsToChunks(List&lt;MeterReading&gt; readings)
+        {
+            List&lt;Chunk&gt; result = new List&lt;Chunk&gt;();
+            TimeSpan oneDay = new TimeSpan(1, 0, 0, 0);
+
+            readings = readings.OrderBy(rdg =&gt; rdg.Date).ToList();
+
+            foreach (MeterReading rdg in readings)
+            {
+                Chunk chunk = new Chunk();
+                try
+                {
+                    ///start date calculated from date of reading + one day
+                    chunk.StartDate = readings.First(r =&gt; r.Date == rdg.Date).Date + oneDay;
+
+                    ///end date calulated from date of next reading
+                    chunk.EndDate = readings.First(r =&gt; r.Date &gt; rdg.Date).Date;
+
+                    ///consumption calculated from consumption of next reading
+                    chunk.Amount = readings.First(r =&gt; r.Date &gt; rdg.Date).Consumption;
+                }
+                catch
+                {
+                    ///no chunk added if there is an error (ie are outside boundaries of list)
+                    break;
+                }
+
+                result.Add(chunk);
+            }
+
+            return result;
+        }
+
+
+        /// &lt;summary&gt;
+        /// Converts a list of invoices into a list of Chunks suitable for apportionment
+        /// &lt;/summary&gt;
+        /// &lt;param name="invoices"&gt;&lt;/param&gt;
+        /// &lt;returns&gt;&lt;/returns&gt;
+        public List&lt;Chunk&gt; convertInvoicesToChunks(List&lt;Invoice&gt; invoices)
+        {
+            List&lt;Chunk&gt; result = new List&lt;Chunk&gt;();
+            TimeSpan oneDay = new TimeSpan(1, 0, 0, 0);
+
+            invoices = invoices.OrderBy(inv =&gt; inv.StartDate).ToList();
+
+            foreach (Invoice inv in invoices)
+            {
+                Chunk chunk = new Chunk();
+
+                chunk.StartDate = inv.StartDate;
+                chunk.EndDate = inv.EndDate;
+                chunk.Amount = inv.ConsumptionCharge + inv.StandingCharge + inv.OtherCharge;
+
+                result.Add(chunk);
+            }
+
+            return result;
+        }
+
+
+        /// &lt;summary&gt;
+        /// Determines the best type of apportionment interval for two dates.  This is acheived by calculating the modulus of the
+        /// number of periods between two dates for each period type in the database.  The answer with the lowest modulus
+        /// (ie the lowest number of remainder days) is the best match.
+        /// &lt;/summary&gt;
+        /// &lt;param name="startDate"&gt;&lt;/param&gt;
+        /// &lt;param name="endDate"&gt;&lt;/param&gt;
+        /// &lt;returns&gt;Apportionment period that best matches the two dates.&lt;/returns&gt;
+        public AppotionmentPeriod getBestApportionmentPeriod(DateTime startDate, DateTime endDate)
+        {
+            TimeSpan timespan = endDate - startDate;
+            int lengthInDays = (int)timespan.TotalDays;
+
+            ///Create a list of dictionary objects that hold a string for the duration and an int for the modulo of that duration in days
+            Dictionary&lt;string, int&gt; remainders = new Dictionary&lt;string, int&gt;();
+
+            ///populate the dictionary with each of the Period types and their length in days
+            List&lt;Period&gt; periods = mediator.DataManager.getPeriods();
+            foreach (Period p in periods)
+            {
+                remainders.Add(p.Length, (lengthInDays % p.NumbDays));
+            }
+
+            ///order the dictionary so the lowest remainder is at the top
+            remainders.OrderBy(d =&gt; d.Value);
+
+            ///extract the entry at the top of the dictionary - this is the best match
+            string matchingPeriod = remainders.ElementAt(0).Key;
+
+            ///convert string to enum and return
+            return (AppotionmentPeriod)Enum.Parse(typeof(AppotionmentPeriod), matchingPeriod);
+        }
+    }
+}
+</pre></div></div><hr /><table width="100%"><tr><td valign="top"><span class="copyright">Copyright (c) Microsoft Corporation. All rights reserved.</span><br /><span class="button" onclick="copySourceToClipboard()">Copy full source to clipboard</span></td></tr></table><div id="debugdiv"> </div></body></html>

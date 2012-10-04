@@ -1,0 +1,405 @@
+﻿@*----------------------------------------------------------
+DAVID SAUNTSON
+
+ENERGY MANAGER WEB APPLICATION
+HANDWRITTEN
+VIEW FILE (.cshtml)
+
+Meter/Home
+----------------------------------------------------------*@
+
+@model EnergyManagerWebApp.Models.MeterViewModel
+   
+@* * * * * * HELPERS SECTION * * * * * * *@
+@helper showInvoiceTable(int numbRows)
+    {
+    <table class="hover">
+        <colgroup>
+            <col style="width: 10%" />
+            <col style="width: 10%" />
+            <col style="width: 10%" />
+            <col style="width: 15%;" />
+            <col style="width: 5%;" />
+        </colgroup>
+            <tr>
+                <th>Date of bill</th>
+                <th>Starts</th>
+                <th>Ends</th>
+                <th class="right">Total Cost, £</th>
+                <th class="tableicon"><!--holder column for validity--></th>
+            </tr>
+            @for (int i = 0; i < numbRows; i++)
+            {
+                if (i >= Model.Meter.Invoices.Count())
+                {
+                    break;
+                }
+
+                var inv = Model.Meter.Invoices.ElementAt(i);
+
+                ///calculate total cost
+                string totalCost = (inv.ConsumptionCharge + inv.StandingCharge + inv.OtherCharge).ToString("n2");
+
+                <tr class="hover">
+                    <td>@inv.BillDate.ToString("d")</td>
+                    <td>@inv.StartDate.ToString("d")</td>
+                    <td>@inv.EndDate.ToString("d")</td>
+                    <td class="right">@totalCost</td>
+                    <td class="tableicon">@MvcHtmlHelpers.CustomHelpers.status(inv.Checked, inv.ConsumptionIsValid, inv.CostIsValid)</td>
+                </tr>
+            }
+    </table>
+    <div>
+        <p>
+            The icon at the end of each row tells you about the accuracy of the invoice from your supplier:
+            <ul style="list-style-type:none">
+                <li><span class="icon">2 </span> the invoice is correct</li>
+                <li><span class="icon">! </span> either the consumption or cost of the invoice is incorrect</li>
+                <li><span class="icon">D </span> both the consumption and the cost of the invoice are correct</li>
+                <li><span class="icon">? </span> the invoice has not been checked yet</li>
+            </ul>
+        </p>
+    </div>    
+        
+        
+        
+    <div>
+        <p>
+            <span class="linkicon">s </span><span>@Html.ActionLink("View all bills", "Index", "Invoice", new { meterId = Model.Meter.Id, propertyId = Model.BelongsToProperty, fuel = Model.Meter.Fuel }, null)</span>
+            <br />
+            <span class="linkicon">+ </span>@Ajax.ActionLink("Add a new bill", "Create", "Invoice",
+                                             new { meterId = Model.Meter.Id, propertyId = Model.BelongsToProperty, fuel = Model.Meter.Fuel },
+                                             new AjaxOptions { HttpMethod = "GET", InsertionMode = System.Web.Mvc.Ajax.InsertionMode.Replace, UpdateTargetId = "newBill" },
+                                             null)
+        </p>
+    </div>
+    }
+
+@helper showReadingTable(int numbRows)
+    {
+    <table>
+        <colgroup>
+            <col style="width: 20%;" />
+            <col style="width: 20%;" />
+            <col style="width: 20%;" />
+        </colgroup>
+            <tr>
+                <th>Date</th>
+                <th>Reading</th>
+                <th>Energy, kWh</th>
+            </tr>
+
+            @for (int i = 0; i < numbRows; i++)
+            {
+                if (i >= Model.Meter.Register.Count())
+                {
+                    break;
+                }
+
+                var reading = Model.Meter.Register.ElementAt(i);
+     
+                <tr  class="hover">
+                    <td>@reading.Date.ToString("d")</td>
+                    <td>@reading.Reading.ToString("n0")</td>
+                    <td>@reading.Consumption.ToString("n0")</td>
+                </tr>
+            }
+    </table>
+    <p>
+        To change or delete a meter reading, click on 'View all readings' and make your changes.
+    </p>
+    <div>
+        <p>
+            <span class="linkicon">s </span><span>@Html.ActionLink("View all readings", "Index", "Reading", new { meterId = Model.Meter.Id, propertyId = Model.BelongsToProperty, fuel = Model.Meter.Fuel }, null)</span>
+            <br />
+            <span class="linkicon">+ </span>@Ajax.ActionLink("Add a new reading", "Create", "Reading",
+                                                         new { meterId = Model.Meter.Id, propertyId = Model.BelongsToProperty, fuel = Model.Meter.Fuel },
+                                                         new AjaxOptions { HttpMethod = "GET", InsertionMode = InsertionMode.Replace, UpdateTargetId = "newReading" },
+                                                         null)
+        
+        </p>
+    </div>
+
+    }
+
+
+@helper showTariffSentence(int? lowerLimit, int? upperLimit, double rate, bool first)
+    {
+        string result = "";
+
+        if (first)
+        {
+            result = "For the first " + upperLimit.ToString() + " kWh you use, you pay " + rate.ToString("0.000") + "p/kWh";
+        }
+        else
+        {
+            if (upperLimit != -1)
+            {
+                if (upperLimit == 0)
+                {
+                    ///   no upper limit
+                    ///   
+                    result = "For every kWh after this, you pay " + rate.ToString("0.00") + "p/kWh";
+                }
+                else
+                {
+                    ///there is an upperLimit
+                    ///
+                    result = "For each kWh you use between " + (lowerLimit - 1).ToString() + " and " + upperLimit.ToString() + ", you pay " + rate.ToString("0.00") + "p/kWh";
+                }
+            }
+        }
+    
+    @result
+}        
+
+           @helper showOneUnitInkWh()
+           {
+               int result = 0;
+               
+                if (Model.Meter.Fuel == "Electricity")
+                {
+                    result = (int)Math.Ceiling(Model.ScalingFactor);
+                }
+                else
+                {
+                    result = (int)Math.Ceiling(Model.MeterCoefficient * Model.CalorificValue * Model.CorrectionFactor / 3.6);
+                }
+                    
+                @result;
+           }
+
+
+@*   - - - - - PAGE START - - - - - - - - - - - - - - - - -- - - - - - - - -- - - - - - - - -- - - - - - - - -- - - - - - - - -*@
+<h1>@Model.Meter.SerialNo <span class="faded">@Model.Meter.Fuel Meter</span></h1>
+
+<div style="display:inline-block">
+    <div>
+        <div style="display: inline-block; width:100px;">
+
+                Meter units <br />
+                One unit is <br />
+                Start date  <br />
+         
+        </div>
+    
+        <div style="display: inline-block; width:100px; padding-left: 50px; vertical-align:top;">
+            @if (Model.Meter.Fuel == "Electricity")
+            {
+                @:kWh                       <br />
+                @showOneUnitInkWh() @: kWh       <br /> 
+            }
+            else
+            {
+                @Model.MeterUnits           <br />
+                @showOneUnitInkWh() @:kWh   <br />
+            }
+
+                @Model.Meter.StartDate.ToShortDateString()
+        </div>
+    
+    </div>
+    
+    
+    <div>
+        <p>
+            <span class="linkicon">p </span>@Ajax.ActionLink("Edit this meter", "Edit", "Meter", new { meterId = Model.Meter.Id, propertyId = Model.BelongsToProperty, fuel = Model.Meter.Fuel },
+                                                         new AjaxOptions { HttpMethod = "GET", InsertionMode = System.Web.Mvc.Ajax.InsertionMode.Replace, UpdateTargetId = "meter" },
+                                                         null)
+            <br />
+            <span class="linkicon"># </span>@Ajax.ActionLink("Delete this meter", "Delete", "Meter", new { meterId = Model.Meter.Id, propertyId = Model.BelongsToProperty },
+                                                          new AjaxOptions { HttpMethod = "GET", InsertionMode = System.Web.Mvc.Ajax.InsertionMode.Replace, UpdateTargetId = "deletemeter" },
+                                                          null)
+        </p>
+    </div>
+</div>
+
+<div id="meter"></div>
+<div id="deletemeter" class="delete"></div>
+
+
+
+
+   
+@* * * * * * METER READING SECTION * * * * * * *@   
+    
+
+<h2>Meter Readings</h2>
+
+
+<div>
+   @if (Model.Meter.Register.Count == 0)
+   {
+       ///there are no readings
+        <p>
+            You haven't entered any readings for this meter yet.
+            <br />
+            Make sure you take regular meter readings to get the most accurate analysis.
+        </p>
+        <span class="linkicon">+ </span>@Ajax.ActionLink("Add a new reading", "Create", "Reading",
+                                                     new { meterId = Model.Meter.Id, propertyId = Model.BelongsToProperty, fuel = Model.Meter.Fuel },
+                                                     new AjaxOptions { HttpMethod = "GET", InsertionMode = InsertionMode.Replace, UpdateTargetId = "newReading" },
+                                                     null)
+        
+   }
+   else
+   {
+       ///there are some readings
+        <p>
+            Meter readings are important - without them we can't tell you how much energy you've used or how well you're doing. <br />
+            Make sure you take regular readings to get the most accurate analysis.
+        </p>
+       <p>
+            You have enetered @Model.Meter.Register.Count readings so far.  Here are the most recent:
+        </p>
+        <div>
+            @showReadingTable(5)
+        </div>       
+   } 
+</div>
+<div id="newReading"></div>
+
+        
+
+@* * * * * * INVOICES SECTION * * * * * * *@
+
+<h2>@Model.Meter.Fuel Bills</h2>
+
+<div>
+    @if (Model.Meter.Invoices.Count != 0)
+    {
+        ///there are some invoices
+        <p>
+            Energy Manager will check your utility bills are correct and can even forecast your next bill.  Just set up a tariff and enter
+            the details of your utility bills.            
+        </p>
+        <p>
+            You have entered @Model.Meter.Invoices.Count  @Model.Meter.Fuel.ToLower() bills for this meter.  Here are the most recent:
+        </p>
+        <div style="width:65%">
+            @showInvoiceTable(5)
+        </div>
+    }
+    else
+    {
+        ///there are no invoices
+        <p>
+            Add some @Model.Meter.Fuel.ToLower() bills to check that they are correct, and to give you better analysis results.
+        </p>
+        <span class="linkicon">+ </span>@Ajax.ActionLink("Add a new bill", "Create", "Invoice",
+                          new { meterId = Model.Meter.Id, propertyId = Model.BelongsToProperty, fuel = Model.Meter.Fuel },
+                          new AjaxOptions { HttpMethod = "GET", InsertionMode = System.Web.Mvc.Ajax.InsertionMode.Replace, UpdateTargetId = "newBill" },
+                          null)
+    }
+</div>
+<div id="newBill"></div>
+
+<div>
+<h3>Your next bill</h3>
+@if (Model.ForecastedInvoice != null)
+{
+    <div>
+        We've had a guess at what your next @Model.Meter.Fuel.ToLower() bill might look like:
+    </div>
+    <div style="display:inline-block;">
+        <ul>
+            Energy <br />
+            Cost   <br />
+        </ul>
+    </div>
+    <div style="display:inline-block; padding-left: 25px; width:30%;">
+        <p>
+            @Math.Ceiling((decimal)Model.ForecastedInvoice.KWh)<br />
+            @Model.ForecastedInvoice.ConsumptionCharge.ToString("C") <br />
+        </p>
+    </div>
+    <div>
+        This is based on:
+            <ul style="list-style-type: none;">
+                <li>- the length of your last bill</li>
+                <li>- the change in energy consuption on this meter since last year</li>
+                <li>- the tariff you are currently on</li>
+            </ul>
+    </div>
+}
+else
+{
+    <p>
+        At the moment, there is not enough data to forecast the cost of your next @Model.Meter.Fuel bill. <br />
+        Set up a tariff for this meter, then add more meter readings and bills, and we can predict your next bill for you!
+    </p>
+
+}
+</div>
+
+
+
+@* * * * * * TARIFF SECTION * * * * * * *@
+
+<div>
+    <h2>Tariff</h2>
+</div>
+
+<div>
+
+    <div>
+        
+        @if (Model.Meter.Tariffs.Count == 0)
+        {
+        <p>
+            To check your bills are correct, you need to setup a tariff for this meter.
+        </p>
+        <span class="icon">+ </span><span>@Html.ActionLink("Create a tariff for this meter...", "Create", "Tariff", new { meterId = Model.Meter.Id, propertyId = Model.BelongsToProperty, fuel = Model.Meter.Fuel }, null)</span>
+    
+        }
+        else
+        {
+            @:Your current tariff started on @Model.Tariff.StartDate.ToShortDateString().
+            if (!Model.Tariff.IsBanded)
+            {
+                <p>
+                    You currently pay @Model.Tariff.Rate1.ToString("#.##") p/kWh for your @Model.Meter.Fuel.ToLower().
+                    <br />Your standing charge is @Model.Tariff.SCValue.ToString("C") @Model.Tariff.Periods.Single(p => p.Id == Model.Tariff.SCPeriodId).Length.ToLower().
+                </p>
+            }
+            else
+            {
+                <p>
+                    You are on a banded tariff - the amount you pay depends on how much @Model.Meter.Fuel.ToLower() you use.
+
+                    <br />
+                    <br />
+
+                    @showTariffSentence(Model.Tariff.LowerLimit1, Model.Tariff.UpperLimit1, Model.Tariff.Rate1, true) <br />
+                    @showTariffSentence(Model.Tariff.LowerLimit2, Model.Tariff.UpperLimit2, Model.Tariff.Rate2, false)<br />
+                    @showTariffSentence(Model.Tariff.LowerLimit3, Model.Tariff.UpperLimit3, Model.Tariff.Rate3, false)
+                </p>
+                <p>
+                    Your standing charge is @Model.Tariff.SCValue.ToString("C"), payable @Model.Tariff.Periods.Single(p => p.Id == Model.Tariff.SCPeriodId).Length.ToLower().
+                </p>
+            }
+           
+            <p>
+                <span class="linkicon">p </span>@Html.ActionLink("Edit this tariff", "Edit", "Tariff", new { tariffId = Model.Tariff.Id, meterId = Model.Meter.Id, propertyId = Model.BelongsToProperty, type = Model.Meter.Fuel }, new { @class = "action" })
+                <br />
+                <span class="linkicon">r </span><span class="action">@Html.ActionLink("Change to a new tariff", "Create", "Tariff", new { meterId = Model.Meter.Id, propertyId = Model.BelongsToProperty, fuel = Model.Meter.Fuel }, null)</span>
+                <br />
+                <span class="linkicon"># </span><span class="action">@Ajax.ActionLink("Delete this tariff", "Delete", "Tariff",
+                                                                                    new { tariffId = Model.Tariff.Id, meterId = Model.Meter.Id, propertyId = Model.BelongsToProperty, type = Model.Meter.Fuel },
+                                                                                    new AjaxOptions { HttpMethod = "GET", InsertionMode = InsertionMode.Replace, UpdateTargetId = "tariffdelete" }, null) </span>
+                
+            </p>
+            
+
+        }
+    </div>
+</div>
+
+<div id="tariff"></div>
+<div class="delete" id="tariffdelete"></div>
+
+
+
+<div class="back">
+    @Html.ActionLink("Back", "Home", "Property", new { id = Model.BelongsToProperty }, null)
+</div>

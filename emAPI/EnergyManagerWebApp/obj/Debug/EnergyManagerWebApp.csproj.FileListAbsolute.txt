@@ -1,0 +1,11 @@
+C:\Users\David Sauntson\Documents\Project Codes\emAPI\emAPI\EnergyManagerWebApp\bin\EnergyManagerWebApp.dll
+C:\Users\David Sauntson\Documents\Project Codes\emAPI\emAPI\EnergyManagerWebApp\bin\EnergyManagerWebApp.pdb
+C:\Users\David Sauntson\Documents\Project Codes\emAPI\emAPI\EnergyManagerWebApp\bin\EntityFramework.dll
+C:\Users\David Sauntson\Documents\Project Codes\emAPI\emAPI\EnergyManagerWebApp\bin\emAPI_ClassLibrary.dll
+C:\Users\David Sauntson\Documents\Project Codes\emAPI\emAPI\EnergyManagerWebApp\bin\EntityFramework.xml
+C:\Users\David Sauntson\Documents\Project Codes\emAPI\emAPI\EnergyManagerWebApp\bin\emAPI_ClassLibrary.pdb
+C:\Users\David Sauntson\Documents\Project Codes\emAPI\emAPI\EnergyManagerWebApp\obj\Debug\ResolveAssemblyReference.cache
+C:\Users\David Sauntson\Documents\Project Codes\emAPI\emAPI\EnergyManagerWebApp\obj\Debug\EnergyManagerWebApp.dll
+C:\Users\David Sauntson\Documents\Project Codes\emAPI\emAPI\EnergyManagerWebApp\obj\Debug\EnergyManagerWebApp.pdb
+C:\Users\David Sauntson\Documents\Project Codes\emAPI\emAPI\EnergyManagerWebApp\bin\Newtonsoft.Json.dll
+C:\Users\David Sauntson\Documents\Project Codes\emAPI\emAPI\EnergyManagerWebApp\bin\Newtonsoft.Json.xml

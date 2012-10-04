@@ -1,0 +1,189 @@
+﻿<frameTree version="0.94.51006.1"><frameException type="System.ArgumentNullException"><tag exceptionState="unexpected"><generatedTestRef idref="7f9a2f37-2d03-4bc1-9bcd-d2cdec86ea29"/>
+</tag>
+<frameNode><frame value="  at OrderedEnumerable`2..ctor(IEnumerable`1&lt;!0&gt;, Func`2&lt;!0,!1&gt;, IComparer`1&lt;!1&gt;, Boolean)" method="OrderedEnumerable`2..ctor(IEnumerable`1&lt;!0&gt;, Func`2&lt;!0,!1&gt;, IComparer`1&lt;!1&gt;, Boolean)" offset="19"><method assemblyName="System.Core" name=".ctor" token="6000527"><declaringType assemblyName="System.Core" name="OrderedEnumerable`2" token="2000067" namespace="System.Linq"><genericParameter value="TElement"/>
+<genericParameter value="TKey"/>
+</declaringType>
+<parameter this="true" name="this" position="0"><type spec="Class"><definition assemblyName="System.Core" name="OrderedEnumerable`2" token="2000067" namespace="System.Linq"><genericParameter value="TElement"/>
+<genericParameter value="TKey"/>
+</definition>
+<genericTypeArgument spec="GenericTypeParameter" index="0"/>
+<genericTypeArgument spec="GenericTypeParameter" index="1"/>
+</type>
+</parameter>
+<parameter name="source" position="1"><type spec="Class"><definition assemblyName="mscorlib" name="IEnumerable`1" token="200004d" namespace="System.Collections.Generic"><genericParameter value="T"/>
+</definition>
+<genericTypeArgument spec="GenericTypeParameter" index="0"/>
+</type>
+</parameter>
+<parameter name="keySelector" position="2"><type spec="Class"><definition assemblyName="mscorlib" name="Func`2" token="200001d" namespace="System"><genericParameter value="T"/>
+<genericParameter value="TResult"/>
+</definition>
+<genericTypeArgument spec="GenericTypeParameter" index="0"/>
+<genericTypeArgument spec="GenericTypeParameter" index="1"/>
+</type>
+</parameter>
+<parameter name="comparer" position="3"><type spec="Class"><definition assemblyName="mscorlib" name="IComparer`1" token="2000032" namespace="System.Collections.Generic"><genericParameter value="T"/>
+</definition>
+<genericTypeArgument spec="GenericTypeParameter" index="1"/>
+</type>
+</parameter>
+<parameter name="descending" position="4"><type spec="ValueType"><definition assemblyName="mscorlib" valueType="true" name="Boolean" token="200009d" namespace="System"/>
+</type>
+</parameter>
+</method>
+</frame>
+<tag exceptionState="unexpected"><generatedTestRef idref="7f9a2f37-2d03-4bc1-9bcd-d2cdec86ea29"/>
+</tag>
+<frameNode><frame value="  at Enumerable.OrderBy(IEnumerable`1&lt;!!0&gt;, Func`2&lt;!!0,!!1&gt;)" method="Enumerable.OrderBy(IEnumerable`1&lt;!!0&gt;, Func`2&lt;!!0,!!1&gt;)" offset="4"><method assemblyName="System.Core" name="OrderBy" static="true" token="6000419"><declaringType assemblyName="System.Core" name="Enumerable" token="2000053" namespace="System.Linq"/>
+<genericParameter value="TSource"/>
+<genericParameter value="TKey"/>
+<parameter name="source" position="0"><type spec="Class"><definition assemblyName="mscorlib" name="IEnumerable`1" token="200004d" namespace="System.Collections.Generic"><genericParameter value="T"/>
+</definition>
+<genericTypeArgument spec="GenericMethodParameter" index="0"/>
+</type>
+</parameter>
+<parameter name="keySelector" position="1"><type spec="Class"><definition assemblyName="mscorlib" name="Func`2" token="200001d" namespace="System"><genericParameter value="T"/>
+<genericParameter value="TResult"/>
+</definition>
+<genericTypeArgument spec="GenericMethodParameter" index="0"/>
+<genericTypeArgument spec="GenericMethodParameter" index="1"/>
+</type>
+</parameter>
+<resultType spec="Class"><definition assemblyName="System.Core" name="IOrderedEnumerable`1" token="200005d" namespace="System.Linq"><genericParameter value="TElement"/>
+</definition>
+<genericTypeArgument spec="GenericMethodParameter" index="0"/>
+</resultType>
+</method>
+</frame>
+<tag exceptionState="unexpected"><generatedTestRef idref="7f9a2f37-2d03-4bc1-9bcd-d2cdec86ea29"/>
+</tag>
+<frameNode><frame value="  at ApportionmentManager.apportion(List`1&lt;Chunk&gt;, List`1&lt;Chunk&gt;) in C:\Users\David Sauntson\Documents\Project Codes\emAPI\emAPI\emAPI\Controllers\ApportionmentManager.cs(207)" method="ApportionmentManager.apportion(List`1&lt;Chunk&gt;, List`1&lt;Chunk&gt;)" offset="39" file="C:\Users\David Sauntson\Documents\Project Codes\emAPI\emAPI\emAPI\Controllers\ApportionmentManager.cs" line="207"><method assemblyName="emAPI" name="apportion" token="60001f1"><declaringType assemblyName="emAPI" name="ApportionmentManager" token="2000019" namespace="emAPI.Controllers"/>
+<parameter this="true" name="this" position="0"><type spec="Class"><definition assemblyName="emAPI" name="ApportionmentManager" token="2000019" namespace="emAPI.Controllers"/>
+</type>
+</parameter>
+<parameter name="datedChunks" position="1"><type spec="Class"><definition assemblyName="mscorlib" name="List`1" token="200036d" namespace="System.Collections.Generic"><genericParameter value="T"/>
+</definition>
+<genericTypeArgument spec="ValueType"><definition assemblyName="emAPI_ClassLibrary" valueType="true" name="Chunk" token="2000016" namespace="emAPI.ClassLibrary"/>
+</genericTypeArgument>
+</type>
+</parameter>
+<parameter name="dataIn" position="2"><type spec="Class"><definition assemblyName="mscorlib" name="List`1" token="200036d" namespace="System.Collections.Generic"><genericParameter value="T"/>
+</definition>
+<genericTypeArgument spec="ValueType"><definition assemblyName="emAPI_ClassLibrary" valueType="true" name="Chunk" token="2000016" namespace="emAPI.ClassLibrary"/>
+</genericTypeArgument>
+</type>
+</parameter>
+<resultType spec="Class"><definition assemblyName="mscorlib" name="List`1" token="200036d" namespace="System.Collections.Generic"><genericParameter value="T"/>
+</definition>
+<genericTypeArgument spec="ValueType"><definition assemblyName="emAPI_ClassLibrary" valueType="true" name="Chunk" token="2000016" namespace="emAPI.ClassLibrary"/>
+</genericTypeArgument>
+</resultType>
+</method>
+<beforeSource><![CDATA[            List<Chunk> resultChunks = new List<Chunk>();
+            
+            ///ensure provided list is in ascending date order]]></beforeSource>
+<source><![CDATA[            dataIn = dataIn.OrderBy(chunk => chunk.StartDate).ToList();]]></source>
+<afterSource><![CDATA[
+            ///determine max start and end dates from dataIn
+            DateTime maxStart = dataIn.First().StartDate;]]></afterSource>
+</frame>
+<tag exceptionState="unexpected"><generatedTestRef idref="7f9a2f37-2d03-4bc1-9bcd-d2cdec86ea29"/>
+</tag>
+</frameNode>
+</frameNode>
+</frameNode>
+</frameException>
+<frameException type="System.InvalidOperationException"><tag exceptionState="unexpected"><generatedTestRef idref="89899d8a-0dc5-44d9-aadc-6b3294a371ca"/>
+</tag>
+<frameNode><frame value="  at Enumerable.First(IEnumerable`1&lt;!!0&gt;)" method="Enumerable.First(IEnumerable`1&lt;!!0&gt;)" offset="82"><method assemblyName="System.Core" name="First" static="true" token="600044f"><declaringType assemblyName="System.Core" name="Enumerable" token="2000053" namespace="System.Linq"/>
+<genericParameter value="TSource"/>
+<parameter name="source" position="0"><type spec="Class"><definition assemblyName="mscorlib" name="IEnumerable`1" token="200004d" namespace="System.Collections.Generic"><genericParameter value="T"/>
+</definition>
+<genericTypeArgument spec="GenericMethodParameter" index="0"/>
+</type>
+</parameter>
+<resultType spec="GenericMethodParameter" index="0"/>
+</method>
+</frame>
+<tag exceptionState="unexpected"><generatedTestRef idref="89899d8a-0dc5-44d9-aadc-6b3294a371ca"/>
+</tag>
+<frameNode><frame value="  at ApportionmentManager.apportion(List`1&lt;Chunk&gt;, List`1&lt;Chunk&gt;) in C:\Users\David Sauntson\Documents\Project Codes\emAPI\emAPI\emAPI\Controllers\ApportionmentManager.cs(210)" method="ApportionmentManager.apportion(List`1&lt;Chunk&gt;, List`1&lt;Chunk&gt;)" offset="52" file="C:\Users\David Sauntson\Documents\Project Codes\emAPI\emAPI\emAPI\Controllers\ApportionmentManager.cs" line="210"><method assemblyName="emAPI" name="apportion" token="60001f1"><declaringType assemblyName="emAPI" name="ApportionmentManager" token="2000019" namespace="emAPI.Controllers"/>
+<parameter this="true" name="this" position="0"><type spec="Class"><definition assemblyName="emAPI" name="ApportionmentManager" token="2000019" namespace="emAPI.Controllers"/>
+</type>
+</parameter>
+<parameter name="datedChunks" position="1"><type spec="Class"><definition assemblyName="mscorlib" name="List`1" token="200036d" namespace="System.Collections.Generic"><genericParameter value="T"/>
+</definition>
+<genericTypeArgument spec="ValueType"><definition assemblyName="emAPI_ClassLibrary" valueType="true" name="Chunk" token="2000016" namespace="emAPI.ClassLibrary"/>
+</genericTypeArgument>
+</type>
+</parameter>
+<parameter name="dataIn" position="2"><type spec="Class"><definition assemblyName="mscorlib" name="List`1" token="200036d" namespace="System.Collections.Generic"><genericParameter value="T"/>
+</definition>
+<genericTypeArgument spec="ValueType"><definition assemblyName="emAPI_ClassLibrary" valueType="true" name="Chunk" token="2000016" namespace="emAPI.ClassLibrary"/>
+</genericTypeArgument>
+</type>
+</parameter>
+<resultType spec="Class"><definition assemblyName="mscorlib" name="List`1" token="200036d" namespace="System.Collections.Generic"><genericParameter value="T"/>
+</definition>
+<genericTypeArgument spec="ValueType"><definition assemblyName="emAPI_ClassLibrary" valueType="true" name="Chunk" token="2000016" namespace="emAPI.ClassLibrary"/>
+</genericTypeArgument>
+</resultType>
+</method>
+<beforeSource><![CDATA[            dataIn = dataIn.OrderBy(chunk => chunk.StartDate).ToList();
+
+            ///determine max start and end dates from dataIn]]></beforeSource>
+<source><![CDATA[            DateTime maxStart = dataIn.First().StartDate;]]></source>
+<afterSource><![CDATA[            DateTime maxEnd = dataIn.Last().EndDate;
+
+            ///do the apportioning]]></afterSource>
+</frame>
+<tag exceptionState="unexpected"><generatedTestRef idref="89899d8a-0dc5-44d9-aadc-6b3294a371ca"/>
+</tag>
+</frameNode>
+</frameNode>
+</frameException>
+<frameException type="System.NullReferenceException"><tag exceptionState="unexpected"><generatedTestRef idref="b0d9c939-68cc-41cd-bf46-93bb851c4075"/>
+</tag>
+<frameNode><frame value="  at ApportionmentManager.apportion(List`1&lt;Chunk&gt;, List`1&lt;Chunk&gt;) in C:\Users\David Sauntson\Documents\Project Codes\emAPI\emAPI\emAPI\Controllers\ApportionmentManager.cs(214)" method="ApportionmentManager.apportion(List`1&lt;Chunk&gt;, List`1&lt;Chunk&gt;)" offset="85" file="C:\Users\David Sauntson\Documents\Project Codes\emAPI\emAPI\emAPI\Controllers\ApportionmentManager.cs" line="214"><method assemblyName="emAPI" name="apportion" token="60001f1"><declaringType assemblyName="emAPI" name="ApportionmentManager" token="2000019" namespace="emAPI.Controllers"/>
+<parameter this="true" name="this" position="0"><type spec="Class"><definition assemblyName="emAPI" name="ApportionmentManager" token="2000019" namespace="emAPI.Controllers"/>
+</type>
+</parameter>
+<parameter name="datedChunks" position="1"><type spec="Class"><definition assemblyName="mscorlib" name="List`1" token="200036d" namespace="System.Collections.Generic"><genericParameter value="T"/>
+</definition>
+<genericTypeArgument spec="ValueType"><definition assemblyName="emAPI_ClassLibrary" valueType="true" name="Chunk" token="2000016" namespace="emAPI.ClassLibrary"/>
+</genericTypeArgument>
+</type>
+</parameter>
+<parameter name="dataIn" position="2"><type spec="Class"><definition assemblyName="mscorlib" name="List`1" token="200036d" namespace="System.Collections.Generic"><genericParameter value="T"/>
+</definition>
+<genericTypeArgument spec="ValueType"><definition assemblyName="emAPI_ClassLibrary" valueType="true" name="Chunk" token="2000016" namespace="emAPI.ClassLibrary"/>
+</genericTypeArgument>
+</type>
+</parameter>
+<resultType spec="Class"><definition assemblyName="mscorlib" name="List`1" token="200036d" namespace="System.Collections.Generic"><genericParameter value="T"/>
+</definition>
+<genericTypeArgument spec="ValueType"><definition assemblyName="emAPI_ClassLibrary" valueType="true" name="Chunk" token="2000016" namespace="emAPI.ClassLibrary"/>
+</genericTypeArgument>
+</resultType>
+</method>
+<beforeSource><![CDATA[            DateTime maxEnd = dataIn.Last().EndDate;
+
+            ///do the apportioning]]></beforeSource>
+<source><![CDATA[            foreach (Chunk datedChunk in datedChunks)]]></source>
+<afterSource><![CDATA[            {
+                ///list for storing the chunks from dataIn that are relevant to this results chunk
+                List<Chunk> relevantChunks = new List<Chunk>();]]></afterSource>
+</frame>
+<tag exceptionState="unexpected"><generatedTestRef idref="b0d9c939-68cc-41cd-bf46-93bb851c4075"/>
+<generatedTestRef idref="72e6ebfe-82b1-4cb1-81b5-8da007228ef2"/>
+<generatedTestRef idref="3aa8303e-2e0f-410d-96e1-1f7fb66131a3"/>
+<generatedTestRef idref="b25f4115-ea19-4847-af99-eaaace0dfb1d"/>
+<generatedTestRef idref="6ac10c39-6fa6-4b50-ae08-58681ab14e2c"/>
+<generatedTestRef idref="be58d40c-7da6-4215-bf0e-b5ad5067433f"/>
+<generatedTestRef idref="8c77cf6e-f339-460a-82c8-89767dea0559"/>
+<generatedTestRef idref="6f3e8aca-d177-423d-8a01-3b9701c0bca1"/>
+<generatedTestRef idref="d17ca4b5-5ac5-457d-b5f2-5a4c80cb6285"/>
+</tag>
+</frameNode>
+</frameException>
+</frameTree>

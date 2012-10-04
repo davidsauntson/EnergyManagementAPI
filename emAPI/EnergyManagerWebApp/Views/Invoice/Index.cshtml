@@ -1,0 +1,140 @@
+﻿@*----------------------------------------------------------
+DAVID SAUNTSON
+
+ENERGY MANAGER WEB APPLICATION
+HANDWRITTEN
+VIEW FILE (.cshtml)
+
+Invoice/Index
+----------------------------------------------------------*@
+
+@model EnergyManagerWebApp.Models.InvoiceListViewModel
+
+<h2>@Model.MeterDetails.Fuel Bills</h2>
+<h3>For meter: @Model.MeterDetails.SerialNo</h3>
+<p>
+    Here are all of the bills you have received for energy used through this meter. Click on the icons to amend an invoice.
+            <ul style="list-style-type:none;">
+                <li><span class="icon">p</span> edit invoice</li>
+                <li><span class="icon">#</span> delete invoice</li>
+                <li><span class="icon">E</span> validate invoice</li>
+            </ul>
+    <br />
+    The icon at the end of each row tells you about the accuracy of the invoice from your supplier:
+    <ul style="list-style-type:none">
+        <li><span class="icon">2 </span> the invoice is correct</li>
+        <li><span class="icon">! </span> either the consumption or cost of the invoice is incorrect</li>
+        <li><span class="icon">D </span> both the consumption and the cost of the invoice are correct</li>
+        <li><span class="icon">? </span> the invoice has not been checked yet</li>
+    </ul>
+</p>
+
+<p>
+    @Html.ActionLink("Back", "Home", "Meter", new { meterId = Model.MeterDetails.Id, propertyId = Model.BelongsToProperty, type = Model.MeterDetails.Fuel}, null)
+</p>
+
+<div>
+    <div id="invoice"></div>
+    <div id="deleteinvoice" class="delete"></div>
+</div>
+<p></p>
+<div>
+    <table>
+    <colgroup>
+        <!--Date-->         <col width="9%" />
+        <!--StartDate-->    <col width="9%" />
+        <!--EndDate-->      <col width="9%" />
+        <!--kWh-->          <col width="6%" style="text-align:right" />
+        <!--Energy Cost-->  <col width="6%" />
+        <!--Other Cost-->   <col width="6%" />
+        <!--Total Cost-->   <col width="6%" />
+        <!--status-->       <col width="2%" />
+        <!--edit-->         <col width="2%" />
+        <!--delete-->       <col width="2%" />
+        <!--validate-->     <col width="2%" />
+
+    </colgroup>
+  
+        <tr>
+            <th>
+                Date
+            </th>
+            <th>
+                Period Start
+            </th>
+            <th>
+                Period End
+            </th>
+            <th>
+                kWh
+            </th>
+            <th class="right">
+                Energy Cost, £
+            </th>
+            <th class="right">
+                Other Costs, £
+            </th>
+            <th class="right">
+                Total Cost, £
+            </th>
+        </tr>
+    
+    @foreach (var inv in Model.Invoices)
+    {
+        double totalCost = inv.ConsumptionCharge + inv.StandingCharge + inv.OtherCharge;
+        double otherCost = inv.StandingCharge + inv.OtherCharge;
+
+        <tr  class="hover">
+            <td>
+                @Html.DisplayFor(modelItem => inv.BillDate, "ShortDateTime")
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => inv.StartDate, "ShortDateTime")
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => inv.EndDate, "ShortDateTime")
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => inv.KWh)
+            </td>
+            <td class="right">
+                @Html.DisplayFor(modelItem => inv.ConsumptionCharge, "Currency")
+            </td>
+            <td class="right">
+                @Html.DisplayFor(modelItem => otherCost, "Currency")
+            </td>
+            <td class="right">
+                @Html.DisplayFor(modelItem => totalCost, "Currency")
+            </td>
+            <td class="tableicon">
+                <span class="icon">@MvcHtmlHelpers.CustomHelpers.status(inv.Checked, inv.ConsumptionIsValid, inv.CostIsValid)</span>
+            </td>
+            <td class="tableicon">
+                <span class="icon">@Ajax.ActionLink("p", "Edit", "Invoice", 
+                                                    new { invoiceId = inv.Id, meterId = Model.MeterDetails.Id, propertyId = Model.BelongsToProperty, fuel = Model.MeterDetails.Fuel }, 
+                                                    new AjaxOptions { HttpMethod="GET", InsertionMode = InsertionMode.Replace, UpdateTargetId = "invoice" },
+                                                    null)</span>
+            
+            </td>
+            <td class="tableicon">
+                <span class="icon">@Ajax.ActionLink("#", "Delete", "Invoice", 
+                                                    new { invoiceId = inv.Id, meterId = Model.MeterDetails.Id, propertyId = Model.BelongsToProperty, fuel = Model.MeterDetails.Fuel }, 
+                                                    new AjaxOptions { HttpMethod = "GET", InsertionMode = InsertionMode.Replace, UpdateTargetId = "deleteinvoice"},
+                                                    null)</span>
+            </td>
+            <td class="tableicon">
+                <span class="icon">@Ajax.ActionLink("E", "Validate", "Invoice",
+                                                       new { invoiceId = inv.Id, meterId = Model.MeterDetails.Id, propertyId = Model.BelongsToProperty, fuel = Model.MeterDetails.Fuel },
+                                                       new AjaxOptions { HttpMethod = "POST" })</span>
+            </td>
+        </tr>
+    }
+    
+    </table>
+    
+</div>
+
+
+
+
+

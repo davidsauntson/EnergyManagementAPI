@@ -1,0 +1,132 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ClassDiagram MajorVersion="1" MinorVersion="1">
+  <Class Name="emAPI.emAPI" Collapsed="true">
+    <Position X="4.75" Y="0.5" Width="1.5" />
+    <AssociationLine Name="accountMgr" Type="emAPI.Controllers.AccountManager">
+      <MemberNameLabel ManuallyPlaced="true">
+        <Position X="-1.048" Y="0.726" />
+      </MemberNameLabel>
+    </AssociationLine>
+    <AssociationLine Name="annotationMgr" Type="emAPI.Controllers.AnnotationManager" ManuallyRouted="true" FixedFromPoint="true" FixedToPoint="true">
+      <Path>
+        <Point X="5.5" Y="1.062" />
+        <Point X="5.5" Y="1.605" />
+        <Point X="5.5" Y="1.605" />
+        <Point X="5.5" Y="1.75" />
+      </Path>
+      <MemberNameLabel ManuallyPlaced="true">
+        <Position X="0.112" Y="0.338" />
+      </MemberNameLabel>
+    </AssociationLine>
+    <AssociationLine Name="meterMgr" Type="emAPI.Controllers.MeterManager" ManuallyRouted="true" FixedFromPoint="true" FixedToPoint="true">
+      <Path>
+        <Point X="6.25" Y="0.75" />
+        <Point X="10.375" Y="0.75" />
+        <Point X="10.375" Y="1.75" />
+      </Path>
+      <MemberNameLabel ManuallyPlaced="true">
+        <Position X="0.082" Y="0.667" />
+      </MemberNameLabel>
+    </AssociationLine>
+    <TypeIdentifier>
+      <HashCode>GSAiFJCEDAEKYUASFCFCJkJBOACICAIEKWBBEBAWeSA=</HashCode>
+      <FileName>emAPI.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsAssociation>
+      <Field Name="accountMgr" />
+      <Field Name="annotationMgr" />
+      <Field Name="meterMgr" />
+    </ShowAsAssociation>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="emAPI.Controllers.AccountManager" BaseTypeListCollapsed="true">
+    <Position X="1.25" Y="1.75" Width="2.25" />
+    <AssociationLine Name="mediator" Type="emAPI.Controllers.EMMediator">
+      <MemberNameLabel ManuallyPlaced="true">
+        <Position X="1.949" Y="2.752" />
+      </MemberNameLabel>
+    </AssociationLine>
+    <TypeIdentifier>
+      <HashCode>gAACAAAACEACAAAAAAAAAAAACAAIAAgAAEABABAAQAA=</HashCode>
+      <FileName>Controllers\AccountManager.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsAssociation>
+      <Field Name="mediator" />
+    </ShowAsAssociation>
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Class Name="emAPI.Controllers.AnnotationManager" BaseTypeListCollapsed="true">
+    <Position X="4" Y="1.75" Width="2.25" />
+    <AssociationLine Name="mediator" Type="emAPI.Controllers.EMMediator">
+      <MemberNameLabel ManuallyPlaced="true">
+        <Position X="0.138" Y="3.985" />
+      </MemberNameLabel>
+    </AssociationLine>
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAIAAAAAAAAAAggCAAAAAAAAAA=</HashCode>
+      <FileName>Controllers\AnnotationManager.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsAssociation>
+      <Field Name="mediator" />
+    </ShowAsAssociation>
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Class Name="emAPI.Controllers.ApportionmentManager" BaseTypeListCollapsed="true">
+    <Position X="6.5" Y="1.75" Width="2.25" />
+    <NestedTypes>
+      <Enum Name="emAPI.Controllers.ApportionmentManager.DateCoverage" Collapsed="true">
+        <TypeIdentifier>
+          <NewMemberFileName>Controllers\ApportionmentManager.cs</NewMemberFileName>
+        </TypeIdentifier>
+      </Enum>
+    </NestedTypes>
+    <AssociationLine Name="mediator" Type="emAPI.Controllers.EMMediator" FixedFromPoint="true" FixedToPoint="true">
+      <Path>
+        <Point X="7.75" Y="5.036" />
+        <Point X="7.75" Y="8.062" />
+        <Point X="6.75" Y="8.062" />
+      </Path>
+      <MemberNameLabel ManuallyPlaced="true">
+        <Position X="0.015" Y="2.695" />
+      </MemberNameLabel>
+    </AssociationLine>
+    <TypeIdentifier>
+      <HashCode>AAACIAAAAAAAAAAAAJAEAAAEAAAAAAgIAIAAgAAAgIA=</HashCode>
+      <FileName>Controllers\ApportionmentManager.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsAssociation>
+      <Field Name="mediator" />
+    </ShowAsAssociation>
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Class Name="emAPI.Controllers.MeterManager" BaseTypeListCollapsed="true">
+    <Position X="9.25" Y="1.75" Width="2.25" />
+    <AssociationLine Name="mediator" Type="emAPI.Controllers.EMMediator" ManuallyRouted="true" FixedFromPoint="true" FixedToPoint="true">
+      <Path>
+        <Point X="10.438" Y="7.469" />
+        <Point X="10.438" Y="8.062" />
+        <Point X="6.75" Y="8.062" />
+      </Path>
+      <MemberNameLabel ManuallyPlaced="true">
+        <Position X="2.698" Y="0.259" />
+      </MemberNameLabel>
+    </AssociationLine>
+    <TypeIdentifier>
+      <HashCode>OAAgAACEAAAAIIASEABCAAgBMAAAAAgAIGBAAAAECAA=</HashCode>
+      <FileName>Controllers\MeterManager.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsAssociation>
+      <Field Name="mediator" />
+    </ShowAsAssociation>
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Class Name="emAPI.Controllers.EMMediator" Collapsed="true">
+    <Position X="5.25" Y="7.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>CAAiJgEAAEAAAEACAKjAIgIgAAgAAAAAAMAAEAAAAIA=</HashCode>
+      <FileName>Controllers\EMMediator.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Font Name="Segoe UI" Size="9" />
+</ClassDiagram>

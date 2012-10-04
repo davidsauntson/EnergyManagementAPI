@@ -1,0 +1,728 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>emAPI.Moles</name>
+    </assembly>
+    <members>
+        <member name="T:emAPI.Controllers.Moles.MApportionmentManager">
+            <summary>Mole type of <see cref="T:emAPI.Controllers.ApportionmentManager"/>
+            .</summary>
+        </member>
+        <member name="M:emAPI.Controllers.Moles.MApportionmentManager.#ctor">
+            <summary>Initializes a new mole</summary>
+        </member>
+        <member name="M:emAPI.Controllers.Moles.MApportionmentManager.#ctor(emAPI.Controllers.ApportionmentManager)">
+            <summary>Initializes a new mole for the given instance</summary>
+        </member>
+        <member name="M:emAPI.Controllers.Moles.MApportionmentManager.BehaveAsCurrent">
+            <summary>Assigns the &apos;Current&apos; behavior for all methods of the moled type</summary>
+        </member>
+        <member name="M:emAPI.Controllers.Moles.MApportionmentManager.BehaveAsNotImplemented">
+            <summary>Assigns the &apos;NotImplemented&apos; behavior for all methods of the moled type</summary>
+        </member>
+        <member name="P:emAPI.Controllers.Moles.MApportionmentManager.Behavior">
+            <summary>Assigns the behavior for all methods of the moled type</summary>
+        </member>
+        <member name="P:emAPI.Controllers.Moles.MApportionmentManager.Constructor">
+            <summary>Sets the mole of <see cref="M:emAPI.Controllers.ApportionmentManager.#ctor"/>
+            </summary>
+        </member>
+        <member name="P:emAPI.Controllers.Moles.MApportionmentManager._apportionb__3Chunk">
+            <summary>Sets the mole of <see cref="M:emAPI.Controllers.ApportionmentManager.&lt;apportion&gt;b__3(emAPI.ClassLibrary.Chunk)"/>
+            </summary>
+        </member>
+        <member name="P:emAPI.Controllers.Moles.MApportionmentManager._convertInvoicesToChunksb__fInvoice">
+            <summary>Sets the mole of <see cref="M:emAPI.Controllers.ApportionmentManager.&lt;convertInvoicesToChunks&gt;b__f(emAPI.ClassLibrary.Invoice)"/>
+            </summary>
+        </member>
+        <member name="P:emAPI.Controllers.Moles.MApportionmentManager._convertReadingsToChunksb__5MeterReading">
+            <summary>Sets the mole of <see cref="M:emAPI.Controllers.ApportionmentManager.&lt;convertReadingsToChunks&gt;b__5(emAPI.ClassLibrary.MeterReading)"/>
+            </summary>
+        </member>
+        <member name="P:emAPI.Controllers.Moles.MApportionmentManager._getBestApportionmentPeriodb__11KeyValuePairOfStringInt32">
+            <summary>Sets the mole of <see cref="M:emAPI.Controllers.ApportionmentManager.&lt;getBestApportionmentPeriod&gt;b__11(System.Collections.Generic.KeyValuePair`2{System.String,System.Int32})"/>
+            </summary>
+        </member>
+        <member name="P:emAPI.Controllers.Moles.MApportionmentManager.apportionListOfChunkListOfChunk">
+            <summary>Sets the mole of <see cref="M:emAPI.Controllers.ApportionmentManager.apportion(System.Collections.Generic.List`1{emAPI.ClassLibrary.Chunk},System.Collections.Generic.List`1{emAPI.ClassLibrary.Chunk})"/>
+            </summary>
+        </member>
+        <member name="P:emAPI.Controllers.Moles.MApportionmentManager.apportionToDatesListOfChunkStringString">
+            <summary>Sets the mole of <see cref="M:emAPI.Controllers.ApportionmentManager.apportionToDates(System.Collections.Generic.List`1{emAPI.ClassLibrary.Chunk},System.String,System.String)"/>
+            </summary>
+        </member>
+        <member name="P:emAPI.Controllers.Moles.MApportionmentManager.apportionToPeriodListOfChunkDateTimeDateTimeAppotionmentPeriod">
+            <summary>Sets the mole of <see cref="M:emAPI.Controllers.ApportionmentManager.apportionToPeriod(System.Collections.Generic.List`1{emAPI.ClassLibrary.Chunk},System.DateTime,System.DateTime,emAPI.ClassLibrary.AppotionmentPeriod)"/>
+            </summary>
+        </member>
+        <member name="P:emAPI.Controllers.Moles.MApportionmentManager.canApportionListOfChunkDateTimeDateTime">
+            <summary>Sets the mole of <see cref="M:emAPI.Controllers.ApportionmentManager.canApportion(System.Collections.Generic.List`1{emAPI.ClassLibrary.Chunk},System.DateTime,System.DateTime)"/>
+            </summary>
+        </member>
+        <member name="P:emAPI.Controllers.Moles.MApportionmentManager.convertInvoicesToChunksListOfInvoice">
+            <summary>Sets the mole of <see cref="M:emAPI.Controllers.ApportionmentManager.convertInvoicesToChunks(System.Collections.Generic.List`1{emAPI.ClassLibrary.Invoice})"/>
+            </summary>
+        </member>
+        <member name="P:emAPI.Controllers.Moles.MApportionmentManager.convertReadingsToChunksListOfMeterReading">
+            <summary>Sets the mole of <see cref="M:emAPI.Controllers.ApportionmentManager.convertReadingsToChunks(System.Collections.Generic.List`1{emAPI.ClassLibrary.MeterReading})"/>
+            </summary>
+        </member>
+        <member name="P:emAPI.Controllers.Moles.MApportionmentManager.getBestApportionmentPeriodDateTimeDateTime">
+            <summary>Sets the mole of <see cref="M:emAPI.Controllers.ApportionmentManager.getBestApportionmentPeriod(System.DateTime,System.DateTime)"/>
+            </summary>
+        </member>
+        <member name="P:emAPI.Controllers.Moles.MApportionmentManager.setupDatedChunksForApportionToDatesDateTimeDateTime">
+            <summary>Sets the mole of <see cref="M:emAPI.Controllers.ApportionmentManager.setupDatedChunksForApportionToDates(System.DateTime,System.DateTime)"/>
+            </summary>
+        </member>
+        <member name="P:emAPI.Controllers.Moles.MApportionmentManager.setupDatedChunksForApportionToPeriodDateTimeDateTimeAppotionmentPeriod">
+            <summary>Sets the mole of <see cref="M:emAPI.Controllers.ApportionmentManager.setupDatedChunksForApportionToPeriod(System.DateTime,System.DateTime,emAPI.ClassLibrary.AppotionmentPeriod)"/>
+            </summary>
+        </member>
+        <member name="T:emAPI.Controllers.Moles.MApportionmentManager.AllInstances">
+            <summary>Define moles for all instances members</summary>
+        </member>
+        <member name="P:emAPI.Controllers.Moles.MApportionmentManager.AllInstances.apportionListOfChunkListOfChunk">
+            <summary>Sets the mole of <see cref="M:emAPI.Controllers.ApportionmentManager.apportion(System.Collections.Generic.List`1{emAPI.ClassLibrary.Chunk},System.Collections.Generic.List`1{emAPI.ClassLibrary.Chunk})"/>
+            </summary>
+        </member>
+        <member name="P:emAPI.Controllers.Moles.MApportionmentManager.AllInstances.apportionToDatesListOfChunkStringString">
+            <summary>Sets the mole of <see cref="M:emAPI.Controllers.ApportionmentManager.apportionToDates(System.Collections.Generic.List`1{emAPI.ClassLibrary.Chunk},System.String,System.String)"/>
+            </summary>
+        </member>
+        <member name="P:emAPI.Controllers.Moles.MApportionmentManager.AllInstances.apportionToPeriodListOfChunkDateTimeDateTimeAppotionmentPeriod">
+            <summary>Sets the mole of <see cref="M:emAPI.Controllers.ApportionmentManager.apportionToPeriod(System.Collections.Generic.List`1{emAPI.ClassLibrary.Chunk},System.DateTime,System.DateTime,emAPI.ClassLibrary.AppotionmentPeriod)"/>
+            </summary>
+        </member>
+        <member name="P:emAPI.Controllers.Moles.MApportionmentManager.AllInstances.canApportionListOfChunkDateTimeDateTime">
+            <summary>Sets the mole of <see cref="M:emAPI.Controllers.ApportionmentManager.canApportion(System.Collections.Generic.List`1{emAPI.ClassLibrary.Chunk},System.DateTime,System.DateTime)"/>
+            </summary>
+        </member>
+        <member name="P:emAPI.Controllers.Moles.MApportionmentManager.AllInstances.convertInvoicesToChunksListOfInvoice">
+            <summary>Sets the mole of <see cref="M:emAPI.Controllers.ApportionmentManager.convertInvoicesToChunks(System.Collections.Generic.List`1{emAPI.ClassLibrary.Invoice})"/>
+            </summary>
+        </member>
+        <member name="P:emAPI.Controllers.Moles.MApportionmentManager.AllInstances.convertReadingsToChunksListOfMeterReading">
+            <summary>Sets the mole of <see cref="M:emAPI.Controllers.ApportionmentManager.convertReadingsToChunks(System.Collections.Generic.List`1{emAPI.ClassLibrary.MeterReading})"/>
+            </summary>
+        </member>
+        <member name="P:emAPI.Controllers.Moles.MApportionmentManager.AllInstances.getBestApportionmentPeriodDateTimeDateTime">
+            <summary>Sets the mole of <see cref="M:emAPI.Controllers.ApportionmentManager.getBestApportionmentPeriod(System.DateTime,System.DateTime)"/>
+            </summary>
+        </member>
+        <member name="P:emAPI.Controllers.Moles.MApportionmentManager.AllInstances.setupDatedChunksForApportionToDatesDateTimeDateTime">
+            <summary>Sets the mole of <see cref="M:emAPI.Controllers.ApportionmentManager.setupDatedChunksForApportionToDates(System.DateTime,System.DateTime)"/>
+            </summary>
+        </member>
+        <member name="P:emAPI.Controllers.Moles.MApportionmentManager.AllInstances.setupDatedChunksForApportionToPeriodDateTimeDateTimeAppotionmentPeriod">
+            <summary>Sets the mole of <see cref="M:emAPI.Controllers.ApportionmentManager.setupDatedChunksForApportionToPeriod(System.DateTime,System.DateTime,emAPI.ClassLibrary.AppotionmentPeriod)"/>
+            </summary>
+        </member>
+        <member name="T:emAPI.Controllers.Moles.SApportionmentManager">
+            <summary>Stub type of <see cref="T:emAPI.Controllers.ApportionmentManager"/>
+            .</summary>
+        </member>
+        <member name="M:emAPI.Controllers.Moles.SApportionmentManager.#ctor">
+            <summary>Initializes a new instance</summary>
+        </member>
+        <member name="M:emAPI.Controllers.Moles.SApportionmentManager.InitializeStub">
+            <summary>Initializes a new instance of type SApportionmentManager</summary>
+        </member>
+        <member name="P:emAPI.Controllers.Moles.SApportionmentManager.CallBase">
+            <summary>Gets or sets a value that indicates if the base method should be called instead of the fallback behavior</summary>
+        </member>
+        <member name="P:emAPI.Controllers.Moles.SApportionmentManager.InstanceBehavior">
+            <summary>Gets or sets the instance behavior.</summary>
+        </member>
+        <member name="T:emAPI.Interfaces.Moles.SIAccountManager">
+            <summary>Stub type of <see cref="T:emAPI.Interfaces.IAccountManager"/>
+            .</summary>
+        </member>
+        <member name="M:emAPI.Interfaces.Moles.SIAccountManager.#ctor">
+            <summary>Initializes a new instance of type SIAccountManager</summary>
+        </member>
+        <member name="F:emAPI.Interfaces.Moles.SIAccountManager.AddPropertyToUserInt32Int32">
+            <summary>Sets the stub of <see cref="M:emAPI.Interfaces.IAccountManager.addPropertyToUser(System.Int32,System.Int32)"/>
+            </summary>
+        </member>
+        <member name="F:emAPI.Interfaces.Moles.SIAccountManager.CheckPasswordStringInt32">
+            <summary>Sets the stub of <see cref="M:emAPI.Interfaces.IAccountManager.checkPassword(System.String,System.Int32)"/>
+            </summary>
+        </member>
+        <member name="F:emAPI.Interfaces.Moles.SIAccountManager.CreateUserStringStringStringStringString">
+            <summary>Sets the stub of <see cref="M:emAPI.Interfaces.IAccountManager.createUser(System.String,System.String,System.String,System.String,System.String)"/>
+            </summary>
+        </member>
+        <member name="F:emAPI.Interfaces.Moles.SIAccountManager.EditUserInt32String">
+            <summary>Sets the stub of <see cref="M:emAPI.Interfaces.IAccountManager.editUser(System.Int32,System.String)"/>
+            </summary>
+        </member>
+        <member name="F:emAPI.Interfaces.Moles.SIAccountManager.EmailIsUniqueString">
+            <summary>Sets the stub of <see cref="M:emAPI.Interfaces.IAccountManager.emailIsUnique(System.String)"/>
+            </summary>
+        </member>
+        <member name="F:emAPI.Interfaces.Moles.SIAccountManager.GetComparativeCostsForUserInt32">
+            <summary>Sets the stub of <see cref="M:emAPI.Interfaces.IAccountManager.getComparativeCostsForUser(System.Int32)"/>
+            </summary>
+        </member>
+        <member name="F:emAPI.Interfaces.Moles.SIAccountManager.GetPropertiesForUserInt32">
+            <summary>Sets the stub of <see cref="M:emAPI.Interfaces.IAccountManager.getPropertiesForUser(System.Int32)"/>
+            </summary>
+        </member>
+        <member name="F:emAPI.Interfaces.Moles.SIAccountManager.GetUserInt32">
+            <summary>Sets the stub of <see cref="M:emAPI.Interfaces.IAccountManager.getUser(System.Int32)"/>
+            </summary>
+        </member>
+        <member name="F:emAPI.Interfaces.Moles.SIAccountManager.UpdatePasswordInt32String">
+            <summary>Sets the stub of <see cref="M:emAPI.Interfaces.IAccountManager.updatePassword(System.Int32,System.String)"/>
+            </summary>
+        </member>
+        <member name="F:emAPI.Interfaces.Moles.SIAccountManager.UsernameIsUniqueString">
+            <summary>Sets the stub of <see cref="M:emAPI.Interfaces.IAccountManager.usernameIsUnique(System.String)"/>
+            </summary>
+        </member>
+        <member name="F:emAPI.Interfaces.Moles.SIAccountManager.ValidateUserStringString">
+            <summary>Sets the stub of <see cref="M:emAPI.Interfaces.IAccountManager.validateUser(System.String,System.String)"/>
+            </summary>
+        </member>
+        <member name="M:emAPI.Interfaces.Moles.SIAccountManager.eapi::emAPI#Interfaces#IAccountManager#addPropertyToUser(System.Int32,System.Int32)">
+            <summary>Sets the stub of <see cref="M:emAPI.Interfaces.IAccountManager.addPropertyToUser(System.Int32,System.Int32)"/>
+            </summary>
+        </member>
+        <member name="M:emAPI.Interfaces.Moles.SIAccountManager.eapi::emAPI#Interfaces#IAccountManager#checkPassword(System.String,System.Int32)">
+            <summary>Sets the stub of <see cref="M:emAPI.Interfaces.IAccountManager.checkPassword(System.String,System.Int32)"/>
+            </summary>
+        </member>
+        <member name="M:emAPI.Interfaces.Moles.SIAccountManager.eapi::emAPI#Interfaces#IAccountManager#createUser(System.String,System.String,System.String,System.String,System.String)">
+            <summary>Sets the stub of <see cref="M:emAPI.Interfaces.IAccountManager.createUser(System.String,System.String,System.String,System.String,System.String)"/>
+            </summary>
+        </member>
+        <member name="M:emAPI.Interfaces.Moles.SIAccountManager.eapi::emAPI#Interfaces#IAccountManager#editUser(System.Int32,System.String)">
+            <summary>Sets the stub of <see cref="M:emAPI.Interfaces.IAccountManager.editUser(System.Int32,System.String)"/>
+            </summary>
+        </member>
+        <member name="M:emAPI.Interfaces.Moles.SIAccountManager.eapi::emAPI#Interfaces#IAccountManager#emailIsUnique(System.String)">
+            <summary>Sets the stub of <see cref="M:emAPI.Interfaces.IAccountManager.emailIsUnique(System.String)"/>
+            </summary>
+        </member>
+        <member name="M:emAPI.Interfaces.Moles.SIAccountManager.eapi::emAPI#Interfaces#IAccountManager#getComparativeCostsForUser(System.Int32)">
+            <summary>Sets the stub of <see cref="M:emAPI.Interfaces.IAccountManager.getComparativeCostsForUser(System.Int32)"/>
+            </summary>
+        </member>
+        <member name="M:emAPI.Interfaces.Moles.SIAccountManager.eapi::emAPI#Interfaces#IAccountManager#getPropertiesForUser(System.Int32)">
+            <summary>Sets the stub of <see cref="M:emAPI.Interfaces.IAccountManager.getPropertiesForUser(System.Int32)"/>
+            </summary>
+        </member>
+        <member name="M:emAPI.Interfaces.Moles.SIAccountManager.eapi::emAPI#Interfaces#IAccountManager#getUser(System.Int32)">
+            <summary>Sets the stub of <see cref="M:emAPI.Interfaces.IAccountManager.getUser(System.Int32)"/>
+            </summary>
+        </member>
+        <member name="M:emAPI.Interfaces.Moles.SIAccountManager.eapi::emAPI#Interfaces#IAccountManager#updatePassword(System.Int32,System.String)">
+            <summary>Sets the stub of <see cref="M:emAPI.Interfaces.IAccountManager.updatePassword(System.Int32,System.String)"/>
+            </summary>
+        </member>
+        <member name="M:emAPI.Interfaces.Moles.SIAccountManager.eapi::emAPI#Interfaces#IAccountManager#usernameIsUnique(System.String)">
+            <summary>Sets the stub of <see cref="M:emAPI.Interfaces.IAccountManager.usernameIsUnique(System.String)"/>
+            </summary>
+        </member>
+        <member name="M:emAPI.Interfaces.Moles.SIAccountManager.eapi::emAPI#Interfaces#IAccountManager#validateUser(System.String,System.String)">
+            <summary>Sets the stub of <see cref="M:emAPI.Interfaces.IAccountManager.validateUser(System.String,System.String)"/>
+            </summary>
+        </member>
+        <member name="T:emAPI.Moles.SIemAPI">
+            <summary>Stub type of <see cref="T:emAPI.IemAPI"/>
+            .</summary>
+        </member>
+        <member name="M:emAPI.Moles.SIemAPI.#ctor">
+            <summary>Initializes a new instance of type SIemAPI</summary>
+        </member>
+        <member name="F:emAPI.Moles.SIemAPI.CreateElectricityMeterStringDoubleInt32StringInt32">
+            <summary>Sets the stub of <see cref="M:emAPI.IemAPI.createElectricityMeter(System.String,System.Double,System.Int32,System.String,System.Int32)"/>
+            </summary>
+        </member>
+        <member name="F:emAPI.Moles.SIemAPI.CreateGasMeterStringDoubleInt32StringInt32">
+            <summary>Sets the stub of <see cref="M:emAPI.IemAPI.createGasMeter(System.String,System.Double,System.Int32,System.String,System.Int32)"/>
+            </summary>
+        </member>
+        <member name="F:emAPI.Moles.SIemAPI.CreateInvoiceInt32StringStringStringInt32DoubleDoubleDoubleInt32">
+            <summary>Sets the stub of <see cref="M:emAPI.IemAPI.createInvoice(System.Int32,System.String,System.String,System.String,System.Int32,System.Double,System.Double,System.Double,System.Int32)"/>
+            </summary>
+        </member>
+        <member name="F:emAPI.Moles.SIemAPI.CreateMeterReadingStringInt32Int32Int32">
+            <summary>Sets the stub of <see cref="M:emAPI.IemAPI.createMeterReading(System.String,System.Int32,System.Int32,System.Int32)"/>
+            </summary>
+        </member>
+        <member name="F:emAPI.Moles.SIemAPI.CreatePropertyStringStringInt32Int32Int32Int32">
+            <summary>Sets the stub of <see cref="M:emAPI.IemAPI.createProperty(System.String,System.String,System.Int32,System.Int32,System.Int32,System.Int32)"/>
+            </summary>
+        </member>
+        <member name="F:emAPI.Moles.SIemAPI.CreateTariffBandInt32Int32DoubleInt32">
+            <summary>Sets the stub of <see cref="M:emAPI.IemAPI.createTariffBand(System.Int32,System.Int32,System.Double,System.Int32)"/>
+            </summary>
+        </member>
+        <member name="F:emAPI.Moles.SIemAPI.CreateTariffDoubleStringInt32Int32Int32">
+            <summary>Sets the stub of <see cref="M:emAPI.IemAPI.createTariff(System.Double,System.String,System.Int32,System.Int32,System.Int32)"/>
+            </summary>
+        </member>
+        <member name="F:emAPI.Moles.SIemAPI.CreateUserStringStringStringStringString">
+            <summary>Sets the stub of <see cref="M:emAPI.IemAPI.createUser(System.String,System.String,System.String,System.String,System.String)"/>
+            </summary>
+        </member>
+        <member name="F:emAPI.Moles.SIemAPI.DeleteInvoiceInt32Int32">
+            <summary>Sets the stub of <see cref="M:emAPI.IemAPI.deleteInvoice(System.Int32,System.Int32)"/>
+            </summary>
+        </member>
+        <member name="F:emAPI.Moles.SIemAPI.DeleteMeterInt32Int32">
+            <summary>Sets the stub of <see cref="M:emAPI.IemAPI.deleteMeter(System.Int32,System.Int32)"/>
+            </summary>
+        </member>
+        <member name="F:emAPI.Moles.SIemAPI.DeletePropertyInt32">
+            <summary>Sets the stub of <see cref="M:emAPI.IemAPI.deleteProperty(System.Int32)"/>
+            </summary>
+        </member>
+        <member name="F:emAPI.Moles.SIemAPI.DeleteReadingInt32Int32Int32">
+            <summary>Sets the stub of <see cref="M:emAPI.IemAPI.deleteReading(System.Int32,System.Int32,System.Int32)"/>
+            </summary>
+        </member>
+        <member name="F:emAPI.Moles.SIemAPI.DeleteTariffInt32">
+            <summary>Sets the stub of <see cref="M:emAPI.IemAPI.deleteTariff(System.Int32)"/>
+            </summary>
+        </member>
+        <member name="F:emAPI.Moles.SIemAPI.EditInvoiceInt32StringInt32">
+            <summary>Sets the stub of <see cref="M:emAPI.IemAPI.editInvoice(System.Int32,System.String,System.Int32)"/>
+            </summary>
+        </member>
+        <member name="F:emAPI.Moles.SIemAPI.EditMeterInt32String">
+            <summary>Sets the stub of <see cref="M:emAPI.IemAPI.editMeter(System.Int32,System.String)"/>
+            </summary>
+        </member>
+        <member name="F:emAPI.Moles.SIemAPI.EditMeterReadingInt32Int32StringInt32">
+            <summary>Sets the stub of <see cref="M:emAPI.IemAPI.editMeterReading(System.Int32,System.Int32,System.String,System.Int32)"/>
+            </summary>
+        </member>
+        <member name="F:emAPI.Moles.SIemAPI.EditPropertyInt32String">
+            <summary>Sets the stub of <see cref="M:emAPI.IemAPI.editProperty(System.Int32,System.String)"/>
+            </summary>
+        </member>
+        <member name="F:emAPI.Moles.SIemAPI.EditTariffInt32String">
+            <summary>Sets the stub of <see cref="M:emAPI.IemAPI.editTariff(System.Int32,System.String)"/>
+            </summary>
+        </member>
+        <member name="F:emAPI.Moles.SIemAPI.EditUserInt32String">
+            <summary>Sets the stub of <see cref="M:emAPI.IemAPI.editUser(System.Int32,System.String)"/>
+            </summary>
+        </member>
+        <member name="F:emAPI.Moles.SIemAPI.EmailIsUniqueString">
+            <summary>Sets the stub of <see cref="M:emAPI.IemAPI.emailIsUnique(System.String)"/>
+            </summary>
+        </member>
+        <member name="F:emAPI.Moles.SIemAPI.ForecastNextInvoiceInt32">
+            <summary>Sets the stub of <see cref="M:emAPI.IemAPI.forecastNextInvoice(System.Int32)"/>
+            </summary>
+        </member>
+        <member name="F:emAPI.Moles.SIemAPI.GetAnonymousPropertiesString">
+            <summary>Sets the stub of <see cref="M:emAPI.IemAPI.getAnonymousProperties(System.String)"/>
+            </summary>
+        </member>
+        <member name="F:emAPI.Moles.SIemAPI.GetBenchmarkForPropertyInt32">
+            <summary>Sets the stub of <see cref="M:emAPI.IemAPI.getBenchmarkForProperty(System.Int32)"/>
+            </summary>
+        </member>
+        <member name="F:emAPI.Moles.SIemAPI.GetBuildingTypeInt32">
+            <summary>Sets the stub of <see cref="M:emAPI.IemAPI.getBuildingType(System.Int32)"/>
+            </summary>
+        </member>
+        <member name="F:emAPI.Moles.SIemAPI.GetBuildingTypes">
+            <summary>Sets the stub of <see cref="M:emAPI.IemAPI.getBuildingTypes"/>
+            </summary>
+        </member>
+        <member name="F:emAPI.Moles.SIemAPI.GetComparativeCostsForUserInt32">
+            <summary>Sets the stub of <see cref="M:emAPI.IemAPI.getComparativeCostsForUser(System.Int32)"/>
+            </summary>
+        </member>
+        <member name="F:emAPI.Moles.SIemAPI.GetDataAtPropertyInt32StringStringInt32Int32">
+            <summary>Sets the stub of <see cref="M:emAPI.IemAPI.getDataAtProperty(System.Int32,System.String,System.String,System.Int32,System.Int32)"/>
+            </summary>
+        </member>
+        <member name="F:emAPI.Moles.SIemAPI.GetDataFromMeterByIntervalInt32StringStringInt32Int32">
+            <summary>Sets the stub of <see cref="M:emAPI.IemAPI.getDataFromMeterByInterval(System.Int32,System.String,System.String,System.Int32,System.Int32)"/>
+            </summary>
+        </member>
+        <member name="F:emAPI.Moles.SIemAPI.GetDataFromMeterInt32StringStringInt32">
+            <summary>Sets the stub of <see cref="M:emAPI.IemAPI.getDataFromMeter(System.Int32,System.String,System.String,System.Int32)"/>
+            </summary>
+        </member>
+        <member name="F:emAPI.Moles.SIemAPI.GetDetailsForMeterInt32">
+            <summary>Sets the stub of <see cref="M:emAPI.IemAPI.getDetailsForMeter(System.Int32)"/>
+            </summary>
+        </member>
+        <member name="F:emAPI.Moles.SIemAPI.GetElecDataInt32StringStringInt32">
+            <summary>Sets the stub of <see cref="M:emAPI.IemAPI.getElecData(System.Int32,System.String,System.String,System.Int32)"/>
+            </summary>
+        </member>
+        <member name="F:emAPI.Moles.SIemAPI.GetFloorAreaInt32">
+            <summary>Sets the stub of <see cref="M:emAPI.IemAPI.getFloorArea(System.Int32)"/>
+            </summary>
+        </member>
+        <member name="F:emAPI.Moles.SIemAPI.GetGasDataInt32StringStringInt32">
+            <summary>Sets the stub of <see cref="M:emAPI.IemAPI.getGasData(System.Int32,System.String,System.String,System.Int32)"/>
+            </summary>
+        </member>
+        <member name="F:emAPI.Moles.SIemAPI.GetHeatingTypeInt32">
+            <summary>Sets the stub of <see cref="M:emAPI.IemAPI.getHeatingType(System.Int32)"/>
+            </summary>
+        </member>
+        <member name="F:emAPI.Moles.SIemAPI.GetHeatingTypes">
+            <summary>Sets the stub of <see cref="M:emAPI.IemAPI.getHeatingTypes"/>
+            </summary>
+        </member>
+        <member name="F:emAPI.Moles.SIemAPI.GetInvoiceInt32">
+            <summary>Sets the stub of <see cref="M:emAPI.IemAPI.getInvoice(System.Int32)"/>
+            </summary>
+        </member>
+        <member name="F:emAPI.Moles.SIemAPI.GetInvoicesForMeterInt32">
+            <summary>Sets the stub of <see cref="M:emAPI.IemAPI.getInvoicesForMeter(System.Int32)"/>
+            </summary>
+        </member>
+        <member name="F:emAPI.Moles.SIemAPI.GetLastInvoiceDateInt32">
+            <summary>Sets the stub of <see cref="M:emAPI.IemAPI.getLastInvoiceDate(System.Int32)"/>
+            </summary>
+        </member>
+        <member name="F:emAPI.Moles.SIemAPI.GetMeterInt32">
+            <summary>Sets the stub of <see cref="M:emAPI.IemAPI.getMeter(System.Int32)"/>
+            </summary>
+        </member>
+        <member name="F:emAPI.Moles.SIemAPI.GetMeterReadingsInt32">
+            <summary>Sets the stub of <see cref="M:emAPI.IemAPI.getMeterReadings(System.Int32)"/>
+            </summary>
+        </member>
+        <member name="F:emAPI.Moles.SIemAPI.GetMinimumReadingDateForEditInt32">
+            <summary>Sets the stub of <see cref="M:emAPI.IemAPI.getMinimumReadingDateForEdit(System.Int32)"/>
+            </summary>
+        </member>
+        <member name="F:emAPI.Moles.SIemAPI.GetMinimumReadingDateInt32">
+            <summary>Sets the stub of <see cref="M:emAPI.IemAPI.getMinimumReadingDate(System.Int32)"/>
+            </summary>
+        </member>
+        <member name="F:emAPI.Moles.SIemAPI.GetMinimumTariffDateForEditInt32">
+            <summary>Sets the stub of <see cref="M:emAPI.IemAPI.getMinimumTariffDateForEdit(System.Int32)"/>
+            </summary>
+        </member>
+        <member name="F:emAPI.Moles.SIemAPI.GetMinimumTariffDateInt32">
+            <summary>Sets the stub of <see cref="M:emAPI.IemAPI.getMinimumTariffDate(System.Int32)"/>
+            </summary>
+        </member>
+        <member name="F:emAPI.Moles.SIemAPI.GetMostRecentDateInt32Int32">
+            <summary>Sets the stub of <see cref="M:emAPI.IemAPI.getMostRecentDate(System.Int32,System.Int32)"/>
+            </summary>
+        </member>
+        <member name="F:emAPI.Moles.SIemAPI.GetPeriods">
+            <summary>Sets the stub of <see cref="M:emAPI.IemAPI.getPeriods"/>
+            </summary>
+        </member>
+        <member name="F:emAPI.Moles.SIemAPI.GetPropertiesForUserInt32">
+            <summary>Sets the stub of <see cref="M:emAPI.IemAPI.getPropertiesForUser(System.Int32)"/>
+            </summary>
+        </member>
+        <member name="F:emAPI.Moles.SIemAPI.GetPropertyInt32">
+            <summary>Sets the stub of <see cref="M:emAPI.IemAPI.getProperty(System.Int32)"/>
+            </summary>
+        </member>
+        <member name="F:emAPI.Moles.SIemAPI.GetPropertyTypeIdInt32Int32Int32">
+            <summary>Sets the stub of <see cref="M:emAPI.IemAPI.getPropertyTypeId(System.Int32,System.Int32,System.Int32)"/>
+            </summary>
+        </member>
+        <member name="F:emAPI.Moles.SIemAPI.GetPropertyTypes">
+            <summary>Sets the stub of <see cref="M:emAPI.IemAPI.getPropertyTypes"/>
+            </summary>
+        </member>
+        <member name="F:emAPI.Moles.SIemAPI.GetReadingInt32">
+            <summary>Sets the stub of <see cref="M:emAPI.IemAPI.getReading(System.Int32)"/>
+            </summary>
+        </member>
+        <member name="F:emAPI.Moles.SIemAPI.GetTariffInt32">
+            <summary>Sets the stub of <see cref="M:emAPI.IemAPI.getTariff(System.Int32)"/>
+            </summary>
+        </member>
+        <member name="F:emAPI.Moles.SIemAPI.GetTotalDataInt32StringStringInt32">
+            <summary>Sets the stub of <see cref="M:emAPI.IemAPI.getTotalData(System.Int32,System.String,System.String,System.Int32)"/>
+            </summary>
+        </member>
+        <member name="F:emAPI.Moles.SIemAPI.GetUserInt32">
+            <summary>Sets the stub of <see cref="M:emAPI.IemAPI.getUser(System.Int32)"/>
+            </summary>
+        </member>
+        <member name="F:emAPI.Moles.SIemAPI.GetWallTypeInt32">
+            <summary>Sets the stub of <see cref="M:emAPI.IemAPI.getWallType(System.Int32)"/>
+            </summary>
+        </member>
+        <member name="F:emAPI.Moles.SIemAPI.GetWallTypes">
+            <summary>Sets the stub of <see cref="M:emAPI.IemAPI.getWallTypes"/>
+            </summary>
+        </member>
+        <member name="F:emAPI.Moles.SIemAPI.UpdateBenchmarks">
+            <summary>Sets the stub of <see cref="M:emAPI.IemAPI.updateBenchmarks"/>
+            </summary>
+        </member>
+        <member name="F:emAPI.Moles.SIemAPI.UpdatePasswordInt32String">
+            <summary>Sets the stub of <see cref="M:emAPI.IemAPI.updatePassword(System.Int32,System.String)"/>
+            </summary>
+        </member>
+        <member name="F:emAPI.Moles.SIemAPI.UsernameIsUniqueString">
+            <summary>Sets the stub of <see cref="M:emAPI.IemAPI.usernameIsUnique(System.String)"/>
+            </summary>
+        </member>
+        <member name="F:emAPI.Moles.SIemAPI.ValidateInvoiceInt32Boolean">
+            <summary>Sets the stub of <see cref="M:emAPI.IemAPI.validateInvoice(System.Int32,System.Boolean)"/>
+            </summary>
+        </member>
+        <member name="F:emAPI.Moles.SIemAPI.ValidateUserStringString">
+            <summary>Sets the stub of <see cref="M:emAPI.IemAPI.validateUser(System.String,System.String)"/>
+            </summary>
+        </member>
+        <member name="M:emAPI.Moles.SIemAPI.eapi::emAPI#IemAPI#createElectricityMeter(System.String,System.Double,System.Int32,System.String,System.Int32)">
+            <summary>Sets the stub of <see cref="M:emAPI.IemAPI.createElectricityMeter(System.String,System.Double,System.Int32,System.String,System.Int32)"/>
+            </summary>
+        </member>
+        <member name="M:emAPI.Moles.SIemAPI.eapi::emAPI#IemAPI#createGasMeter(System.String,System.Double,System.Int32,System.String,System.Int32)">
+            <summary>Sets the stub of <see cref="M:emAPI.IemAPI.createGasMeter(System.String,System.Double,System.Int32,System.String,System.Int32)"/>
+            </summary>
+        </member>
+        <member name="M:emAPI.Moles.SIemAPI.eapi::emAPI#IemAPI#createInvoice(System.Int32,System.String,System.String,System.String,System.Int32,System.Double,System.Double,System.Double,System.Int32)">
+            <summary>Sets the stub of <see cref="M:emAPI.IemAPI.createInvoice(System.Int32,System.String,System.String,System.String,System.Int32,System.Double,System.Double,System.Double,System.Int32)"/>
+            </summary>
+        </member>
+        <member name="M:emAPI.Moles.SIemAPI.eapi::emAPI#IemAPI#createMeterReading(System.String,System.Int32,System.Int32,System.Int32)">
+            <summary>Sets the stub of <see cref="M:emAPI.IemAPI.createMeterReading(System.String,System.Int32,System.Int32,System.Int32)"/>
+            </summary>
+        </member>
+        <member name="M:emAPI.Moles.SIemAPI.eapi::emAPI#IemAPI#createProperty(System.String,System.String,System.Int32,System.Int32,System.Int32,System.Int32)">
+            <summary>Sets the stub of <see cref="M:emAPI.IemAPI.createProperty(System.String,System.String,System.Int32,System.Int32,System.Int32,System.Int32)"/>
+            </summary>
+        </member>
+        <member name="M:emAPI.Moles.SIemAPI.eapi::emAPI#IemAPI#createTariff(System.Double,System.String,System.Int32,System.Int32,System.Int32)">
+            <summary>Sets the stub of <see cref="M:emAPI.IemAPI.createTariff(System.Double,System.String,System.Int32,System.Int32,System.Int32)"/>
+            </summary>
+        </member>
+        <member name="M:emAPI.Moles.SIemAPI.eapi::emAPI#IemAPI#createTariffBand(System.Int32,System.Int32,System.Double,System.Int32)">
+            <summary>Sets the stub of <see cref="M:emAPI.IemAPI.createTariffBand(System.Int32,System.Int32,System.Double,System.Int32)"/>
+            </summary>
+        </member>
+        <member name="M:emAPI.Moles.SIemAPI.eapi::emAPI#IemAPI#createUser(System.String,System.String,System.String,System.String,System.String)">
+            <summary>Sets the stub of <see cref="M:emAPI.IemAPI.createUser(System.String,System.String,System.String,System.String,System.String)"/>
+            </summary>
+        </member>
+        <member name="M:emAPI.Moles.SIemAPI.eapi::emAPI#IemAPI#deleteInvoice(System.Int32,System.Int32)">
+            <summary>Sets the stub of <see cref="M:emAPI.IemAPI.deleteInvoice(System.Int32,System.Int32)"/>
+            </summary>
+        </member>
+        <member name="M:emAPI.Moles.SIemAPI.eapi::emAPI#IemAPI#deleteMeter(System.Int32,System.Int32)">
+            <summary>Sets the stub of <see cref="M:emAPI.IemAPI.deleteMeter(System.Int32,System.Int32)"/>
+            </summary>
+        </member>
+        <member name="M:emAPI.Moles.SIemAPI.eapi::emAPI#IemAPI#deleteProperty(System.Int32)">
+            <summary>Sets the stub of <see cref="M:emAPI.IemAPI.deleteProperty(System.Int32)"/>
+            </summary>
+        </member>
+        <member name="M:emAPI.Moles.SIemAPI.eapi::emAPI#IemAPI#deleteReading(System.Int32,System.Int32,System.Int32)">
+            <summary>Sets the stub of <see cref="M:emAPI.IemAPI.deleteReading(System.Int32,System.Int32,System.Int32)"/>
+            </summary>
+        </member>
+        <member name="M:emAPI.Moles.SIemAPI.eapi::emAPI#IemAPI#deleteTariff(System.Int32)">
+            <summary>Sets the stub of <see cref="M:emAPI.IemAPI.deleteTariff(System.Int32)"/>
+            </summary>
+        </member>
+        <member name="M:emAPI.Moles.SIemAPI.eapi::emAPI#IemAPI#editInvoice(System.Int32,System.String,System.Int32)">
+            <summary>Sets the stub of <see cref="M:emAPI.IemAPI.editInvoice(System.Int32,System.String,System.Int32)"/>
+            </summary>
+        </member>
+        <member name="M:emAPI.Moles.SIemAPI.eapi::emAPI#IemAPI#editMeter(System.Int32,System.String)">
+            <summary>Sets the stub of <see cref="M:emAPI.IemAPI.editMeter(System.Int32,System.String)"/>
+            </summary>
+        </member>
+        <member name="M:emAPI.Moles.SIemAPI.eapi::emAPI#IemAPI#editMeterReading(System.Int32,System.Int32,System.String,System.Int32)">
+            <summary>Sets the stub of <see cref="M:emAPI.IemAPI.editMeterReading(System.Int32,System.Int32,System.String,System.Int32)"/>
+            </summary>
+        </member>
+        <member name="M:emAPI.Moles.SIemAPI.eapi::emAPI#IemAPI#editProperty(System.Int32,System.String)">
+            <summary>Sets the stub of <see cref="M:emAPI.IemAPI.editProperty(System.Int32,System.String)"/>
+            </summary>
+        </member>
+        <member name="M:emAPI.Moles.SIemAPI.eapi::emAPI#IemAPI#editTariff(System.Int32,System.String)">
+            <summary>Sets the stub of <see cref="M:emAPI.IemAPI.editTariff(System.Int32,System.String)"/>
+            </summary>
+        </member>
+        <member name="M:emAPI.Moles.SIemAPI.eapi::emAPI#IemAPI#editUser(System.Int32,System.String)">
+            <summary>Sets the stub of <see cref="M:emAPI.IemAPI.editUser(System.Int32,System.String)"/>
+            </summary>
+        </member>
+        <member name="M:emAPI.Moles.SIemAPI.eapi::emAPI#IemAPI#emailIsUnique(System.String)">
+            <summary>Sets the stub of <see cref="M:emAPI.IemAPI.emailIsUnique(System.String)"/>
+            </summary>
+        </member>
+        <member name="M:emAPI.Moles.SIemAPI.eapi::emAPI#IemAPI#forecastNextInvoice(System.Int32)">
+            <summary>Sets the stub of <see cref="M:emAPI.IemAPI.forecastNextInvoice(System.Int32)"/>
+            </summary>
+        </member>
+        <member name="M:emAPI.Moles.SIemAPI.eapi::emAPI#IemAPI#getAnonymousProperties(System.String)">
+            <summary>Sets the stub of <see cref="M:emAPI.IemAPI.getAnonymousProperties(System.String)"/>
+            </summary>
+        </member>
+        <member name="M:emAPI.Moles.SIemAPI.eapi::emAPI#IemAPI#getBenchmarkForProperty(System.Int32)">
+            <summary>Sets the stub of <see cref="M:emAPI.IemAPI.getBenchmarkForProperty(System.Int32)"/>
+            </summary>
+        </member>
+        <member name="M:emAPI.Moles.SIemAPI.eapi::emAPI#IemAPI#getBuildingType(System.Int32)">
+            <summary>Sets the stub of <see cref="M:emAPI.IemAPI.getBuildingType(System.Int32)"/>
+            </summary>
+        </member>
+        <member name="M:emAPI.Moles.SIemAPI.eapi::emAPI#IemAPI#getBuildingTypes">
+            <summary>Sets the stub of <see cref="M:emAPI.IemAPI.getBuildingTypes"/>
+            </summary>
+        </member>
+        <member name="M:emAPI.Moles.SIemAPI.eapi::emAPI#IemAPI#getComparativeCostsForUser(System.Int32)">
+            <summary>Sets the stub of <see cref="M:emAPI.IemAPI.getComparativeCostsForUser(System.Int32)"/>
+            </summary>
+        </member>
+        <member name="M:emAPI.Moles.SIemAPI.eapi::emAPI#IemAPI#getDataAtProperty(System.Int32,System.String,System.String,System.Int32,System.Int32)">
+            <summary>Sets the stub of <see cref="M:emAPI.IemAPI.getDataAtProperty(System.Int32,System.String,System.String,System.Int32,System.Int32)"/>
+            </summary>
+        </member>
+        <member name="M:emAPI.Moles.SIemAPI.eapi::emAPI#IemAPI#getDataFromMeter(System.Int32,System.String,System.String,System.Int32)">
+            <summary>Sets the stub of <see cref="M:emAPI.IemAPI.getDataFromMeter(System.Int32,System.String,System.String,System.Int32)"/>
+            </summary>
+        </member>
+        <member name="M:emAPI.Moles.SIemAPI.eapi::emAPI#IemAPI#getDataFromMeterByInterval(System.Int32,System.String,System.String,System.Int32,System.Int32)">
+            <summary>Sets the stub of <see cref="M:emAPI.IemAPI.getDataFromMeterByInterval(System.Int32,System.String,System.String,System.Int32,System.Int32)"/>
+            </summary>
+        </member>
+        <member name="M:emAPI.Moles.SIemAPI.eapi::emAPI#IemAPI#getDetailsForMeter(System.Int32)">
+            <summary>Sets the stub of <see cref="M:emAPI.IemAPI.getDetailsForMeter(System.Int32)"/>
+            </summary>
+        </member>
+        <member name="M:emAPI.Moles.SIemAPI.eapi::emAPI#IemAPI#getElecData(System.Int32,System.String,System.String,System.Int32)">
+            <summary>Sets the stub of <see cref="M:emAPI.IemAPI.getElecData(System.Int32,System.String,System.String,System.Int32)"/>
+            </summary>
+        </member>
+        <member name="M:emAPI.Moles.SIemAPI.eapi::emAPI#IemAPI#getFloorArea(System.Int32)">
+            <summary>Sets the stub of <see cref="M:emAPI.IemAPI.getFloorArea(System.Int32)"/>
+            </summary>
+        </member>
+        <member name="M:emAPI.Moles.SIemAPI.eapi::emAPI#IemAPI#getGasData(System.Int32,System.String,System.String,System.Int32)">
+            <summary>Sets the stub of <see cref="M:emAPI.IemAPI.getGasData(System.Int32,System.String,System.String,System.Int32)"/>
+            </summary>
+        </member>
+        <member name="M:emAPI.Moles.SIemAPI.eapi::emAPI#IemAPI#getHeatingType(System.Int32)">
+            <summary>Sets the stub of <see cref="M:emAPI.IemAPI.getHeatingType(System.Int32)"/>
+            </summary>
+        </member>
+        <member name="M:emAPI.Moles.SIemAPI.eapi::emAPI#IemAPI#getHeatingTypes">
+            <summary>Sets the stub of <see cref="M:emAPI.IemAPI.getHeatingTypes"/>
+            </summary>
+        </member>
+        <member name="M:emAPI.Moles.SIemAPI.eapi::emAPI#IemAPI#getInvoice(System.Int32)">
+            <summary>Sets the stub of <see cref="M:emAPI.IemAPI.getInvoice(System.Int32)"/>
+            </summary>
+        </member>
+        <member name="M:emAPI.Moles.SIemAPI.eapi::emAPI#IemAPI#getInvoicesForMeter(System.Int32)">
+            <summary>Sets the stub of <see cref="M:emAPI.IemAPI.getInvoicesForMeter(System.Int32)"/>
+            </summary>
+        </member>
+        <member name="M:emAPI.Moles.SIemAPI.eapi::emAPI#IemAPI#getLastInvoiceDate(System.Int32)">
+            <summary>Sets the stub of <see cref="M:emAPI.IemAPI.getLastInvoiceDate(System.Int32)"/>
+            </summary>
+        </member>
+        <member name="M:emAPI.Moles.SIemAPI.eapi::emAPI#IemAPI#getMeter(System.Int32)">
+            <summary>Sets the stub of <see cref="M:emAPI.IemAPI.getMeter(System.Int32)"/>
+            </summary>
+        </member>
+        <member name="M:emAPI.Moles.SIemAPI.eapi::emAPI#IemAPI#getMeterReadings(System.Int32)">
+            <summary>Sets the stub of <see cref="M:emAPI.IemAPI.getMeterReadings(System.Int32)"/>
+            </summary>
+        </member>
+        <member name="M:emAPI.Moles.SIemAPI.eapi::emAPI#IemAPI#getMinimumReadingDate(System.Int32)">
+            <summary>Sets the stub of <see cref="M:emAPI.IemAPI.getMinimumReadingDate(System.Int32)"/>
+            </summary>
+        </member>
+        <member name="M:emAPI.Moles.SIemAPI.eapi::emAPI#IemAPI#getMinimumReadingDateForEdit(System.Int32)">
+            <summary>Sets the stub of <see cref="M:emAPI.IemAPI.getMinimumReadingDateForEdit(System.Int32)"/>
+            </summary>
+        </member>
+        <member name="M:emAPI.Moles.SIemAPI.eapi::emAPI#IemAPI#getMinimumTariffDate(System.Int32)">
+            <summary>Sets the stub of <see cref="M:emAPI.IemAPI.getMinimumTariffDate(System.Int32)"/>
+            </summary>
+        </member>
+        <member name="M:emAPI.Moles.SIemAPI.eapi::emAPI#IemAPI#getMinimumTariffDateForEdit(System.Int32)">
+            <summary>Sets the stub of <see cref="M:emAPI.IemAPI.getMinimumTariffDateForEdit(System.Int32)"/>
+            </summary>
+        </member>
+        <member name="M:emAPI.Moles.SIemAPI.eapi::emAPI#IemAPI#getMostRecentDate(System.Int32,System.Int32)">
+            <summary>Sets the stub of <see cref="M:emAPI.IemAPI.getMostRecentDate(System.Int32,System.Int32)"/>
+            </summary>
+        </member>
+        <member name="M:emAPI.Moles.SIemAPI.eapi::emAPI#IemAPI#getPeriods">
+            <summary>Sets the stub of <see cref="M:emAPI.IemAPI.getPeriods"/>
+            </summary>
+        </member>
+        <member name="M:emAPI.Moles.SIemAPI.eapi::emAPI#IemAPI#getPropertiesForUser(System.Int32)">
+            <summary>Sets the stub of <see cref="M:emAPI.IemAPI.getPropertiesForUser(System.Int32)"/>
+            </summary>
+        </member>
+        <member name="M:emAPI.Moles.SIemAPI.eapi::emAPI#IemAPI#getProperty(System.Int32)">
+            <summary>Sets the stub of <see cref="M:emAPI.IemAPI.getProperty(System.Int32)"/>
+            </summary>
+        </member>
+        <member name="M:emAPI.Moles.SIemAPI.eapi::emAPI#IemAPI#getPropertyTypeId(System.Int32,System.Int32,System.Int32)">
+            <summary>Sets the stub of <see cref="M:emAPI.IemAPI.getPropertyTypeId(System.Int32,System.Int32,System.Int32)"/>
+            </summary>
+        </member>
+        <member name="M:emAPI.Moles.SIemAPI.eapi::emAPI#IemAPI#getPropertyTypes">
+            <summary>Sets the stub of <see cref="M:emAPI.IemAPI.getPropertyTypes"/>
+            </summary>
+        </member>
+        <member name="M:emAPI.Moles.SIemAPI.eapi::emAPI#IemAPI#getReading(System.Int32)">
+            <summary>Sets the stub of <see cref="M:emAPI.IemAPI.getReading(System.Int32)"/>
+            </summary>
+        </member>
+        <member name="M:emAPI.Moles.SIemAPI.eapi::emAPI#IemAPI#getTariff(System.Int32)">
+            <summary>Sets the stub of <see cref="M:emAPI.IemAPI.getTariff(System.Int32)"/>
+            </summary>
+        </member>
+        <member name="M:emAPI.Moles.SIemAPI.eapi::emAPI#IemAPI#getTotalData(System.Int32,System.String,System.String,System.Int32)">
+            <summary>Sets the stub of <see cref="M:emAPI.IemAPI.getTotalData(System.Int32,System.String,System.String,System.Int32)"/>
+            </summary>
+        </member>
+        <member name="M:emAPI.Moles.SIemAPI.eapi::emAPI#IemAPI#getUser(System.Int32)">
+            <summary>Sets the stub of <see cref="M:emAPI.IemAPI.getUser(System.Int32)"/>
+            </summary>
+        </member>
+        <member name="M:emAPI.Moles.SIemAPI.eapi::emAPI#IemAPI#getWallType(System.Int32)">
+            <summary>Sets the stub of <see cref="M:emAPI.IemAPI.getWallType(System.Int32)"/>
+            </summary>
+        </member>
+        <member name="M:emAPI.Moles.SIemAPI.eapi::emAPI#IemAPI#getWallTypes">
+            <summary>Sets the stub of <see cref="M:emAPI.IemAPI.getWallTypes"/>
+            </summary>
+        </member>
+        <member name="M:emAPI.Moles.SIemAPI.eapi::emAPI#IemAPI#updateBenchmarks">
+            <summary>Sets the stub of <see cref="M:emAPI.IemAPI.updateBenchmarks"/>
+            </summary>
+        </member>
+        <member name="M:emAPI.Moles.SIemAPI.eapi::emAPI#IemAPI#updatePassword(System.Int32,System.String)">
+            <summary>Sets the stub of <see cref="M:emAPI.IemAPI.updatePassword(System.Int32,System.String)"/>
+            </summary>
+        </member>
+        <member name="M:emAPI.Moles.SIemAPI.eapi::emAPI#IemAPI#usernameIsUnique(System.String)">
+            <summary>Sets the stub of <see cref="M:emAPI.IemAPI.usernameIsUnique(System.String)"/>
+            </summary>
+        </member>
+        <member name="M:emAPI.Moles.SIemAPI.eapi::emAPI#IemAPI#validateInvoice(System.Int32,System.Boolean)">
+            <summary>Sets the stub of <see cref="M:emAPI.IemAPI.validateInvoice(System.Int32,System.Boolean)"/>
+            </summary>
+        </member>
+        <member name="M:emAPI.Moles.SIemAPI.eapi::emAPI#IemAPI#validateUser(System.String,System.String)">
+            <summary>Sets the stub of <see cref="M:emAPI.IemAPI.validateUser(System.String,System.String)"/>
+            </summary>
+        </member>
+    </members>
+</doc>

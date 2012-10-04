@@ -1,0 +1,1251 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>emAPI</name>
+    </assembly>
+    <members>
+        <member name="T:emAPI.DAL.IDataAccessObject">
+            <summary>
+            Interface for DataAccessObject objects
+            </summary>
+        </member>
+        <!-- Badly formed XML comment ignored for member "T:emAPI.DAL.DataAccessObject" -->
+        <member name="T:emAPI.Controllers.AccountManager">
+            <summary>
+            Controller object for User model object related operations.
+            </summary>
+        </member>
+        <member name="T:emAPI.Interfaces.IAccountManager">
+            <summary>
+            Interface for AccountManager objects
+            </summary>
+        </member>
+        <member name="T:emAPI.Controllers.InvoiceManager">
+            <summary>
+            Controller object for Invoice model object related operations
+            </summary>
+        </member>
+        <member name="T:emAPI.Controllers.IInvoiceManager">
+            <summary>
+            Interface for InvoiceManager objects
+            </summary>
+        </member>
+        <member name="T:emAPI.DAL.SampleData">
+            <summary>
+            Populates the EF4.1 database with sample data
+            </summary>
+        </member>
+        <member name="T:emAPI.Controllers.Validators.UnbandedValidator">
+            <summary>
+            Responsbile for validating invoices on unbanded tariffs (ie where the unit rate does not change).  Child of validator.
+            </summary>
+        </member>
+        <member name="T:emAPI.Controllers.Validators.Validator">
+            <summary>
+            Responsible for consumption validation and basic validation methods.  Super class to other validator types.
+            </summary>
+        </member>
+        <member name="F:emAPI.Controllers.Validators.Validator.validationMgr">
+            link to validation manager required to get consumption data from readings
+        </member>
+        <member name="M:emAPI.Controllers.Validators.Validator.canValidateCost(emAPI.ClassLibrary.Invoice)">
+            <summary>
+            Determines whether the cost of the invoice can be validated.
+            </summary>
+            <param name="invoice">Invoice to validate</param>
+            <returns>bool</returns>
+        </member>
+        <member name="M:emAPI.Controllers.Validators.Validator.canValidateConsumption(emAPI.ClassLibrary.Invoice)">
+            <summary>
+            Determines if the consumption on the invoice can be validated.
+            </summary>
+            <param name="invoice">Invoice to validate</param>
+            <returns>bool</returns>
+        </member>
+        <member name="M:emAPI.Controllers.Validators.Validator.getTariff(emAPI.ClassLibrary.Invoice)">
+            <summary>
+            Returns the relevant tariff from the meter to which the invoice is attached.  The relevant tariff is the one covering the dates
+            of the invoice.
+            </summary>
+            <param name="invoice">Invoice being validated</param>
+            <returns>Tariff object used for validation</returns>
+        </member>
+        <member name="M:emAPI.Controllers.Validators.Validator.standingChargeCostPerDay(emAPI.ClassLibrary.Invoice)">
+            <summary>
+            Assesses the tariff to determine the daily cost in £ of the standing charge
+            </summary>
+            <param name="invoice">Invoice being validated</param>
+            <returns>double £/day cost of standing charge</returns>
+        </member>
+        <member name="M:emAPI.Controllers.Validators.Validator.invoiceLengthInDays(emAPI.ClassLibrary.Invoice)">
+            <summary>
+            Determines the length of an invoice in days
+            </summary>
+            <param name="invoice">Invoice being validated</param>
+            <returns>int - number of days</returns>
+        </member>
+        <member name="M:emAPI.Controllers.Validators.Validator.calculateCost(System.Double,System.Double,System.Double,System.Double)">
+            <summary>
+            Calculates the cost of consumption and standing charge
+            </summary>
+            <param name="lengthInDays">int - length of invoice in days</param>
+            <param name="SCDailyRate">double - standing charge cost in £/day</param>
+            <param name="kWh">kWh of invoice</param>
+            <param name="unitRate">unit rate for kWh figure</param>
+            <returns>double - caluclated cost of invoice, in £</returns>
+        </member>
+        <member name="M:emAPI.Controllers.Validators.Validator.validateConsumption(emAPI.ClassLibrary.Invoice)">
+            <summary>
+            Validates the consumption kWh firgure of an invoice
+            </summary>
+            <param name="invoice">Invoice being validated</param>
+            <returns>Updated invoice with kWh variation and costIsValid bool</returns>
+        </member>
+        <member name="M:emAPI.Controllers.Validators.UnbandedValidator.calculateCost(System.Double,System.Double,System.Double,System.Double)">
+            <summary>
+            Returns Validator.calculateCost - see Validator documentation for more details
+            </summary>
+        </member>
+        <member name="M:emAPI.Controllers.Validators.UnbandedValidator.getTariff(emAPI.ClassLibrary.Invoice)">
+            <summary>
+            Returns Validator.getTariff - see Validator documentation for more details
+            </summary>
+        </member>
+        <member name="M:emAPI.Controllers.Validators.UnbandedValidator.invoiceLengthInDays(emAPI.ClassLibrary.Invoice)">
+            <summary>
+            Returns Validator.invoiceLengthInDays - see Validator documentation for more details
+            </summary>
+        </member>
+        <member name="M:emAPI.Controllers.Validators.UnbandedValidator.standingChargeCostPerDay(emAPI.ClassLibrary.Invoice)">
+            <summary>
+            Returns Validator.standingChargeCostPerDay - see Validator documentation for more details
+            </summary>
+        </member>
+        <member name="M:emAPI.Controllers.Validators.UnbandedValidator.pencePerkWh(emAPI.ClassLibrary.Invoice)">
+            <summary>
+            Returns the unit rate of the energy for this invoice
+            </summary>
+            <param name="invoice">the Invoice being validated</param>
+            <returns>double containing the unit rate</returns>
+        </member>
+        <member name="M:emAPI.Controllers.Validators.UnbandedValidator.validateCost(emAPI.ClassLibrary.Invoice)">
+            <summary>
+            Validates the cost of an invoice on an unbanded tariff.
+            </summary>
+            <param name="invoice"></param>
+            <returns>the updated invoice object</returns>
+        </member>
+        <member name="T:emAPI.Controllers.Validators.ConsumptionBandedValidator">
+            <summary>
+            Responsbible for validating invoices with consumption banded tariffs, ie where the unit rate changes depending
+            on how much energy has been consumed.  Child of Validator.
+            </summary>
+        </member>
+        <member name="M:emAPI.Controllers.Validators.ConsumptionBandedValidator.calculateCost(System.Double,System.Double,System.Double,System.Double)">
+            <summary>
+            Returns Validator.calculateCost - see Validator documentation for more details
+            </summary>
+        </member>
+        <member name="M:emAPI.Controllers.Validators.ConsumptionBandedValidator.getTariff(emAPI.ClassLibrary.Invoice)">
+            <summary>
+            Returns Validator.getTariff - see Validator documentation for more details
+            </summary>
+        </member>
+        <member name="M:emAPI.Controllers.Validators.ConsumptionBandedValidator.invoiceLengthInDays(emAPI.ClassLibrary.Invoice)">
+            <summary>
+            Returns Validator.invoiceLengthInDays - see Validator documentation for more details
+            </summary>
+        </member>
+        <member name="M:emAPI.Controllers.Validators.ConsumptionBandedValidator.standingChargeCostPerDay(emAPI.ClassLibrary.Invoice)">
+            <summary>
+            Returns Validator.standingChargeCostPerDay - see Validator documentation for more details
+            </summary>
+        </member>
+        <member name="M:emAPI.Controllers.Validators.ConsumptionBandedValidator.validateCost(emAPI.ClassLibrary.Invoice)">
+            <summary>
+            Validates an invoice that is not on a banded tariff.
+            </summary>
+            <param name="invoice">Invoice to validate</param>
+            <returns>validated Invoice object</returns>
+        </member>
+        <member name="T:emAPI.Controllers.MeterManager">
+            <summary>
+            Controller object for Meter model object related operations
+            </summary>
+        </member>
+        <member name="T:emAPI.Controllers.IMeterManager">
+            <summary>
+            Interface for MeterManager objects
+            </summary>
+        </member>
+        <member name="M:emAPI.Controllers.MeterManager.getMinimumReadingDate(System.Int32)">
+            <summary>
+            Gets the minimum date for a reading to be entered for the specified meter
+            </summary>
+            <param name="meterId"></param>
+            <returns></returns>
+        </member>
+        <member name="M:emAPI.Controllers.MeterManager.getPreviousReadingOnMeter(emAPI.ClassLibrary.MeterReading,emAPI.ClassLibrary.Meter)">
+            <summary>
+            Gets the previous reading on this meter, using the date of the reading object passed in
+            </summary>
+            <param name="currentReading"></param>
+            <param name="meter"></param>
+            <returns></returns>
+        </member>
+        <member name="M:emAPI.Controllers.MeterManager.calculatekWh(emAPI.ClassLibrary.MeterReading,emAPI.ClassLibrary.Meter)">
+            <summary>
+            Calculates the energy in kWh for a given meter reading.  Previous reading is retrieved from the Register of the meter and
+            used in the calculation.  NB kWh calculated to nearest whole number, rounding away from zero.
+            </summary>
+            <param name="reading">the MeterReading object of the current reading</param>
+            <param name="meter">the Id of the meter the reading belongs to</param>
+            <returns>kWh consumed as integer</returns>
+        </member>
+        <member name="T:emAPI.Interfaces.ITariffManager">
+            <summary>
+            Interface for TariffManager objects
+            </summary>
+        </member>
+        <member name="T:emAPI.Controllers.PropertyManager">
+            <summary>
+            Controller object for Property model object related operations.
+            </summary>
+        </member>
+        <member name="T:emAPI.Interfaces.IPropertyManager">
+            <summary>
+            Interface for PropertyManager objects
+            </summary>
+        </member>
+        <member name="M:emAPI.Controllers.PropertyManager.#ctor">
+            <summary>
+            Constructor
+            </summary>
+        </member>
+        <member name="T:emAPI.Interfaces.IApportionmentManager">
+            <summary>
+            Interface for AnnotationManager objects
+            </summary>
+        </member>
+        <member name="T:emAPI.IemAPI">
+            <summary>
+            Energy Manager API Interface.  For method documentation, see emAPI.cs.
+            </summary>
+        </member>
+        <member name="M:emAPI.IemAPI.editUser(System.Int32,System.String)">
+            EDIT METHODS
+            
+        </member>
+        <member name="M:emAPI.IemAPI.getPropertyTypes">
+            GET METHODS
+        </member>
+        <member name="M:emAPI.IemAPI.createProperty(System.String,System.String,System.Int32,System.Int32,System.Int32,System.Int32)">
+            CREATE METHODS
+        </member>
+        <member name="M:emAPI.IemAPI.editProperty(System.Int32,System.String)">
+            EDIT METHODS
+            
+        </member>
+        <member name="M:emAPI.IemAPI.deleteProperty(System.Int32)">
+            DELETE METHODS
+            
+        </member>
+        <member name="M:emAPI.IemAPI.updateBenchmarks">
+            OTHER METHODS
+            
+        </member>
+        <member name="M:emAPI.IemAPI.getMeter(System.Int32)">
+            GET METHODS
+            
+        </member>
+        <member name="M:emAPI.IemAPI.createElectricityMeter(System.String,System.Double,System.Int32,System.String,System.Int32)">
+            CREATE METHODS
+            
+        </member>
+        <member name="M:emAPI.IemAPI.editMeter(System.Int32,System.String)">
+            EDIT METHODS
+            
+        </member>
+        <member name="M:emAPI.IemAPI.deleteMeter(System.Int32,System.Int32)">
+            DELETE METHODS
+            
+        </member>
+        <member name="M:emAPI.IemAPI.getInvoicesForMeter(System.Int32)">
+            GET METHODS
+            
+        </member>
+        <member name="M:emAPI.IemAPI.createInvoice(System.Int32,System.String,System.String,System.String,System.Int32,System.Double,System.Double,System.Double,System.Int32)">
+            CREATE METHODS
+            
+        </member>
+        <member name="M:emAPI.IemAPI.editInvoice(System.Int32,System.String,System.Int32)">
+            EDIT METHODS
+            
+        </member>
+        <member name="M:emAPI.IemAPI.deleteInvoice(System.Int32,System.Int32)">
+            DELETE METHODS
+            
+        </member>
+        <member name="M:emAPI.IemAPI.getPeriods">
+            GET METHODS
+            
+        </member>
+        <member name="M:emAPI.IemAPI.createTariff(System.Double,System.String,System.Int32,System.Int32,System.Int32)">
+            CREATE METHODS
+            
+        </member>
+        <member name="M:emAPI.IemAPI.editTariff(System.Int32,System.String)">
+            EDIT METHODS
+            
+        </member>
+        <member name="M:emAPI.IemAPI.deleteTariff(System.Int32)">
+            DELETE METHODS
+            
+        </member>
+        <member name="T:emAPI.Interfaces.IAnnotationManager">
+            <summary>
+            Interface for AnnotationManager objects
+            </summary>
+        </member>
+        <member name="T:emAPI.Interfaces.IEMMediator">
+            <summary>
+            Interface for EMMediator objects
+            </summary>
+        </member>
+        <member name="T:emAPI.DAL.EMDataManager">
+            <summary>
+            Entity Framework implementation of data storage.  Sub-class of DataAcccessObject.
+            </summary>
+        </member>
+        <member name="M:emAPI.DAL.EMDataManager.#ctor">
+            <summary>
+            Ctor, initialises emdb to hold ref to the database
+            </summary>
+        </member>
+        <!-- Badly formed XML comment ignored for member "M:emAPI.DAL.EMDataManager.getInvoice(System.Int32)" -->
+        <member name="M:emAPI.DAL.EMDataManager.getMeter(System.Int32)">
+            <summary>
+            Retreives the meter with specified id and associated meter readings
+            </summary>
+            <param name="meterId"></param>
+            <returns></returns>
+        </member>
+        <member name="M:emAPI.DAL.EMDataManager.getProperty(System.Int32)">
+            <summary>
+            Retreives the property with the specified property id and associated meters
+            </summary>
+            <param name="PropertyId"></param>
+            <returns></returns>
+        </member>
+        <member name="M:emAPI.DAL.EMDataManager.getPropertyType(System.Int32)">
+            <summary>
+            Retreives the property type with the specified id
+            </summary>
+            <param name="typeId"></param>
+            <returns></returns>
+        </member>
+        <member name="M:emAPI.DAL.EMDataManager.getReading(System.Int32)">
+            <summary>
+            Retreive meter reading with specified id
+            </summary>
+            <param name="meterReadingId"></param>
+            <returns></returns>
+        </member>
+        <!-- Badly formed XML comment ignored for member "M:emAPI.DAL.EMDataManager.getTariff(System.Int32)" -->
+        <member name="M:emAPI.DAL.EMDataManager.getPeriod(System.Int32)">
+            <summary>
+            Retreives the standing charge period with the specified id
+            </summary>
+            <param name="periodId"></param>
+            <returns></returns>
+        </member>
+        <member name="M:emAPI.DAL.EMDataManager.getUser(System.Int32)">
+            <summary>
+            Retrieves user with specified id
+            </summary>
+            <param name="userId"></param>
+            <returns></returns>
+        </member>
+        <member name="M:emAPI.DAL.EMDataManager.getNote(System.Int32)">
+            <summary>
+            Retrieves note with specified id
+            </summary>
+            <param name="noteId"></param>
+            <returns></returns>
+        </member>
+        <member name="M:emAPI.DAL.EMDataManager.getProperties(System.Int32)">
+            <summary>
+            Retreive list of properties for user with specified id
+            </summary>
+            <param name="userId"></param>
+            <returns></returns>
+        </member>
+        <member name="M:emAPI.DAL.EMDataManager.getMeters(System.Int32)">
+            <summary>
+            Retrieve list of meters at property with specified id
+            </summary>
+            <param name="propertyId"></param>
+            <returns></returns>
+        </member>
+        <member name="M:emAPI.DAL.EMDataManager.getMeterReadings(System.Int32)">
+            <summary>
+            Retrieve list of meter readings for the meter with specified id
+            </summary>
+            <param name="meterId"></param>
+            <returns></returns>
+        </member>
+        <member name="M:emAPI.DAL.EMDataManager.getInvoicesForMeter(System.Int32)">
+            <summary>
+            Retireve list of invoices assigned to meter with specified id
+            </summary>
+            <param name="meterId"></param>
+            <returns></returns>
+        </member>
+        <member name="M:emAPI.DAL.EMDataManager.getNotes(System.Int32)">
+            <summary>
+            Retreives list of notes on the meter with the specified id
+            </summary>
+            <param name="meterId"></param>
+            <returns></returns>
+        </member>
+        <member name="M:emAPI.DAL.EMDataManager.getMeterForInvoice(System.Int32)">
+            <summary>
+            Return the meter associated with the specified invoice
+            </summary>
+            <param name="invoiceId"></param>
+            <returns></returns>
+        </member>
+        <member name="M:emAPI.DAL.EMDataManager.getUserPassword(System.Int32)">
+            single attributes
+        </member>
+        <member name="M:emAPI.DAL.EMDataManager.getPropertyTypes">
+            whole tables
+        </member>
+        <member name="M:emAPI.DAL.EMDataManager.getDetailsForMeter(System.Int32)">
+            other
+        </member>
+        <member name="M:emAPI.DAL.EMDataManager.editMeter(System.Int32,emAPI.ClassLibrary.Meter)">
+            <summary>
+            Updates meter with specified id.  Child objects ARE NOT affected.
+            </summary>
+            <param name="meterId">id of meter to update</param>
+            <param name="newMeter">meter object with replacement data</param>
+        </member>
+        <member name="M:emAPI.DAL.EMDataManager.editInvoice(System.Int32,emAPI.ClassLibrary.Invoice)">
+            <summary>
+            Updates invoice with specified id.  Child objects ARE NOT updated (except meter).
+            </summary>
+            <param name="invoiceId">id of invoice to update</param>
+            <param name="newInvoice">invoice object with replacement data</param>
+        </member>
+        <member name="M:emAPI.DAL.EMDataManager.editTariff(System.Int32,emAPI.ClassLibrary.Tariff)">
+            <summary>
+            Updates tariff with specified id.  Child TariffBand objects ARE updated, and their ids are required in the new tariff object
+            </summary>
+            <param name="tariffId">id of tariff to update</param>
+            <param name="newTariff">tariff object with replacement data NLCUDING updated TariffBand objects with their ids as they exist in the database before change</param>
+        </member>
+        <member name="M:emAPI.DAL.EMDataManager.editTariffBand(System.Int32,emAPI.ClassLibrary.TariffBand)">
+            <summary>
+            Update tariffBand with specified id.
+            </summary>
+            <param name="tariffBandId">id of tariff band to update</param>
+            <param name="tariffBand">replacement tariff band object</param>
+        </member>
+        <member name="M:emAPI.DAL.EMDataManager.editUser(System.Int32,emAPI.ClassLibrary.User)">
+            <summary>
+            Update with specified id.  Child objects ARE NOT updated.
+            </summary>
+            <param name="userId">id of user to update</param>
+            <param name="newUser">user object with replacement data</param>
+        </member>
+        <member name="M:emAPI.DAL.EMDataManager.editProperty(System.Int32,emAPI.ClassLibrary.Property)">
+            <summary>
+            Update property with specified id.  Child objects ARE NOT updated.
+            </summary>
+            <param name="propertyId">id of proeprty to update</param>
+            <param name="newProperty">property object with replacement data</param>
+        </member>
+        <member name="M:emAPI.DAL.EMDataManager.editNote(System.Int32,emAPI.ClassLibrary.Annotation)">
+            <summary>
+            Update note with specified id.  Child objects ARE NOT updated.
+            </summary>
+            <param name="noteId"></param>
+            <param name="newNote"></param>
+            <returns></returns>
+        </member>
+        <member name="M:emAPI.DAL.EMDataManager.saveUser(emAPI.ClassLibrary.User)">
+            <summary>
+            Store the user object in the database
+            </summary>
+            <param name="user"></param>
+            <returns>id of created user</returns>
+        </member>
+        <member name="M:emAPI.DAL.EMDataManager.saveProperty(emAPI.ClassLibrary.Property)">
+            <summary>
+            Store the property object in the database
+            </summary>
+            <param name="property"></param>
+            <returns>id of the created property</returns>
+        </member>
+        <member name="M:emAPI.DAL.EMDataManager.saveMeter(emAPI.ClassLibrary.Meter)">
+            <summary>
+            Store the meter object in the database
+            </summary>
+            <param name="meter"></param>
+        </member>
+        <member name="M:emAPI.DAL.EMDataManager.saveMeterReading(emAPI.ClassLibrary.MeterReading)">
+            <summary>
+            Saves the meter reading object to the database
+            </summary>
+            <param name="meterReading"></param>
+        </member>
+        <member name="M:emAPI.DAL.EMDataManager.saveInvoice(emAPI.ClassLibrary.Invoice)">
+            <summary>
+            Saves the invoice object to the databse
+            </summary>
+            <param name="invoice"></param>
+        </member>
+        <member name="M:emAPI.DAL.EMDataManager.saveTariff(emAPI.ClassLibrary.Tariff)">
+            <summary>
+            Saves the tariff object to the databse
+            </summary>
+            <param name="tariff"></param>
+        </member>
+        <member name="M:emAPI.DAL.EMDataManager.saveTariffBand(emAPI.ClassLibrary.TariffBand)">
+            <summary>
+            Saves a tariff band object to the database
+            </summary>
+            <param name="tariffBand"></param>
+        </member>
+        <member name="M:emAPI.DAL.EMDataManager.saveNote(emAPI.ClassLibrary.Annotation)">
+            <summary>
+            Saves the annotation object to the database
+            </summary>
+            <param name="note"></param>
+        </member>
+        <member name="P:emAPI.DAL.EMDataManager.emdb">
+            <summary>
+            instance of the EMDatabase EF4.3 DbContext class
+            </summary>
+        </member>
+        <member name="T:emAPI.Controllers.EMDatabaseStats">
+            <summary>
+            Responsible for updating benchmark statistics and comparative performance operations.
+            </summary>
+        </member>
+        <member name="M:emAPI.Controllers.EMDatabaseStats.updateBenchmarkStats">
+            <summary>
+            Updates the average annual kWh and best annual kWh amounts for each benchmark type by assessing those
+            attributes of each property in the database.
+            </summary>
+        </member>
+        <member name="M:emAPI.Controllers.EMDatabaseStats.getAllPropertyAnnualCosts">
+            <summary>
+            Returns a list of anonymous properties with postcode and annual costs populated.
+            </summary>
+            <returns>List[AnonymousProperty] with postcode and annual cost for each property in the database</returns>
+        </member>
+        <member name="T:emAPI.Controllers.TariffManager">
+            <summary>
+            Controller object for Tariff model object related operations
+            </summary>
+        </member>
+        <member name="T:emAPI.Controllers.EMConverter">
+            <summary>
+            Responsible for converting to and from JSON representations.  Contains all static doubles used in coverting to and from kWh and kg CO2.
+            </summary>
+        </member>
+        <member name="F:emAPI.Controllers.EMConverter.fromJoulesTokWh">
+            <summary>
+            conversion factor from joules to kWh
+            </summary>
+        </member>
+        <member name="F:emAPI.Controllers.EMConverter.gasCalorificValue">
+            <summary>
+            standard calorific value of 1m3 natural gas  
+            </summary>
+        </member>
+        <member name="F:emAPI.Controllers.EMConverter.gasCorrectionFactor">
+            <summary>
+            standard correction factor for room temperature and pressure
+            </summary>
+        </member>
+        <member name="F:emAPI.Controllers.EMConverter.gaskWhFactor">
+            <summary>
+            CO2 conversion factor kWh natural gas -> kg CO2
+            </summary>
+        </member>
+        <member name="F:emAPI.Controllers.EMConverter.eleckWhFactor">
+            <summary>
+            CO2 conversion factor kWh electricity -> kg CO2
+            </summary>
+        </member>
+        <member name="M:emAPI.Controllers.EMConverter.fromObjectToJSON(System.Object)">
+            <summary>
+            Convert an object of any type to a JSON string
+            </summary>
+            <param name="obj">object to convert</param>
+            <returns>JSON representation of object</returns>
+        </member>
+        <member name="M:emAPI.Controllers.EMConverter.fromObjectToXML(System.Object)">
+            <summary>
+            Convert object to XML
+            </summary>
+            <param name="obj">object to convert</param>
+            <returns>XML representation of object</returns>
+        </member>
+        <member name="M:emAPI.Controllers.EMConverter.fromJSONtoA``1(System.String)">
+            <summary>
+            Convert a JSON string to an object
+            </summary>
+            <typeparam name="T">type of object required</typeparam>
+            <param name="JSON">JSON representation of object</param>
+            <returns>Object of type T</returns>
+        </member>
+        <member name="T:emAPI.Controllers.ApportionmentManager">
+            <summary>
+            Controller object responsible for apportioning data into regularly sized Chunk objects.
+            </summary>
+        </member>
+        <member name="M:emAPI.Controllers.ApportionmentManager.apportionToDates(System.Collections.Generic.List{emAPI.ClassLibrary.Chunk},System.String,System.String)">
+            <summary>
+            Calculates total amount between start and end date based on provided data
+            </summary>
+            <param name="dataIn">List[Chunk] of base data</param>
+            <param name="startDate"></param>
+            <param name="endDate"></param>
+            <returns>Double representing total amount between start and end date, apportioned between start and end dates</returns>
+        </member>
+        <member name="M:emAPI.Controllers.ApportionmentManager.apportionToPeriod(System.Collections.Generic.List{emAPI.ClassLibrary.Chunk},System.DateTime,System.DateTime,emAPI.ClassLibrary.AppotionmentPeriod)">
+            <summary>
+            Converts meter readings / invoice costs into consumption between regular intervals.
+            </summary>
+            <param name="dataIn">List of date/double pairs that represent raw meter readings or invoices</param>
+            <param name="startDate">start date of required apportioned consumption</param>
+            <param name="endDate">end date of required apportioned consumption</param>
+            <param name="interval">interval between required apportioned date/double pairs</param>
+            <returns>Returns null if apportionment cannot be undertaken (not enough readings/invoices / no readings/invoices in specified time period)</returns>
+        </member>
+        <member name="M:emAPI.Controllers.ApportionmentManager.setupDatedChunksForApportionToDates(System.DateTime,System.DateTime)">
+            <summary>
+            Creates List[Chunk] with required start and end date.  List[Chunk].Count = 1.
+            </summary>
+            <param name="start"></param>
+            <param name="end"></param>
+            <returns>List[Chunk] where .Count = 1</returns>
+        </member>
+        <member name="M:emAPI.Controllers.ApportionmentManager.setupDatedChunksForApportionToPeriod(System.DateTime,System.DateTime,emAPI.ClassLibrary.AppotionmentPeriod)">
+            <summary>
+            Creates List[Chunk], with regular start and end dates for required intervals.  Amount = 0 for all Chunks.
+            </summary>
+            <param name="startDate"></param>
+            <param name="endDate"></param>
+            <param name="interval"></param>
+            <returns>List[Chunk] for required duration, each Chunk covering one interval.</returns>
+        </member>
+        <member name="M:emAPI.Controllers.ApportionmentManager.apportion(System.Collections.Generic.List{emAPI.ClassLibrary.Chunk},System.Collections.Generic.List{emAPI.ClassLibrary.Chunk})">
+            <summary>
+            Takes a list of Chunks with irregular (but consecutive) start and end dates and creates another List[Chunk] with regular start
+            and end dates, the consumption of each caclulated from available data.  
+            Backwards apportionment (where the requested interval is smaller than the interval between readings/invoices) will result in the
+            average over the whole period being applied to that chunk.
+            Interval, start and end dates for the whole period are determined from the list of Chunks provided.
+            </summary>
+            <param name="datedChunks">
+            List[Chunk] containing Chunks with regular start/end date for the duration of the period required.
+            Create using setupDatedChunksForApportionToPeriod(DateTime startDate, DateTime endDate, AppotionmentPeriod interval)
+            </param>
+            <param name="dataIn">
+            List[Chunk] containing source data.
+            Create using convertReadingsToChunks(List[MeterReading] readings) OR convertInvoicesToChunks(List[Invoices] invoices)
+            </param>
+            <returns>List[Chunk] of apportioned data.</returns>
+        </member>
+        <member name="M:emAPI.Controllers.ApportionmentManager.getDateCoverage(System.DateTime,System.DateTime,System.DateTime,System.DateTime)">
+            <summary>
+            Check the date coverage of two provided start and end dates compared to a range's start and end date
+            </summary>
+            <param name="startDate"></param>
+            <param name="endDate"></param>
+            <param name="rangeStart"></param>
+            <param name="rangeEnd"></param>
+            <returns>DateCoverage enum representing the date coverage</returns>
+        </member>
+        <member name="M:emAPI.Controllers.ApportionmentManager.checkDateCoverage(emAPI.Controllers.ApportionmentManager.DateCoverage)">
+            <summary>
+            Determines whether the date coverage of a range of dates is suitable to allow apportionment from that range to between two provided dates
+            </summary>
+            <param name="coverage"></param>
+            <returns>true if date coverage is suitable</returns>
+        </member>
+        <member name="M:emAPI.Controllers.ApportionmentManager.canApportion(System.Collections.Generic.List{emAPI.ClassLibrary.Chunk},System.DateTime,System.DateTime)">
+            <summary>
+            Determines whether or not apportionment between provided dates can be accomplished using provided List[Chunk]
+            </summary>
+            <param name="dataIn"></param>
+            <param name="startDate"></param>
+            <param name="endDate"></param>
+            <returns>true if apportionement can be accomplished</returns>
+        </member>
+        <member name="M:emAPI.Controllers.ApportionmentManager.convertReadingsToChunks(System.Collections.Generic.List{emAPI.ClassLibrary.MeterReading})">
+            <summary>
+            Converts a list of meter readings into a list of chunks suitable for apportionment
+            </summary>
+            <param name="readings">meter readings to convert</param>
+            <returns>List[Chunk] from meter readings</returns>
+        </member>
+        <member name="M:emAPI.Controllers.ApportionmentManager.convertInvoicesToChunks(System.Collections.Generic.List{emAPI.ClassLibrary.Invoice})">
+            <summary>
+            Converts a list of invoices into a list of Chunks suitable for apportionment
+            </summary>
+            <param name="invoices"></param>
+            <returns></returns>
+        </member>
+        <member name="M:emAPI.Controllers.ApportionmentManager.getBestApportionmentPeriod(System.DateTime,System.DateTime)">
+            <summary>
+            Determines the best type of apportionment interval for two dates.  This is acheived by calculating the modulus of the
+            number of periods between two dates for each period type in the database.  The answer with the lowest modulus
+            (ie the lowest number of remainder days) is the best match.
+            </summary>
+            <param name="startDate"></param>
+            <param name="endDate"></param>
+            <returns>Apportionment period that best matches the two dates.</returns>
+        </member>
+        <member name="T:emAPI.Controllers.AnnotationManager">
+            <summary>
+            Controller object for Annotation model object related objects
+            </summary>
+        </member>
+        <member name="T:emAPI.emAPI">
+            <summary>
+            Contains all method documentation for public emAPI methods.
+            </summary>
+        </member>
+        <member name="M:emAPI.emAPI.usernameIsUnique(System.String)">
+            <summary>
+            Checks existence of given username in the database
+            </summary>
+            <param name="username"></param>
+            <returns>bool wrapped in EMResponse object</returns>
+        </member>
+        <member name="M:emAPI.emAPI.emailIsUnique(System.String)">
+            <summary>
+            Checks existance of given email in the database
+            </summary>
+            <param name="email"></param>
+            <returns>bool wrapped in EMResponse object</returns>
+        </member>
+        <member name="M:emAPI.emAPI.createUser(System.String,System.String,System.String,System.String,System.String)">
+            <summary>
+            Creates a user object and saves it to the database.
+            </summary>
+            <param name="username"></param>
+            <param name="forename"></param>
+            <param name="surname"></param>
+            <param name="password">NB Plaintext passwords should not be stored in the database.  Consider a salty hash instead.</param>
+            <param name="email"></param>
+            <returns>Id of created user - int wrapped in EMResponse object</returns>
+        </member>
+        <member name="M:emAPI.emAPI.validateUser(System.String,System.String)">
+            <summary>
+            Checks that the password provided matches the username given
+            </summary>
+            <param name="username"></param>
+            <param name="password">NB Plaintext passwords should not be stored in the database.  Consider a salty hash instead.</param>
+            <returns>Id of user if the match is successful, or 0 if password does not match or user cannot be found.  Both are ints wrapped in EMResponse obect.</returns>
+        </member>
+        <member name="M:emAPI.emAPI.getUser(System.Int32)">
+            <summary>
+            Returns representation of the user object with the specified id.  ALL child objects are returned
+            </summary>
+            <param name="userId"></param>
+            <returns>JSON representation of user object.  String wrapped in EMResponse object.</returns>
+        </member>
+        <member name="M:emAPI.emAPI.editUser(System.Int32,System.String)">
+            <summary>
+            Updates the user object in the database with the details in the newUser object.  NB Child objects are NOT updated.
+            </summary>
+            <param name="userId">id of the user to be updated</param>
+            <param name="newUser">JSON representation of user object containing the details with which to update the user</param>
+            <returns>JSON representaion of the updated user (incl child objects).  String wrapped in EMResponse object.</returns>
+        </member>
+        <member name="M:emAPI.emAPI.updatePassword(System.Int32,System.String)">
+            <summary>
+            Updates the password of the user with given id.  NB ONLY USE THIS METHOD ONCE THE USER HAS BEEN AUTHENTICATED.
+            </summary>
+            <param name="userId">Id of user whose password will be updated</param>
+            <param name="newPassword">Updated password.  NB Plaintext passwords should not be stored in the database.  Consider a salty hash instead.</param>
+            <returns>Bool as JSON string | represents success of update | wrapped in EMResponse.</returns>
+        </member>
+        <member name="M:emAPI.emAPI.getPropertiesForUser(System.Int32)">
+            <summary>
+            Retrieves all properties in the database belonging to user with specified id.
+            </summary>
+            <param name="userId"></param>
+            <returns>JSON representation of List[Property] objects, wrapped in EMRepsonse object.</returns>
+        </member>
+        <member name="M:emAPI.emAPI.getComparativeCostsForUser(System.Int32)">
+            <summary>
+            Gets the annual energy costs of all properties in the database.  Properties belonging to the specified user are
+            marked with a bool isUsers (true).
+            </summary>
+            <param name="userId"></param>
+            <returns>JSON representation of List[AnonymousProperty] objects, wrapped in EMReponse object</returns>
+        </member>
+        <member name="M:emAPI.emAPI.getPropertyTypes">
+            <summary>
+            Retreives all property types in the database
+            </summary>
+            <returns>JSON representation of list[PropertyType], wrapped in EMRepsonse object</returns>
+        </member>
+        <member name="M:emAPI.emAPI.getPropertyTypeId(System.Int32,System.Int32,System.Int32)">
+            <summary>
+            Retreieves the id of the property type with matching walls, heating and building types.
+            </summary>
+            <param name="heatingId"></param>
+            <param name="buildingId"></param>
+            <param name="wallId"></param>
+            <returns>Id of the matching property type - int wrapped in EMRepsonse object</returns>
+        </member>
+        <member name="M:emAPI.emAPI.getHeatingTypes">
+            <summary>
+            Retreives list of all heating types in the database
+            </summary>
+            <returns>JSON repsentation of List[HeatingType], wrapped in EMResponse object</returns>
+        </member>
+        <member name="M:emAPI.emAPI.getBuildingTypes">
+            <summary>
+            Retreives list of all building types in the database
+            </summary>
+            <returns>JSON representation of List[BuildingType], wrapped in EMResponse object</returns>
+        </member>
+        <member name="M:emAPI.emAPI.getWallTypes">
+            <summary>
+            Retreives list of all wall types in the database
+            </summary>
+            <returns>JSOn representation of List[WallType], wrapped in EMResponse object</returns>
+        </member>
+        <member name="M:emAPI.emAPI.getProperty(System.Int32)">
+            <summary>
+            Retreives property with the specified id.
+            </summary>
+            <param name="propertyId"></param>
+            <returns>JSON representaion of Property object, wrapped in EMResponse object.</returns>
+        </member>
+        <member name="M:emAPI.emAPI.getBenchmarkForProperty(System.Int32)">
+            <summary>
+            Retreives the BenchmarkProperty for the property with the specified id.
+            </summary>
+            <param name="propertyId"></param>
+            <returns>JSON representation of BecnhmarkProperty object, wrapped in EMResponse obejct</returns>
+        </member>
+        <member name="M:emAPI.emAPI.getTotalData(System.Int32,System.String,System.String,System.Int32)">
+            <summary>
+            Retreives the total of the specified datatype between two dates at a property (ie the total over all meters).
+            </summary>
+            <param name="propertyId"></param>
+            <param name="startDate">shortdate string</param>
+            <param name="endDate">shortdate string</param>
+            <param name="dataTypeId">(int)DataType</param>
+            <returns>JSON representation of a double, wrapped in EMResponse obejct</returns>
+        </member>
+        <member name="M:emAPI.emAPI.getElecData(System.Int32,System.String,System.String,System.Int32)">
+            <summary>
+            Retreives the total of the specified datatype for electricity between two dates at a property (ie the total over all electricity meters).
+            </summary>
+            <param name="propertyId"></param>
+            <param name="startDate">shortdate string</param>
+            <param name="endDate">shortdate string</param>
+            <param name="dataTypeId">(int)DataType</param>
+            <returns>JSON representation of a double, wrapped in EMResponse obejct</returns>
+        </member>
+        <member name="M:emAPI.emAPI.getGasData(System.Int32,System.String,System.String,System.Int32)">
+            <summary>
+            Retrieves the total of the specified datatype for gas between two dates at a property (ie the total over all gas meters).
+            </summary>
+            <param name="propertyId"></param>
+            <param name="startDate">shortdate string</param>
+            <param name="endDate">shortdate string</param>
+            <param name="dataTypeId">(int)DataType</param>
+            <returns>JSON representation of a double, wrapped in EMResponse obejct</returns>
+        </member>
+        <member name="M:emAPI.emAPI.getAnonymousProperties(System.String)">
+            <summary>
+            Retreives list of anonymous properties with propert type data included.  isUsers determined by the list of property ids provided.
+            ie if the id of the anonymous property is in the list provided, .isUsers will be true.
+            </summary>
+            <param name="propertyId">JSON representaion of List[int] property ids</param>
+            <returns>JSON representaion of List[AnonymousProperty], wrapped in EMResponse obejct</returns>
+        </member>
+        <member name="M:emAPI.emAPI.getDataAtProperty(System.Int32,System.String,System.String,System.Int32,System.Int32)">
+            <summary>
+            Retreives a list of Chunk objects - an apportionment of the specified datatype at the property (ie over all meters) between the start and end dates, 
+            broken down into the specified interval.  Will return null if the apportionment is not possible.
+            </summary>
+            <param name="propertyId"></param>
+            <param name="startDate">shortdate string</param>
+            <param name="endDate">shortdate string</param>
+            <param name="intervalId">id of interval eg monthly, annually etc</param>
+            <param name="dataTypeId">(int)DataType</param>
+            <returns>JSON representation of List[Chunk] (or null), wrapped in EMResponse obejct</returns>
+        </member>
+        <member name="M:emAPI.emAPI.getBuildingType(System.Int32)">
+            <summary>
+            Retreieves building type of the property with specified id
+            </summary>
+            <param name="propertyTypeId"></param>
+            <returns>JSON representation of BuildingType, wrapped in EMResponse obejct</returns>
+        </member>
+        <member name="M:emAPI.emAPI.getHeatingType(System.Int32)">
+            <summary>
+            Retrieves the heating type of the property with the specified id
+            </summary>
+            <param name="propertyTypeId"></param>
+            <returns>JSON representation of HeatingType, wrapped in EMResponse obejct</returns>
+        </member>
+        <member name="M:emAPI.emAPI.getWallType(System.Int32)">
+            <summary>
+            Retrieves the wall type of the property with the specified id
+            </summary>
+            <param name="propertyTypeId"></param>
+            <returns>JSON representation of WallType, wrapped in EMResponse obejct</returns>
+        </member>
+        <member name="M:emAPI.emAPI.getMostRecentDate(System.Int32,System.Int32)">
+            <summary>
+            Retrieves the most recent date of the specified datatype at the property (ie over all meters)
+            </summary>
+            <param name="propertyId"></param>
+            <param name="dataTypeId"></param>
+            <returns>JSON representaion of date as string, wrapped in EMResponse obejct</returns>
+        </member>
+        <member name="M:emAPI.emAPI.createProperty(System.String,System.String,System.Int32,System.Int32,System.Int32,System.Int32)">
+            <summary>
+            Creates a property with the specified parameters
+            </summary>
+            <param name="name">Title of the property</param>
+            <param name="postcode">Postcode</param>
+            <param name="floorArea">in m2, if left at zero the area of the benchmark property will be used</param>
+            <param name="numbBedrooms"></param>
+            <param name="typeId">can be determined using emAPI.getPropertyTypeId(int heatingId, int buildingId, int wallId)</param>
+            <param name="userId">userId to which the property belongs</param>
+            <returns>JSON representation of property id - int, wrapped in EMResponse obejct</returns>
+        </member>
+        <member name="M:emAPI.emAPI.editProperty(System.Int32,System.String)">
+            <summary>
+            Updates the property with the specifed id with the attributes of the newProperty object.  Child objects are not updated.
+            </summary>
+            <param name="propertyId">id of property to update</param>
+            <param name="newProperty">JSON representation of property with updated details</param>
+            <returns>JSON representation of updated Property, wrapped in EMResponse obejct</returns>
+        </member>
+        <member name="M:emAPI.emAPI.deleteProperty(System.Int32)">
+            <summary>
+            Removes property with specifed id and all child objects from database
+            </summary>
+            <param name="propertyId"></param>
+            <returns>void, wrapped in EMResponse obejct</returns>
+        </member>
+        <member name="M:emAPI.emAPI.updateBenchmarks">
+            <summary>
+            Updates the best and average benchmarks for all property types in the database.
+            </summary>
+            <returns>void, wrapped in EMResponse obejct</returns>
+        </member>
+        <member name="M:emAPI.emAPI.getMeter(System.Int32)">
+            <summary>
+            Retreives the meter with specifed id, along with child objects.
+            </summary>
+            <param name="meterId"></param>
+            <returns>JSON repsentation of Meter object, wrapped in EMResponse obejct</returns>
+        </member>
+        <member name="M:emAPI.emAPI.getReading(System.Int32)">
+            <summary>
+            Retreives the reading object with specified id
+            </summary>
+            <param name="readingId"></param>
+            <returns>JSON representation of MeterReading obejct, wrapped in EMResponse obejct</returns>
+        </member>
+        <member name="M:emAPI.emAPI.getMeterReadings(System.Int32)">
+            <summary>
+            Retreives all meter readings on the specified meter
+            </summary>
+            <param name="meterId"></param>
+            <returns>JSON representation of List[MeterReading], wrapped in EMResponse obejct</returns>
+        </member>
+        <member name="M:emAPI.emAPI.getMinimumReadingDate(System.Int32)">
+            <summary>
+            Retreives the minimum date of a new reading, ie the day after the most recent reading on the specified meter
+            </summary>
+            <param name="meterId"></param>
+            <returns>JSON representation of date string, wrapped in EMResponse obejct</returns>
+        </member>
+        <member name="M:emAPI.emAPI.getMinimumReadingDateForEdit(System.Int32)">
+            <summary>
+            Retrieves the minimum date of a reading that's being edited, ie the date before the most recent reading on the specified meter.
+            </summary>
+            <param name="meterId"></param>
+            <returns>JSON representation of date string, wrapped in EMResponse obejct</returns>
+        </member>
+        <member name="M:emAPI.emAPI.getLastInvoiceDate(System.Int32)">
+            <summary>
+            Retrieves the date of the most recent invoice on the specifed meter
+            </summary>
+            <param name="meterId"></param>
+            <returns>JSON representation of date string, wrapped in EMResponse obejct</returns>
+        </member>
+        <member name="M:emAPI.emAPI.getDetailsForMeter(System.Int32)">
+            <summary>
+            Retrieves a 'shell' meter object that does not contain any child objects.
+            </summary>
+            <param name="meterId"></param>
+            <returns>JSON representation of List[Meter], containing no child objects, wrapped in EMResponse obejct</returns>
+        </member>
+        <member name="M:emAPI.emAPI.getDataFromMeter(System.Int32,System.String,System.String,System.Int32)">
+            <summary>
+            Returns the total of the specifed datatype between the two dates for the specifed meter
+            </summary>
+            <param name="meterId"></param>
+            <param name="startDate">shortdate string</param>
+            <param name="endDate">shortdate string</param>
+            <param name="dataTypeId">(int)DataType</param>
+            <returns>JSON representation of double, wrapped in EMResponse obejct</returns>
+        </member>
+        <member name="M:emAPI.emAPI.getDataFromMeterByInterval(System.Int32,System.String,System.String,System.Int32,System.Int32)">
+            <summary>
+            Returns list of Chunk objects that represent the total of the specifed datatype between the provided dates, broken down
+            into the specified interval, eg monthly, annually etc.
+            </summary>
+            <param name="meterId"></param>
+            <param name="startDate"></param>
+            <param name="endDate"></param>
+            <param name="intervalId"></param>
+            <param name="dataTypeId"></param>
+            <returns>JSON representation of List[Chunk] obejcts, wrapped in EMResponse obejct</returns>
+        </member>
+        <member name="M:emAPI.emAPI.createElectricityMeter(System.String,System.Double,System.Int32,System.String,System.Int32)">
+            <summary>
+            Creates an electricity meter with the specified attributes
+            </summary>
+            <param name="serialNo">string - serial number of the meter</param>
+            <param name="scalingFactor">int - multiplier for the reading on the meter (eg some meters show x10kWh)</param>
+            <param name="numbDigits">number of digits on the meter, eg 000123 = 6</param>
+            <param name="startDate">start date of meter</param>
+            <param name="propertyId">id of property to which the meter belongs</param>
+            <returns>JSON representation of id of created meter - int , wrapped in EMResponse obejct</returns>
+        </member>
+        <member name="M:emAPI.emAPI.createGasMeter(System.String,System.Double,System.Int32,System.String,System.Int32)">
+            <summary>
+            Creates a gas meter with specified attributes
+            </summary>
+            <param name="serialNo">string - serial number</param>
+            <param name="meterCoefficient">double - used to convert the units on the meter into m3, for onward conversion to kWh</param>
+            <param name="numbDigits">max no digits on the meter eg 000123 = 6</param>
+            <param name="startDate">start date of the meter</param>
+            <param name="propertyId">id of the property to which the mter belongs.</param>
+            <returns>JSON representation of id of created meter - int, wrapped in EMResponse obejct</returns>
+        </member>
+        <!-- Badly formed XML comment ignored for member "M:emAPI.emAPI.createMeterReading(System.String,System.Int32,System.Int32,System.Int32)" -->
+        <member name="M:emAPI.emAPI.editMeter(System.Int32,System.String)">
+            <summary>
+            Updates the meter with the specified id with the details of the newMeter object.  Child objects are not updated.
+            </summary>
+            <param name="meterId">id of the meter to update</param>
+            <param name="newMeter">JSON representation of the meter with new details </param>
+            <returns>JSON representation of the updated Meter object, wrapped in EMResponse obejct</returns>
+        </member>
+        <!-- Badly formed XML comment ignored for member "M:emAPI.emAPI.editMeterReading(System.Int32,System.Int32,System.String,System.Int32)" -->
+        <member name="M:emAPI.emAPI.deleteMeter(System.Int32,System.Int32)">
+            <summary>
+            Removes the meter with specified id and ALL child objects from the database.
+            </summary>
+            <param name="meterId"></param>
+            <returns>void, wrapped in EMResponse obejct</returns>
+        </member>
+        <member name="M:emAPI.emAPI.deleteReading(System.Int32,System.Int32,System.Int32)">
+            <summary>
+            Removes the meter reading with the specified id from the database and updates the annual totals for the relvant Property object.
+            </summary>
+            <param name="readingId">id of reading to be deleted</param>
+            <param name="meterId">id of meter to which the reading belongs.  Required to update the remaining readings on the meter.</param>
+            <returns></returns>
+        </member>
+        <member name="M:emAPI.emAPI.getInvoicesForMeter(System.Int32)">
+            <summary>
+            Retrieves all invoices on meter with specified id.
+            </summary>
+            <param name="meterId"></param>
+            <returns>JSON representation of List[Invoice], wrapped in EMResponse obejct</returns>
+        </member>
+        <member name="M:emAPI.emAPI.getInvoice(System.Int32)">
+            <summary>
+            Retreives the invoice with the specified id.
+            </summary>
+            <param name="invoiceId"></param>
+            <returns>JSON representation of Invoice, wrapped in EMResponse obejct</returns>
+        </member>
+        <member name="M:emAPI.emAPI.createInvoice(System.Int32,System.String,System.String,System.String,System.Int32,System.Double,System.Double,System.Double,System.Int32)">
+            <summary>
+            Creates an invoice with the specified parameters and updates the annual cost of the relvant Property object.
+            </summary>
+            <param name="meterId">id of the meter to which the invoice belongs</param>
+            <param name="billDate">the date of the invoice</param>
+            <param name="startDate">the start date of the consumption being invoiced</param>
+            <param name="endDate">the end date of the consumption being invoiced</param>
+            <param name="kWh">the kWh on the invoice</param>
+            <param name="consumptionCharge">the cost of the energy ONLY (in £)</param>
+            <param name="standingCharge">the cost of the standing charge ONLY (in £)</param>
+            <param name="otherCharge">total of all other costs (not used to validate the invoice) (in £)</param>
+            <param name="propertyId">the id of the property to which the invoice belongs</param>
+            <returns>JSON representation of the id of the created invoice - int, wrapped in EMResponse object</returns>
+        </member>
+        <member name="M:emAPI.emAPI.editInvoice(System.Int32,System.String,System.Int32)">
+            <summary>
+            Updates an invoice with the specifed id with the details of the provided invoice object and updates the
+            annual cost of the relvant Property object.
+            </summary>
+            <param name="invoiceId">id of invoice to update</param>
+            <param name="invoiceJSON">JSON representation of the updated invoice</param>
+            <param name="propertyId">id of the property to which the invoice belongs.  Required to update the annual cost at the property.</param>
+            <returns>JSON representation of updated Invoice object, wrapped in EMResponse object.</returns>
+        </member>
+        <member name="M:emAPI.emAPI.deleteInvoice(System.Int32,System.Int32)">
+            <summary>
+            Removes the specified invoice from the database and updates the annual cost for the relevant Property object.
+            </summary>
+            <param name="invoiceId"></param>
+            <returns>void, wrapped in EMResponse object.</returns>
+        </member>
+        <member name="M:emAPI.emAPI.getPeriods">
+            <summary>
+            Retreives all Period objects in the database
+            </summary>
+            <returns>JSON representation of List[Period], wrapped in EMResponse object.</returns>
+        </member>
+        <member name="M:emAPI.emAPI.getTariff(System.Int32)">
+            <summary>
+            Retrieves a tariff object with specified id.  Child objects ARE included
+            </summary>
+            <param name="tariffId"></param>
+            <returns>JSON representation of Tariff object, wrapped in EMResponse object.</returns>
+        </member>
+        <member name="M:emAPI.emAPI.createTariff(System.Double,System.String,System.Int32,System.Int32,System.Int32)">
+            <summary>
+            Creates a tariff object with the specifed attributes.  TariffBand objects must be created seperately using emAPI.createTariffBand.
+            </summary>
+            <param name="standingChargeValue">Value in £</param>
+            <param name="startDate">shortdate string</param>
+            <param name="standingChargePeriodId">id of Period for standing charge value (eg monthly, annually etc)</param>
+            <param name="bandingPeriodId">id of Period for banding (currently unused)</param>
+            <param name="meterId">id of meter to which tariff belongs</param>
+            <returns>JSON representation of id of created tariff - int, wrapped in EMResponse</returns>
+        </member>
+        <member name="M:emAPI.emAPI.createTariffBand(System.Int32,System.Int32,System.Double,System.Int32)">
+            <summary>
+            Create a tariff band object and saves to tariff with provided id.  NB validity of limits must be checked by client before creation.
+            </summary>
+            <param name="upperLimit">the upper kWh of the band.  Use 0 for no upper limit on this band.</param>
+            <param name="lowerLimit">the lower limit of this band.  Can be 0.</param>
+            <param name="rate">The unit rate for each kWh that falls into this band, in pence.</param>
+            <param name="tariffId">id of tariff to which the band belongs.</param>
+            <returns>JSON representation of id of tariff band object, wrapped in EMResponse</returns>
+        </member>
+        <member name="M:emAPI.emAPI.getMinimumTariffDate(System.Int32)">
+            <summary>
+            Gets the date of the most recent tariff on the specified meter, used when creating a new tariff.
+            </summary>
+            <param name="meterId"></param>
+            <returns>JSON representation of date string, wrapped in EMResponse</returns>
+        </member>
+        <member name="M:emAPI.emAPI.getMinimumTariffDateForEdit(System.Int32)">
+            <summary>
+            Retrieves the date of the tariff before the most recent, used when editing the current tariff.
+            </summary>
+            <param name="meterId"></param>
+            <returns>JSON representation of date string, wrapped in EMResponse</returns>
+        </member>
+        <!-- Badly formed XML comment ignored for member "M:emAPI.emAPI.editTariff(System.Int32,System.String)" -->
+        <member name="M:emAPI.emAPI.deleteTariff(System.Int32)">
+            <summary>
+            Removes a tariff and associated tariff band objects from the database.
+            </summary>
+            <param name="tariffId">id of the tariff to delete</param>
+            <returns>void, wrapped in EMResponse</returns>
+        </member>
+        <member name="M:emAPI.emAPI.validateInvoice(System.Int32,System.Boolean)">
+            <summary>
+            Validates the specified invoice, updating its isValid and isChecked attributes appropriately.
+            </summary>
+            <param name="invoiceId">id of invoice to validate</param>
+            <param name="saveAfterValidation">bool representing whether the invoice validation details are saved post-validation</param>
+            <returns>JSON representation of validated invoice, wrapped in EMResponse.</returns>
+        </member>
+        <member name="M:emAPI.emAPI.forecastNextInvoice(System.Int32)">
+            <summary>
+            Creates an invoice object (not saved to the database) with forecasted cost and consumption figures.  Returns null if
+            forecast not possible.
+            </summary>
+            <param name="meterId">id of meter for which to forecast invoice</param>
+            <returns>JSON representation of Invoice (or null), wrapped in EMResponse</returns>
+        </member>
+        <member name="T:emAPI.Controllers.ForecastingManager">
+            <summary>
+            Controller object that manages invoice and consumption forecasting operations.
+            </summary>
+        </member>
+        <member name="T:emAPI.Interfaces.IForecastingManager">
+            <summary>
+            Interface for ForecastingManager objects
+            </summary>
+        </member>
+        <member name="M:emAPI.Controllers.ForecastingManager.forecastNextInvoice(System.Int32)">
+            <summary>
+            Determines whether the next invoice on a specified meter can be forecasted and if so, will return the forecasted invoice as an Invoice object.
+            Returns null if an invoice cannot be forecasted.
+            </summary>
+            <param name="meterId">id of the meter for which the forecast is required</param>
+            <returns>Foecasted Invoice object, or null, wrapped in EMResponse.</returns>
+        </member>
+        <member name="M:emAPI.Controllers.ForecastingManager.canForecast(System.Int32)">
+            <summary>
+            Determines whether an invoice can be forecasted for that meter.  False if:
+                - there are no invoices on that meter
+                - there are no meter readings on that meter
+                - there are no tariffs on the meter
+            </summary>
+            <param name="meterId"></param>
+            <returns>true if incvoice can be forecasted</returns>
+        </member>
+        <!-- Badly formed XML comment ignored for member "M:emAPI.Controllers.ForecastingManager.forecastInvoice(emAPI.ClassLibrary.Invoice)" -->
+        <member name="T:emAPI.Controllers.IValidationManager">
+            <summary>
+            Interface for ValidationManager objects
+            </summary>
+        </member>
+        <member name="T:emAPI.Controllers.EMMediator">
+            <summary>
+            Mediator to all controller objects.
+            </summary>
+        </member>
+        <member name="T:emAPI.Controllers.ValidationManager">
+            <summary>
+            Controller object responsible for validating invoices.
+            </summary>
+        </member>
+        <member name="M:emAPI.Controllers.ValidationManager.validateInvoice(System.Int32,System.Boolean)">
+            <summary>
+            Validates invoice from invoice Id only.  Ensures Invoice.Meter object is complete with all required tariff information.
+            Returns JSON string.
+            </summary>
+            <param name="invoiceId">id of invoice to validate</param>
+            <param name="saveAfterValidation">whether the changes to the invoice should be saved after validation</param>
+            <returns>JSON representation of the validated Invoice, wrapped in EMRepsonse.</returns>
+        </member>
+        <!-- Badly formed XML comment ignored for member "M:emAPI.Controllers.ValidationManager.validateInvoice(emAPI.ClassLibrary.Invoice,System.Boolean)" -->
+        <member name="T:emAPI.DAL.EMDatabase">
+            <summary>
+            An entity framework 4.1 implementation of the databse
+            </summary>
+        </member>
+    </members>
+</doc>

@@ -1,0 +1,18 @@
+﻿@*----------------------------------------------------------
+DAVID SAUNTSON
+
+ENERGY MANAGER WEB APPLICATION
+HANDWRITTEN
+VIEW FILE (.cshtml)
+
+LogOnPartial (top of each page)
+----------------------------------------------------------*@
+
+@if(Request.IsAuthenticated) {
+    <text> 
+    @Html.ActionLink("Log Off", "LogOff", "Account", null, new { @class = "log-on-off" })</text>
+}
+else
+{
+    @: &nbsp; @*space holder for top margin*@
+}

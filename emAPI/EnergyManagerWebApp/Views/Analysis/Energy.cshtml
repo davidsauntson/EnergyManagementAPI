@@ -1,0 +1,197 @@
+﻿@*----------------------------------------------------------
+DAVID SAUNTSON
+
+ENERGY MANAGER WEB APPLICATION
+HANDWRITTEN
+VIEW FILE (.cshtml)
+
+Analysis/Energy
+----------------------------------------------------------*@
+
+@model EnergyManagerWebApp.Models.AnalysisOptionsModel
+           @helper normalisedBenchmarkDescription(double building, double good, double typical)
+               {
+               if (building > typical)
+               {
+                    @: <span class="smiley-reg">:-/   </span>You're at the less efficient end of the scale.  There's probably a lot you could do to improve your efficiency and lower your bills. 
+               }
+               else if (building < good && building != 0)
+               {
+                    @:<span class="smiley-reg">:-D   </span>Wow!  You are super efficient.  Keep up the good work!
+               }
+               else if (building != 0)
+               {
+                    @:<span class="smiley-reg">:-)   </span>You're doing ok - not the least efficient but not the most either!  Think about what further steps you could take to reduce your energy consumption.
+               }
+               else
+               {
+                    @:<span class="faded">Add some meter readings to see how you're doing!</span>   
+               }
+           }
+
+           @helper annualTotalForDisplay(double figure)
+               {
+               if (figure == 0)
+               {
+                    @:(not enough data to work this out!)   
+               }
+               else
+               {
+                   @Math.Round((decimal)figure, 0).ToString("n0"); @: kWh
+               }
+           }
+     
+
+<script type="text/javascript">
+    $(function () {
+
+        $("#startdate").datepicker(
+        {
+            dateFormat: "dd/mm/yy",
+            changeYear: 'True',
+            onSelect: function (selectedDate) {
+                $("#enddate").datepicker("option", "minDate", selectedDate);
+            }
+        });
+
+        $("#enddate").datepicker(
+        {
+            dateFormat: "dd/mm/yy",
+            changeYear: 'True',
+            onSelect: function (selectedDate) {
+                $("#startdate").datepicker("option", "maxDate", selectedDate);
+            }
+        });
+    });
+</script>
+
+  
+<body>
+
+@using (Html.BeginForm())
+{
+    <div style="display:inline-block">
+        <h1>Energy Analysis <span class="faded"> @Model.property.Property.Name</span></h1>
+    </div>
+    
+    <div style="display:inline-block; float:right">
+        <input type="submit" value="Z" class="icon" />@Html.DropDownListFor(model => model.propertyId, new SelectList(Model.UsersProperties, "Id", "Name"))
+    </div>
+    
+    <h2>
+        Energy Consumption History
+    </h2>
+    <p>
+        Keep an eye on your performance and see how much energy in kWh you have used over time.  
+        Use this section to monitor improvments or spot where you've started to use more energy than before!
+    </p>
+    
+    <div style="display:inline-block; width:8%;">
+    <p>
+        @Html.HiddenFor(model => model.propertyId)   
+    
+        <input type="submit" value="Graph" />
+    </p>
+ </div>
+    
+ <div style="display:inline-block; width:90%; padding-left:12px; vertical-align: middle;">
+    <div>
+        <div>          
+            <div style="display:inline-block; width: 30%">
+                <div class="editor-label-narrow">
+                    Select interval
+                </div>
+            </div>
+            <div style="display:inline-block; width: 30%">
+                <div class="editor-label-narrow">
+                    Start Date
+                </div>
+            </div>
+            <div style="display:inline-block; width: 30%">
+                <div class="editor-label-narrow">
+                    End Date
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <div>
+        <div>          
+            <div style="display:inline-block; width: 30%">
+                <div class="editor-field-no-validation">
+                    @Html.DropDownListFor(model => model.periodId, new SelectList(Model.Periods, "Id", "Length"), new { id = "period" })
+                </div>
+            </div>
+            <div style="display:inline-block; width: 30%">
+                <div class="editor-field-no-validation">
+                    @Html.TextBoxFor(model => model.startDate, new { @id = "startdate", @Value = Model.startDate.ToShortDateString() })
+                </div>
+            </div>
+            <div style="display:inline-block; width: 30%">
+                <div class="editor-field-no-validation">
+                    @Html.TextBoxFor(model => model.endDate, new { @id = "enddate", @Value = Model.endDate.ToShortDateString() })
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+           
+    }
+
+
+        <div id="graph" style=" display: inline-block; vertical-align:top; width:625px; height:100%";>
+            @Html.Action("IntervalGraph", new { options = Model, dataTypeId = 1 /*energy*/})
+        </div>
+    
+    <div>
+        <h2>
+            Energy Efficiency
+        </h2>
+        <p>
+            The section shows you how much energy per square meter of your property - in other words, how energy efficient you are.
+            We work this out by taking the total energy usage in a year and dividing it by the floor area you entered when you set up the property.
+            If you don't know how big your place is, we've used a standard figure based on the type of building it is.
+        </p>
+        
+        <div style="margin-left:1.5em; display:inline-block">
+                Your annual energy effciency:  <br /> 
+                Good practice figure:          <br /> 
+                Normal practice figure:        <br />
+        </div>
+        <div style="display: inline-block; vertical-align:top; padding-left:50px;">
+            <span style="font-weight:bold">@Model.property.Property.AreaNormalisedAnnualkWh.ToString("n") kWh/sq. m</span><br />
+            @Model.property.Benchmark.BenchmarkkWhGoodNormalised kWh/sq. m<br />
+            @Model.property.Benchmark.BenchmarkkWhTypicalNormalised kWh/sq. m<br />
+        </div>     
+        <div>
+        <p>
+             @normalisedBenchmarkDescription(Model.property.Property.AreaNormalisedAnnualkWh, Model.property.Benchmark.BenchmarkkWhGoodNormalised, Model.property.Benchmark.BenchmarkkWhTypicalNormalised)
+        </p>
+        </div> 
+
+
+        </div>
+    <h2>
+        Annual Energy Consumption
+    </h2>
+    <p>
+        This section shows you how much energy you've used in total over the last year, how this compares to other people and what this means for you.
+
+    </p>
+    <div style="margin-left:1.5em; display:inline-block">
+            Your annual energy usage:           <br />
+            Best in class:                      <br />
+            Average for this type of building:  <br />
+    </div>
+    <div style="display:inline-block; vertical-align:top; padding-left:50px;">
+            <span style="font-weight:bold;">@annualTotalForDisplay(Model.property.Property.AnnualkWh)</span><br />
+            @annualTotalForDisplay(Model.property.Benchmark.typeBestkWh)<br />
+            @annualTotalForDisplay(Model.property.Benchmark.typeAveragekWh)<br />
+    </div>
+    
+    <p>
+        @Html.ActionLink("Back", "Analysis", "Property", new { propertyId = Model.property.Property.Id }, null)
+    </p>
+
+    
+</body>

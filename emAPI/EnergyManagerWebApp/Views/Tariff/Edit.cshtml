@@ -1,0 +1,185 @@
+﻿@*----------------------------------------------------------
+DAVID SAUNTSON
+
+ENERGY MANAGER WEB APPLICATION
+HANDWRITTEN
+VIEW FILE (.cshtml)
+
+Tariff/Edit
+----------------------------------------------------------*@
+
+@model EnergyManagerWebApp.Models.TariffViewModel
+
+
+@*<script src="@Url.Content("~/Scripts/jquery.validate.min.js")" type="text/javascript"></script>*@
+<script src="@Url.Content("~/Scripts/jquery.validate.unobtrusive.min.js")" type="text/javascript"></script>
+<script src="@Url.Content("~/Scripts/fade.js")" type="text/javascript"></script>
+
+<script type="text/javascript">
+
+    $("#datepicker").datepicker({ dateFormat: "dd/mm/yy", minDate: '@Model.MinimumStartDate.ToShortDateString()' maxDate: '0' });
+
+</script> 
+
+@using (Html.BeginForm())
+{
+    @Html.ValidationSummary(true)
+
+     <h2>Edit your tariff</h2>
+    <p>
+        Tariffs describe how much your energy costs.  All tariffs have two main features:
+        <ul>
+            <li>a <strong>standing charge</strong> - a fixed amount you pay each time you get a bill</li>
+            <li>a <strong>unit rate</strong> - the amount you pay per kWh of energy you consume</li>
+        </ul>
+    </p>
+    
+    <h3>Basic details</h3>
+    <div>
+        <div class="editor-label">
+            When did you start on this tariff?
+        </div>
+        <div class="editor-field">
+            @Html.TextBoxFor(model => model.StartDate, new { @id = "datepicker", @Value = Model.StartDate.ToShortDateString(), @readonly = "True" })
+            @Html.ValidationMessageFor(model => model.StartDate)
+        </div>
+    </div>
+    <div>
+        <div class="editor-label">
+            How much is the standing charge?
+        </div>
+        <div class="editor-field">
+            @Html.TextBoxFor(model => model.SCValue, "Currency")
+            @Html.ValidationMessageFor(model => model.SCValue)
+        </div>
+    </div>
+    <div>
+        <div class="editor-label">
+            How often do you pay it?
+        </div>
+        <div class="editor-list">
+            @Html.DropDownListFor(model => model.SCPeriodId, new SelectList(Model.Periods, "Id", "Length"))
+        </div>
+    </div>
+    
+    <h3>The unit rate</h3>
+    <p>
+        Some tariffs are 'banded' tariffs - this means that the unit rate changes depending on how much you use.
+        Here's an example:
+    </p>
+    <p>
+        <ul>
+            <li><strong>band 1</strong> - each kWh up to 1,200 costs 10p</li>
+            <li><strong>band 2</strong> - each kWh from 1,201 to 2,000 costs 15p</li>
+            <li><strong>band 3</strong> - each kWh after 2,000 costs 20p</li>
+        </ul>
+    </p>
+    
+     
+    <div id="bandedRate">
+    <h2>The bands</h2>
+    <p>
+        Below is the Band-O-Matic<sup>TM</sup>, with the data from your existing tariff in it.  Here's how to change the tariff:
+        <ol>
+            <li>Edit any data you want to.</li>
+            <li>If you want to add another band, delete this tariff and build a new one.</li>
+        </ol>
+    </p>
+
+        
+        <div class="bandRow">
+            <table style="border:0px">
+                <tr>
+                    <th>For each kWh between...</th>
+                    <th>...and...</th>
+                    <th>...I pay</th>
+                </tr>
+                <tr id="rowBand1">
+                    <td>0</td>
+
+                    @if (Model.Band2Id != 0)
+                    {
+                        <td>@Html.TextBoxFor(model => model.UpperLimit1, new { id = "upper1" })</td>
+                    }
+                    else
+                    {
+                        <td>@Model.UpperLimit1</td>
+                    }
+                    <td>@Html.TextBoxFor(model => model.Rate1, new { id = "rate1" }) p/kWh</td>
+                </tr>
+               
+               @if (Model.Band2Id != 0)
+               {
+                    <tr id="rowBand2">
+                        <td>@Html.TextBoxFor(model => model.LowerLimit2, new { id = "lower2", @readonly = true })</td>
+
+                        @if (Model.Band3Id != 0)
+                        {
+                            <td>@Html.TextBoxFor(model => model.UpperLimit2, new { id = "upper2" })</td>
+                        }
+                        else
+                        {
+                            <td>@Model.UpperLimit2</td>
+                        }
+                        <td>@Html.TextBoxFor(model => model.Rate2, new { @Value = "0" }) p/kWh</td>
+                    </tr>
+                   if (Model.Band3Id != 0)
+                   {
+                        <tr id="rowBand3">
+                            <td>@Html.TextBoxFor(model => model.LowerLimit3, new { id = "lower3", @readonly = true })</td>
+                            <td>&#8734; <!--infinity--></td>
+                            <td>@Html.TextBoxFor(model => model.Rate3, new { @Value = "0" }) p/kWh</td>
+                        </tr>
+                   }
+               }
+             
+            </table>
+        </div>
+    </div>
+    
+    <div style="display:none">
+    <!--hidden div with elements not for the user to see-->
+        @Html.TextBoxFor(model => model.LowerLimit1, new { id = "lower1", @Value = "0", @readonly = true })
+        @Html.DropDownListFor(model => model.BandPeriodId, new SelectList(Model.Periods, "Id", "Length"))
+        @Html.TextBoxFor(model => model.UpperLimit3, new { id = "upper3", @Value = "0" })
+    </div>
+    
+    <div>
+        @Html.ValidationMessageFor(model => model.LowerLimit1)
+        @Html.ValidationMessageFor(model => model.LowerLimit2)
+        @Html.ValidationMessageFor(model => model.LowerLimit3)
+        @Html.ValidationMessageFor(model => model.UpperLimit1)
+        @Html.ValidationMessageFor(model => model.UpperLimit2)
+        @Html.ValidationMessageFor(model => model.Rate1)
+        @Html.ValidationMessageFor(model => model.Rate2)
+        @Html.ValidationMessageFor(model => model.Rate3)
+    </div>
+
+          
+    @Html.HiddenFor(model => model.Id)
+    @Html.HiddenFor(model => model.meterId)
+    @Html.HiddenFor(model => model.MinimumStartDate)
+    @Html.HiddenFor(model => model.fuel)
+    @Html.HiddenFor(model => model.IsBanded)
+    @Html.HiddenFor(model => model.BandPeriodId)
+    @Html.HiddenFor(model => model.Band1Id)
+    @Html.HiddenFor(model => model.Band2Id)
+    @Html.HiddenFor(model => model.Band3Id)
+    @Html.HiddenFor(model => model.BelongsToProperty)   
+    
+    
+    
+     
+
+       <br />
+       <input type="submit" value="Save changes" />
+}
+
+<div class="back">
+    @Html.ActionLink("Back", "Home", "Meter", new { meterId = Model.meterId, propertyId = Model.BelongsToProperty, type = Model.fuel}, null)
+</div>
+
+
+
+
+

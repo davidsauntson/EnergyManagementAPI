@@ -1,0 +1,49 @@
+﻿<frameTree version="0.94.51006.1"><frameException type="System.ArgumentOutOfRangeException"><tag exceptionState="unexpected"><generatedTestRef idref="4458ab93-cb0e-44e6-ad98-6bd1a6e42055"/>
+</tag>
+<frameNode><frame value="  at DateTime.Subtract(TimeSpan)" method="DateTime.Subtract(TimeSpan)" offset="53"><method assemblyName="mscorlib" name="Subtract" token="60065f1"><declaringType assemblyName="mscorlib" valueType="true" name="DateTime" token="2000058" namespace="System"/>
+<parameter this="true" name="this" position="0"><type spec="ManagedPointer"><elementType spec="ValueType"><definition assemblyName="mscorlib" valueType="true" name="DateTime" token="2000058" namespace="System"/>
+</elementType>
+</type>
+</parameter>
+<parameter position="1"><type spec="ValueType"><definition assemblyName="mscorlib" valueType="true" name="TimeSpan" token="200016c" namespace="System"/>
+</type>
+</parameter>
+<resultType spec="ValueType"><definition assemblyName="mscorlib" valueType="true" name="DateTime" token="2000058" namespace="System"/>
+</resultType>
+</method>
+</frame>
+<tag exceptionState="unexpected"><generatedTestRef idref="4458ab93-cb0e-44e6-ad98-6bd1a6e42055"/>
+</tag>
+<frameNode><frame value="  at ApportionmentManager.setupDatedChunksForApportionToPeriod(DateTime, DateTime, AppotionmentPeriod) in C:\Users\David Sauntson\Documents\Project Codes\emAPI\emAPI\emAPI\Controllers\ApportionmentManager.cs(173)" method="ApportionmentManager.setupDatedChunksForApportionToPeriod(DateTime, DateTime, AppotionmentPeriod)" offset="299" file="C:\Users\David Sauntson\Documents\Project Codes\emAPI\emAPI\emAPI\Controllers\ApportionmentManager.cs" line="173"><method assemblyName="emAPI" name="setupDatedChunksForApportionToPeriod" token="60001f0"><declaringType assemblyName="emAPI" name="ApportionmentManager" token="2000019" namespace="emAPI.Controllers"/>
+<parameter this="true" name="this" position="0"><type spec="Class"><definition assemblyName="emAPI" name="ApportionmentManager" token="2000019" namespace="emAPI.Controllers"/>
+</type>
+</parameter>
+<parameter name="startDate" position="1"><type spec="ValueType"><definition assemblyName="mscorlib" valueType="true" name="DateTime" token="2000058" namespace="System"/>
+</type>
+</parameter>
+<parameter name="endDate" position="2"><type spec="ValueType"><definition assemblyName="mscorlib" valueType="true" name="DateTime" token="2000058" namespace="System"/>
+</type>
+</parameter>
+<parameter name="interval" position="3"><type spec="ValueType"><definition assemblyName="emAPI_ClassLibrary" valueType="true" name="AppotionmentPeriod" token="2000011" namespace="emAPI.ClassLibrary"/>
+</type>
+</parameter>
+<resultType spec="Class"><definition assemblyName="mscorlib" name="List`1" token="200036d" namespace="System.Collections.Generic"><genericParameter value="T"/>
+</definition>
+<genericTypeArgument spec="ValueType"><definition assemblyName="emAPI_ClassLibrary" valueType="true" name="Chunk" token="2000016" namespace="emAPI.ClassLibrary"/>
+</genericTypeArgument>
+</resultType>
+</method>
+<beforeSource><![CDATA[                }
+
+                ///take on day off each date date to avoid overlapping date ranges]]></beforeSource>
+<source><![CDATA[                chunk.EndDate = chunk.EndDate.Subtract(oneDay);]]></source>
+<afterSource><![CDATA[                datedChunks.Add(chunk);
+                i++;
+]]></afterSource>
+</frame>
+<tag exceptionState="unexpected"><generatedTestRef idref="4458ab93-cb0e-44e6-ad98-6bd1a6e42055"/>
+</tag>
+</frameNode>
+</frameNode>
+</frameException>
+</frameTree>

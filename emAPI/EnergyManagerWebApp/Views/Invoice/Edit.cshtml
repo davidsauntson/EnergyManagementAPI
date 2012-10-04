@@ -1,0 +1,120 @@
+﻿@*----------------------------------------------------------
+DAVID SAUNTSON
+
+ENERGY MANAGER WEB APPLICATION
+HANDWRITTEN
+VIEW FILE (.cshtml)
+
+Invoice/Edit
+----------------------------------------------------------*@
+
+@model EnergyManagerWebApp.Models.InvoiceViewModel
+
+<script src="@Url.Content("~/Scripts/jquery.validate.unobtrusive.min.js")" type="text/javascript"></script>
+<script type="text/javascript">
+    $(function () {
+
+        $("#billdate").datepicker({ dateFormat: "dd/mm/yy", maxDate: '0' });
+
+        $("#startdate").datepicker(
+        {
+            dateFormat: "dd/mm/yy",
+            maxDate: '0',
+            onSelect: function (selectedDate) {
+                $("#enddate").datepicker("option", "minDate", selectedDate);
+            }
+        });
+
+        $("#enddate").datepicker(
+        {
+            dateFormat: "dd/mm/yy",
+            maxDate: '0',
+            onSelect: function (selectedDate) {
+                $("#startdate").datepicker("option", "maxDate", selectedDate);
+            }
+        });
+    });
+</script>
+
+@using (Html.BeginForm())
+{
+    @Html.ValidationSummary(true)
+<div>
+    <div>
+        <div class="editor-label">
+            Date of bill
+        </div>
+        <div class="editor-field">
+            @Html.TextBoxFor(model => model.Invoice.BillDate, new { @id = "billdate", @Value = Model.Invoice.BillDate.ToShortDateString(), @readonly = "True" })
+            @Html.ValidationMessageFor(model => model.Invoice.BillDate)
+        </div>
+    </div>
+    <div>
+        <div class="editor-label">
+            Billing period start
+        </div>
+        <div class="editor-field">
+            @Html.TextBoxFor(model => model.Invoice.StartDate, new { @id = "startdate", @Value = Model.Invoice.StartDate.ToShortDateString(), @readonly = "True" })
+            @Html.ValidationMessageFor(model => model.Invoice.StartDate)
+        </div>
+    </div>
+    <div>
+        <div class="editor-label">
+            Billing period end
+        </div>
+        <div class="editor-field">
+            @Html.TextBoxFor(model => model.Invoice.EndDate, new { @id = "enddate", @Value = Model.Invoice.EndDate.ToShortDateString(), @readonly = "True" })
+            @Html.ValidationMessageFor(model => model.Invoice.EndDate)
+        </div>
+    </div>
+    
+    
+    <div>
+        <div class="editor-label">
+            Billed kWh
+        </div>
+        <div class="editor-field">
+            @Html.EditorFor(model => model.Invoice.KWh)
+            @Html.ValidationMessageFor(model => model.Invoice.KWh)
+        </div>
+    </div>
+    <div>
+        <div class="editor-label">
+            Standing charge (£)
+        </div>
+        <div class="editor-field">
+            @Html.EditorFor(model => model.Invoice.StandingCharge)
+            @Html.ValidationMessageFor(model => model.Invoice.StandingCharge)
+        </div>
+    </div>
+    <div>
+        <div class="editor-label">
+            kWh charge (£)
+        </div>
+        <div class="editor-field">
+            @Html.EditorFor(model => model.Invoice.ConsumptionCharge)
+            @Html.ValidationMessageFor(model => model.Invoice.ConsumptionCharge)
+        </div>
+    </div>
+    <div>
+        <div class="editor-label">
+            Any other charges (£)
+        </div>
+        <div class="editor-field">
+            @Html.EditorFor(model => model.Invoice.OtherCharge)
+            @Html.ValidationMessageFor(model => model.Invoice.OtherCharge)
+        </div>
+    </div>
+          @Html.HiddenFor(model => Model.Fuel)
+          @Html.HiddenFor(model => Model.MeterId)
+          @Html.HiddenFor(model => Model.Invoice.Id)
+          @Html.HiddenFor(model => Model.BelongsToProperty)
+        <p>
+            <input type="submit" value="Save" />
+        </p>
+</div>
+}
+
+<p>
+    @Html.ActionLink("Cancel", "Index", "Invoice", new { meterId = Model.MeterId, propertyId = Model.BelongsToProperty, fuel = Model.Fuel} , null)
+</p>
